@@ -25,3 +25,6 @@ test = [
 DJANGO_SETTINGS_MODULE = 'scutes.settings'
 python_files = ['tests.py', 'test_*.py']
 pythonpath = ['src', '.']
+markers = [
+    "webdriver: marks tests that require webdriver(deselect with '-m \"not webdriver\"')",
+]

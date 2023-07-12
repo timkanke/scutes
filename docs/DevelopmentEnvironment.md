@@ -65,8 +65,14 @@ This should download and install the latest version of Python 3.11.
 
 ```zsh
 pytest --driver Firefox
-# or
+# and/or
 pytest --driver Chrome
+```
+
+To skip tests that require webdrivers:
+
+```zsh
+pytest -m "not webdriver"
 ```
 
 **Note:** To restrict pytest test discovery to just the "tests" directory, run
@@ -78,7 +84,7 @@ pytest tests
 ## Code Style
 
 Application code style should generally conform to the guidelines in [PEP 8]. The
-"pycodestyle" tool to check compliance with the guidelines can be run using:
+"pycodestyle" tool checks for compliance with the guidelines. It can be ran using:
 
 ```zsh
 pycodestyle .
