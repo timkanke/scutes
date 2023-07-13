@@ -20,7 +20,7 @@ Once "pyenv" have been installed, install Python 3.11:
 pyenv install 3.11
 ```
 
-This should download and install the latest version of Python 3.11.
+This should download and install that version of Python.
 
 ## Installation for development
 
@@ -36,7 +36,7 @@ This should download and install the latest version of Python 3.11.
     cd scutes
     ```
 
-3. Verify that the Python version is 3.11:
+3. Verify that the Python version is correct:
 
     ```zsh
     pyenv version
@@ -75,7 +75,7 @@ To skip tests that require webdrivers:
 pytest -m "not webdriver"
 ```
 
-**Note:** To restrict pytest test discovery to just the "tests" directory, run
+**Note:** To restrict pytest test discovery to just the "tests" directory, run:
 
 ```zsh
 pytest tests
