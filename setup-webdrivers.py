@@ -17,18 +17,12 @@ chrome_os_type = 'mac-arm64'
 chrome_filename = f'chrome-{chrome_os_type}.zip'
 chrome_url = f'https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/{chrome_version}/{chrome_os_type}/{chrome_filename}'
 
-# Webkit Driver
-webkit_version = '265854'
-webkit_os_version = 'ventura'
-webkit_filename = f'{webkit_version}@main.zip'
-webkit_url = f'https://s3-us-west-2.amazonaws.com/minified-archives.webkit.org/mac-{webkit_os_version}-x86_64%20arm64-release/{webkit_filename}'
-
 # Save location
 base_path = Path('.venv/bin')
 
 # Download drivers
-webdriver_filename_list = [gecko_filename, chrome_filename, webkit_filename]
-webdriver_url_list = [gecko_url, chrome_url, webkit_url]
+webdriver_filename_list = [gecko_filename, chrome_filename]
+webdriver_url_list = [gecko_url, chrome_url]
 
 try:
     for webdriver_filename, webdriver_url in zip(webdriver_filename_list, webdriver_url_list):
