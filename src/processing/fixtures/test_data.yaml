@@ -28,7 +28,7 @@
 - model: processing.item
   pk: 2
   fields:
-    date: 2006-10-25 12:05:31
+    date: 2006-10-25 20:08:31
     reporter: Sarah Jane Smith
     title: In-Town Travel/Photo Lid
     pool_report: True
@@ -38,6 +38,34 @@
     comment:
     body_original: |-
       <div>Good Evening from the WH,</div><div><br></div><div>Press Office issued a bad weather call, so no Marine One arrival.</div><div><br></div><div>In-Town Travel/Photo Lid called at 8:07pm</div><div><br></div><div>Good night,</div><div>Sarah</div><div><br></div><div><b>Sarah Jane Smith</b></div><div><b>White House Correspondent&nbsp;</b></div><div><b>Metropolitan</b></div><div><b>Twitter: @Sarah_Jane_Smith</b></div><div><b>Email: Sarah.Jane.Smith@metropolitan.com</b></div><div><br></div><div>Sent from my iPhone</div><p></p><p>-------------------------------------------------------------</p><p>The information transmitted in this email and any of its attachments is intended only for the person or entity to which it is addressed and may contain information concerning Metropolitan LLC and/or its affiliates that is proprietary, privileged, confidentialand/or subject to copyright. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon, this information by persons or entities other than the intended recipient(s) is prohibited and may be unlawful. If you receivedthis in error, please contact the sender immediately and delete and destroy the communication and all of the attachments you have received and all copies thereof.</p><p>-------------------------------------------------------------</p>
+    body_clean:
+    body_redact:
+    last_modified:
+    batch: 1
+- model: processing.item
+  pk: 3
+  fields:
+    date: 2006-10-25 14:30:59
+    reporter: Clark Kent
+    title: Travel Pool Report /#2
+    pool_report: True
+    publish: False
+    off_the_record: False
+    redaction_review: False
+    comment:
+    body_original: |-
+      <div dir="ltr"><div class="gmail_default" style="font-family:verdana,sans-serif">Asked what message he was trying to send to Genovia with the puppy delegation, POTUS said: &quot;You can&#39;t act with impunity.&quot; They paused, then added, &quot;Be careful.&quot;</div><div class="gmail_default" style="font-family:verdana,sans-serif"><br></div><div class="gmail_default" style="font-family:verdana,sans-serif">POTUS was reviewing a uniformed canine team at the DOG Park recreation site.</div><div class="gmail_default" style="font-family:verdana,sans-serif">More tk not as newsy.</div><div class="gmail_default" style="font-family:verdana,sans-serif"><br></div><div><div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature"><div dir="ltr"><div><div dir="ltr"><div dir="ltr"><div dir="ltr"><div><br></div><div><br></div><p class="MsoNormal" style="margin-bottom:0.0001pt;line-height:normal"><b><span style="font-family:Verdana,sans-serif;color:black">Clark
+      Kent</span></b><span style="font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"><span></span></span></p>
+
+      <p class="MsoNormal" style="margin-bottom:0.0001pt;line-height:normal"><span style="font-size:10pt;font-family:Verdana,sans-serif;color:rgb(0,147,212)">Washington Bureau Chief </span><span style="font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"><span></span></span></p>
+
+      <p class="MsoNormal" style="margin-bottom:0.0001pt;line-height:normal"><i><span style="font-size:10pt;font-family:Verdana,sans-serif;color:black">The Daily Planet</span></i><span style="font-size:12pt;font-family:&quot;Times New Roman&quot;,serif"><span></span></span></p>
+
+      <p class="MsoNormal" style="margin-bottom:0.0001pt;line-height:normal"><span style="font-size:10pt;font-family:Verdana,sans-serif;color:black">M: 555.444.3333 </span></p><p class="MsoNormal" style="margin-bottom:0.0001pt;line-height:normal"><span style="font-size:10pt;font-family:Verdana,sans-serif;color:black"><a href="ckent@dailyplanet.com" target="_blank">ckent@dailyplanet.com</a></span></p>
+
+      <p class="MsoNormal" style="margin-bottom:0.0001pt;line-height:normal"><span style="font-size:10pt;font-family:Verdana,sans-serif;color:black">@Clark Kent<span></span></span></p><p class="MsoNormal" style="margin-bottom:0.0001pt;line-height:normal"><span style="font-size:10pt;font-family:Verdana,sans-serif;color:black"><br></span></p><p dir="ltr" style="line-height:1.38;margin-top:0pt;margin-bottom:0pt"><br></p></div></div></div></div></div></div></div></div><div hspace="streak-pt-mark" style="max-height:1px"><img alt="" style="width:0px;max-height:0px;overflow:hidden" src="external_files/external_img28.unknown"><font color="#ffffff" size="1">ᐧ</font></div>
+
+      <p></p>
     body_clean:
     body_redact:
     last_modified:
