@@ -1,0 +1,30 @@
+[project]
+name = "scutes"
+description = "Item Processing Application for WHCA Pool Reports Collection"
+version = "0.0.1dev"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0 license"}
+classifiers = [
+    "Framework :: Django",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "django",
+    "pathlib",
+]
+[project.optional-dependencies]
+test = [
+    "pycodestyle",
+    "pytest",
+    "pytest-django",
+    "pytest-selenium",
+    "selenium",
+    "logging",
+]
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = 'scutes.settings'
+python_files = ['tests.py', 'test_*.py']
+pythonpath = ['src', '.']
+markers = [
+    "webdriver: marks tests that require webdriver(deselect with '-m \"not webdriver\"')",
+]
