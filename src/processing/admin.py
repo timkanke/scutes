@@ -1,3 +1,13 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Batch, Item
+
+
+@admin.register(Batch)
+class BatchAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name']
+
+
+@admin.register(Item)
+class ItemAdmin(admin.ModelAdmin):
+    list_display = ['id', 'date', 'reporter', 'title']

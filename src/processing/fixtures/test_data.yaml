@@ -1,0 +1,44 @@
+- model: processing.batch
+  pk: 1
+  fields:
+    name: 0000-01
+    assigned_to: Doug
+- model: processing.batch
+  pk: 2
+  fields:
+    name: 0000-02
+    assigned_to:
+- model: processing.item
+  pk: 1
+  fields:
+    date: 2006-10-25 14:30:59
+    reporter: Kent Brockman
+    title: Travel Pool Report /#7 Lid
+    pool_report: True
+    publish: False
+    off_the_record: False
+    redaction_review: False
+    comment:
+    body_original: |-
+      <p>Motorcade dropped off POTUS at his residence at 8:05 PM. We have a lid.<br /><br />Thanks for staying with me folks!<br />--<br /><br />Kent Brockman<br />Springfield Gazette<br />Cell: 555-555-5555<br />Email: brockman@springfieldgazette.com<br />@KentBrockman</p>
+    body_clean:
+    body_redact:
+    last_modified:
+    batch: 1
+- model: processing.item
+  pk: 2
+  fields:
+    date: 2006-10-25 12:05:31
+    reporter: Sarah Jane Smith
+    title: In-Town Travel/Photo Lid
+    pool_report: True
+    publish: False
+    off_the_record: False
+    redaction_review: False
+    comment:
+    body_original: |-
+      <div>Good Evening from the WH,</div><div><br></div><div>Press Office issued a bad weather call, so no Marine One arrival.</div><div><br></div><div>In-Town Travel/Photo Lid called at 8:07pm</div><div><br></div><div>Good night,</div><div>Sarah</div><div><br></div><div><b>Sarah Jane Smith</b></div><div><b>White House Correspondent&nbsp;</b></div><div><b>Metropolitan</b></div><div><b>Twitter: @Sarah_Jane_Smith</b></div><div><b>Email: Sarah.Jane.Smith@metropolitan.com</b></div><div><br></div><div>Sent from my iPhone</div><p></p><p>-------------------------------------------------------------</p><p>The information transmitted in this email and any of its attachments is intended only for the person or entity to which it is addressed and may contain information concerning Metropolitan LLC and/or its affiliates that is proprietary, privileged, confidentialand/or subject to copyright. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon, this information by persons or entities other than the intended recipient(s) is prohibited and may be unlawful. If you receivedthis in error, please contact the sender immediately and delete and destroy the communication and all of the attachments you have received and all copies thereof.</p><p>-------------------------------------------------------------</p>
+    body_clean:
+    body_redact:
+    last_modified:
+    batch: 1
