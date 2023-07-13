@@ -13,11 +13,12 @@ dependencies = [
     "pathlib",
 ]
 [project.optional-dependencies]
-test = [
+dev = [
     "pycodestyle",
     "pytest",
     "pytest-django",
     "pytest-selenium",
+    "pyyaml",
     "selenium",
     "logging",
 ]
