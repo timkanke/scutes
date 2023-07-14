@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="450px" preserveAspectRatio="none" style="width:208px;height:450px;background:#FFFFFF;" version="1.1" viewBox="0 0 208 450" width="208px" zoomAndPan="magnify"><defs/><g><!--MD5=[82b674517271dcb88c45f9b50e70c1c4]
+class Batch--><g id="elem_Batch"><rect codeLine="2" fill="#F1F1F1" height="97.4648" id="Batch" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="193" x="7.5" y="7"/><ellipse cx="81.25" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M84.8643,29.5 L77.1445,29.5 L77.1445,17.1069 L84.8643,17.1069 L84.8643,19.2651 L79.5933,19.2651 L79.5933,21.938 L84.3662,21.938 L84.3662,24.0962 L79.5933,24.0962 L79.5933,27.3418 L84.8643,27.3418 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="101.75" y="28.291">Batch</text><line style="stroke:#181818;stroke-width:0.5;" x1="8.5" x2="199.5" y1="39" y2="39"/><ellipse cx="18.5" cy="52.7441" fill="#000000" rx="3" ry="3" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="167" x="27.5" y="56.5352">id : number «generated»</text><line style="stroke:#181818;stroke-width:1.0;" x1="8.5" x2="199.5" y1="63.4883" y2="63.4883"/><ellipse cx="18.5" cy="77.2324" fill="#000000" rx="3" ry="3" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="77" x="27.5" y="81.0234">name : text</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="27.5" y="97.5117">assigned_to : text</text></g><!--MD5=[44a1b4afaef76c16e6c9ec4990ad0c8d]
+class Item--><g id="elem_Item"><rect codeLine="9" fill="#F1F1F1" height="278.8359" id="Item" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="194" x="7" y="164.46"/><ellipse cx="84.75" cy="180.46" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M88.3643,186.96 L80.6445,186.96 L80.6445,174.5669 L88.3643,174.5669 L88.3643,176.7251 L83.0933,176.7251 L83.0933,179.398 L87.8662,179.398 L87.8662,181.5562 L83.0933,181.5562 L83.0933,184.8018 L88.3643,184.8018 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="30" x="105.25" y="185.751">Item</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="200" y1="196.46" y2="196.46"/><ellipse cx="18" cy="210.2041" fill="#000000" rx="3" ry="3" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="167" x="27" y="213.9952">id : number «generated»</text><line style="stroke:#181818;stroke-width:1.0;" x1="8" x2="200" y1="220.9483" y2="220.9483"/><ellipse cx="18" cy="234.6924" fill="#000000" rx="3" ry="3" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="139" x="27" y="238.4834">batch : number «FK»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="102" x="27" y="254.9717">date : datetime</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="96" x="27" y="271.46">reporter : text</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65" x="27" y="287.9483">title : text</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="149" x="27" y="304.4366">pool_report : boolean</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="119" x="27" y="320.9248">publish : boolean</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="168" x="27" y="337.4131">off_the_record : boolean</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="156" x="27" y="353.9014">review_status: boolean</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="103" x="27" y="370.3897">comment : text</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="133" x="27" y="386.878">body_original : text</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="116" x="27" y="403.3663">body_clean : text</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="123" x="27" y="419.8545">body_redact : text</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="164" x="27" y="436.3428">last_modified : datetime</text></g><!--MD5=[132c9c821357a75e6be9f42da5fc6fe3]
+link Batch to Item--><g id="link_Batch_Item"><path codeLine="27" d="M104,113.6 C104,126.47 104,140.71 104,155.43 " fill="none" id="Batch-Item" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><line style="stroke:#181818;stroke-width:1.0;" x1="104" x2="110" y1="155.15" y2="163.15"/><line style="stroke:#181818;stroke-width:1.0;" x1="104" x2="98" y1="155.15" y2="163.15"/><line style="stroke:#181818;stroke-width:1.0;" x1="104" x2="104" y1="155.15" y2="163.15"/><line style="stroke:#181818;stroke-width:1.0;" x1="108" x2="100" y1="153.15" y2="153.15"/><line style="stroke:#181818;stroke-width:1.0;" x1="100" x2="108" y1="109.78" y2="109.78"/><line style="stroke:#181818;stroke-width:1.0;" x1="100" x2="108" y1="112.78" y2="112.78"/><line style="stroke:#181818;stroke-width:1.0;" x1="104" x2="104" y1="113.78" y2="105.78"/></g><!--MD5=[b64ea5242f9778e32051d622159a6617]
+@startuml db_schema
+
+entity "Batch" as Batch {
+  *id : number <<generated>>
+  - -
+  *name : text
+  assigned_to : text
+}
+
+entity "Item" as Item {
+  *id : number <<generated>>
+  - -
+  *batch : number <<FK>>
+  date : datetime
+  reporter : text
+  title : text
+  pool_report : boolean
+  publish : boolean
+  off_the_record : boolean
+  review_status: boolean
+  comment : text
+  body_original : text
+  body_clean : text
+  body_redact : text
+  last_modified : datetime
+}
+
+Batch ||..|{ Item
+
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 13:01:30 EDT 2022)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

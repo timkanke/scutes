@@ -1,0 +1,30 @@
+@startuml db_schema
+
+entity "Batch" as Batch {
+  *id : number <<generated>>
+  --
+  *name : text
+  assigned_to : text
+}
+
+entity "Item" as Item {
+  *id : number <<generated>>
+  --
+  *batch : number <<FK>>
+  date : datetime
+  reporter : text
+  title : text
+  pool_report : boolean
+  publish : boolean
+  off_the_record : boolean
+  review_status: boolean
+  comment : text
+  body_original : text
+  body_clean : text
+  body_redact : text
+  last_modified : datetime
+}
+
+Batch ||..|{ Item
+
+@enduml
