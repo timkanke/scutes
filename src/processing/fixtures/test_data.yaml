@@ -8,8 +8,264 @@
   fields:
     name: 0000-02
     assigned_to:
+- model: processing.batch
+  pk: 3
+  fields:
+    name: 0000-03
+    assigned_to: Doug
+- model: processing.batch
+  pk: 4
+  fields:
+    name: 0000-04
+    assigned_to:
+- model: processing.batch
+  pk: 5
+  fields:
+    name: 0000-05
+    assigned_to: Doug
+- model: processing.batch
+  pk: 6
+  fields:
+    name: 0000-06
+    assigned_to:
+- model: processing.batch
+  pk: 7
+  fields:
+    name: 0000-07
+    assigned_to: Doug
+- model: processing.batch
+  pk: 8
+  fields:
+    name: 0000-08
+    assigned_to:
+- model: processing.batch
+  pk: 9
+  fields:
+    name: 0000-09
+    assigned_to:
+- model: processing.batch
+  pk: 10
+  fields:
+    name: 0000-10
+    assigned_to: Doug
+- model: processing.batch
+  pk: 11
+  fields:
+    name: 0000-11
+    assigned_to:
+- model: processing.batch
+  pk: 12
+  fields:
+    name: 0000-12
+    assigned_to: Doug
+- model: processing.batch
+  pk: 13
+  fields:
+    name: 0001-01
+    assigned_to:
+- model: processing.batch
+  pk: 14
+  fields:
+    name: 0001-02
+    assigned_to: Doug
+- model: processing.batch
+  pk: 15
+  fields:
+    name: 0001-03
+    assigned_to:
 - model: processing.item
   pk: 1
+  fields:
+    date: 2006-10-25 14:30:59
+    reporter: Kent Brockman
+    title: Travel Pool Report /#1 Lid
+    pool_report: True
+    publish: False
+    off_the_record: False
+    redaction_review: False
+    comment: apple style - safari created?
+    body_original: |-
+      <html>
+      <head>
+      <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii">
+      </head>
+      <body style=3D"word-wrap: break-word; -webkit-nbsp-mode: space; line-break:after-white-space;" class=3D"">
+      <div dir=3D"auto" class=3D"">
+      <div dir=3D"ltr" class=3D"">
+      <div dir=3D"ltr" class=3D"">
+      <div dir=3D"ltr" class=3D""><font face=3D"Calibri, sans-serif" class=3D""><span style=3D"font-size: 14.666666984558105px;" class=3D"">The motorcade ended its journey at&nbsp;The Metropolitan Museum of Art&nbsp;in Manhattan. Press is still in a&nbsp;holding area.&nbsp;</span></font></div>
+      <div dir=3D"ltr" class=3D""><font face=3D"Calibri, sans-serif" class=3D""><span style=3D"font-size: 14.666666984558105px;" class=3D""><br class=3D"">
+      </span></font></div>
+      <div dir=3D"ltr" class=3D""><font face=3D"Calibri, sans-serif" class=3D""><span style=3D"font-size: 14.666666984558105px;" class=3D"">From the WH:&nbsp;</span></font></div>
+      <div dir=3D"ltr" class=3D""><b style=3D"font-family: Calibri, sans-serif; font-size: 14.666666984558105px;" class=3D""><br class=3D"">
+      </b></div>
+      <div dir=3D"ltr" class=3D""><b style=3D"font-family: Calibri, sans-serif; font-size: 14.666666984558105px;" class=3D"">The President and the First Lady attend a private memorial service for Ambassador Donald Donaldson of Montenaro.</b><br class=3D"">
+      <br class=3D"">
+      </div>
+      </div>
+      </div>
+      </div>
+      </body>
+      </html>
+    body_clean:
+    body_redact:
+    last_modified:
+    batch: 1
+- model: processing.item
+  pk: 2
+  fields:
+    date: 2006-10-25 14:30:59
+    reporter: Kent Brockman
+    title: Travel Pool Report /#2 Lid
+    pool_report: True
+    publish: False
+    off_the_record: False
+    redaction_review: False
+    comment: gmail style
+    body_original: |-
+      <div><div dir=3D"auto">M1 landed at the Wall Street Landing Zone at 6:44 pm. Pool did not see POTUS get out.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">Motorcade rolling at 6:51 pm.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">(Pool has been served pizza with penne pasta as the topping for the ride)<br><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div>
+      </div>
+      </div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><br></div><div dir=3D"ltr">--</div><div dir=3D"ltr">Kent Brockman<table cellspacing=3D"0" cellpadding=3D"0" style=3D"color:rgb(51,51,51);font-size:12px;font-family:Helvetica,Arial,sans-serif"><tbody><tr><td colspan=3D"2" style=3D"text-transform:uppercase;font-weight:bold;color:rgb(2,163,213);font-size:9px;letter-spacing:1px">WHITE HOUSE reporter, WASHINGTON BUREAU</td></tr><tr><td colspan=3D"2" style=3D"padding-top:15px;padding-bottom:15px"><a href=3D"http://www.example.com/" style=3D"color:rgb(17,85,204)" target=3D"_blank"><img src=3D"https://commons.wikimedia.org/wiki/File:Mayor%20Stubbs.jpg" height=3D"15" alt=3D"Springfield Gazette" title=3D"The Springfield Gazette" style=3D"border-style:none;display:block"></a></td></tr><tr><td colspan=3D"2"><font size=3D"2"><b style=3D"color:rgb(2,163,213)">C</b></font><b style=3D"font-size:small;color:rgb(2,163,213)">:=C2=A0</b><font color=3D"#000000" style=3D"font-size:small">(555) 555.5555</font>=C2=A0<br><b style=3D"font-size:small;color:rgb(2,163,213)">O:=C2=A0</b><font color=3D"#000000" style=3D"font-size:small">(555) 555.5555<br></font></td></tr><tr><td colspan=3D"2"><font size=3D"2"><b style=3D"color:rgb(2,163,213)">E:=C2=A0</b><a href=3D"mailto:brockman@springfieldgazette.com" style=3D"color:rgb(17,85,204)" target=3D"_blank"><font color=3D"#000000">brockman@springfieldgazette.com</font></a><b style=3D"color:rgb(2,163,213)">=C2=A0|=C2=A0T:</b><b style=3D"color:rgb(2,163,213)">=C2=A0</b><font color=3D"#000000">@tparti=C2=A0</font></font></td></tr><tr><td colspan=3D"2" style=3D"font-weight:bold;color:rgb(2,163,213)"><font size=3D"2">A:=C2=A0<span style=3D"font-weight:normal;color:rgb(12,42,49)">1111 Connecticut Ave. NW, Suite 111 | Washington, D.C. 20036</span></font></td></tr><tr><td colspan=3D"2" style=3D"padding-top:15px;padding-bottom:15px"><a href=3D"http://www.example.com/" style=3D"color:rgb(17,85,204)" target=3D"_blank"><font size=3D"2"><img src=3D"https://commons.wikimedia.org/wiki/File:Gladstone%20a%20year%20in%20Treasury%20(1).jpg" height=3D"15" alt=3D"Springfield Gazette" title=3D"Springfield Gazette" style=3D"border-style:none;display:block"></font></a></td></tr></tbody></table><font face=3D"verdana, sans-serif" size=3D"1"><font color=3D"#999999">Sign up for WSJ=E2=80=99s free Capital Journal newsletter=C2=A0<a href=3D"http://example.com/" style=3D"color:rgb(17,85,204)" target=3D"_blank">here</a>.</font></font><br></div></div></div></div>
+    body_clean:
+    body_redact:
+    last_modified:
+    batch: 1
+- model: processing.item
+  pk: 3
+  fields:
+    date: 2006-10-25 14:30:59
+    reporter: Kent Brockman
+    title: Travel Pool Report /#3 Lid
+    pool_report: True
+    publish: False
+    off_the_record: False
+    redaction_review: False
+    comment: iphone gmail style
+    body_original: |- 
+      <html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3Dutf-8"></head><body dir=3D"auto"><p class=3D"p1" style=3D"margin: 0px; font-stretch: normal; line-height: normal; caret-color: rgb(0, 0, 0); color:rgb(0, 0, 0); -webkit-text-size-adjust: auto;">I am resending my pool report #4. For some reason, It was sent blank. I apologize for this.</p><p class=3D"p2" style=3D"margin: 0px; font-stretch: normal; line-height: normal; min-height: 20.3px; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s1" style=3D"font-weight: bold;"></span><br></p><p class=3D"p1" style=3D"margin: 0px; font-stretch: normal; line-height: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2">Vice President Bobert Tellys came on the stage at 9:38 AM EDT wearing a nave blue suit and a white blouse and no face mask. He started by saying: "Last week, President Ann Taylor and I reached the 100th day of our administration. And that time, we have let the world now. And the President has been very clear about this. America is back."</span></p><p class=3D"p2" style=3D"margin: 0px; font-stretch: normal; line-height: normal; min-height: 20.3px; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2"></span><br></p><p class=3D"p1" style=3D"margin: 0px; font-stretch: normal; line-height: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2">"We are revitalizing our relationships throughout the Western Hemisphere, from the southern most parts of South America to the northern most parts of Canada, and everywhere in between the Western Hemisphere is our home. And because it is our home. Because the people within it are neighbors. It is imperative that we promote democracy and good governance, security, and prosperity within the region."</span></p><p class=3D"p2" style=3D"margin: 0px; font-stretch: normal; line-height: normal; min-height: 20.3px; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2"></span><br></p><p class=3D"p1" style=3D"margin: 0px; font-stretch: normal; line-height: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2">"Our relationship with Latin America is bigger than trade, and our relationship is incredibly complex and at times has been incredibly complicated."</span></p><p class=3D"p2" style=3D"margin: 0px; font-stretch: normal; line-height: normal; min-height: 20.3px; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2"></span><br></p><p class=3D"p1" style=3D"margin: 0px; font-stretch:normal; line-height: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2">You can see an live automatic transcription of the VP's remarks here:</span></p><p class=3D"p1" style=3D"margin: 0px; font-stretch: normal; line-height: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2"><a href=3D"https://example.com">https://example</a></span></p><p class=3D"p2" style=3D"margin: 0px; font-stretch: normal; line-height: normal; min-height: 20.3px; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2"></span><br></p><p class=3D"p1" style=3D"margin: 0px; font-stretch: normal; line-height: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2">As always, please check against official transcript.</span></p><p class=3D"p2" style=3D"margin: 0px; font-stretch: normal; line-height: normal; min-height: 20.3px; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2"></span><br></p><p class=3D"p1" style=3D"margin: 0px; font-stretch: normal; line-height: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2">Your pooler took a couple of photos of the VP on stage and can be downloaded here:&nbsp;</span></p><p class=3D"p1" style=3D"margin: 0px; font-stretch: normal; line-height: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); -webkit-text-size-adjust: auto;"><span class=3D"s2"><a href=3D"https://example.com">https://example.com</a></span></p><br><div dir=3D"ltr"><div style=3D"margin: 0px;"><div style=3D"margin:0px;"><div style=3D"margin: 0px;"><div style=3D"margin: 0px;"><div style=3D"margin: 0px;"><div style=3D"margin: 0px;"><b style=3D"background-color:rgba(255, 255, 255, 0);">Kent Brockman</b></div><div style=3D"margin: 0px;"><b>Washington Correspondent</b></div><div style=3D"margin: 0px;">+1 202-867-0975</div><div style=3D"margin: 0px;"><span style=3D"background-color: rgba(255, 255, 255, 0);"><a href=3D"http://www.instagram.com/kentbrockman" target=3D"_blank"><img src=3D"https://cdn3.iconfinder.com/data/icons/free-social-icons/67/instagram_circle_color-24.png" alt=3D" Instagram" data-unique-identifier=3D""></a>&nbsp;<a href=3D"http://www.twitter.com/kentbrockman" target=3D"_blank"><img src=3D"https://cdn3.iconfinder.com/data/icons/free-social-icons/67/twitter_circle_color-24.png" alt=3D" Twitter" data-unique-identifier=3D""></a>&nbsp;<a href=3D"http://www.facebook.com/kentbrockmania" target=3D"_blank"><img src=3D"https://cdn3.iconfinder.com/data/icons/free-social-icons/67/facebook_circle_color-24.png" data-unique-identifier=3D""></a>&nbsp;<a href=3D"http://www.linkedin.com/kentbrockman" target=3D"_blank"><img src=3D"https://cdn3.iconfinder.com/data/icons/free-social-icons/67/linkedin_circle_color-24.png" alt=3D" LinkedIn" data-unique-identifier=3D""></a>&nbsp;<a href=3D"http://www.vimeo.com/kentbrockman" target=3D"_blank"><img src=3D"https://cdn3.iconfinder.com/data/icons/free-social-icons/67/vimeo_circle_color-24.png" data-unique-identifier=3D""></a></span></div></div></div></div></div></div><div><span style=3D"background-color: rgba(255, 255, 255, 0);"></span></div></div></body></html>
+    body_clean:
+    body_redact:
+    last_modified:
+    batch: 1
+- model: processing.item
+  pk: 4
+  fields:
+    date: 2006-10-25 14:30:59
+    reporter: Kent Brockman
+    title: Travel Pool Report /#4 Lid
+    pool_report: True
+    publish: False
+    off_the_record: False
+    redaction_review: False
+    comment: iphone style v1
+    body_original: |- 
+      <html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3Dutf-8"></head><body dir=3D"auto"><div dir=3D"ltr">=EF=BB=BF<meta http-equiv=3D"content-type" content=3D"text/html; charset=3Dutf-8"><div dir=3D"ltr">=EF=BB=BF<meta http-equiv=3D"content-type" content=3D"text/html; charset=3Dutf-8"><div dir=3D"ltr">=EF=BB=BFAt approximately 11:13 a.m. the supplemental pool was led into the Cash Room at Treasury where the Freedman=E2=80=99s Bank Forum was underway.&nbsp;</div><div dir=3D"ltr"><br></div><div dir=3D"ltr">At 12:04 a White House official passed along the following:</div><div dir=3D"ltr"><br></div><div dir=3D"ltr"><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size: 11pt;font-family: Calibri, sans-serif;">Today, Vice President Harris will deliver remarks at the Freedman=E2=80=99s Bank Forum at the U.S. Department of Treasury to announce a slate of&nbsp;<a href=3D"https://www.whitehouse.gov/briefing-room/statements-releases/2022/10/04fact-sheet-vice-president-harris-announces-new-public-and-private-sector-efforts-to-advance-racial-equity-at-freedmans-bank-forum/" style=3D"color: purple;">new actions</a>&nbsp;taken by the Biden-Harris Administration and private sector stakeholders to de=liver capital and resources to underserved small businesses and the community lenders who serve them.<o:p></o:p></p><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">&nbsp;<o:p></o:p></p><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">For too long, the small business ecosystem in these underserved communities has struggled to keep up with better funded businesses and entrepreneurs in more prosperous communities. Under President Biden and Vice President Harris=E2=80=99s leadership, this Administration has taken significant steps to address these disparities. Over the past two years, the Treasury Department invested over $15 billion in community lenders and other mission capital providers, allowing them to expand their efforts to drive inclusive entrepreneurship and create high-opportunity communities.<o:p></o:p></p><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">&nbsp;<o:p></o:p></p><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size:11pt; font-family: Calibri, sans-serif;">Read more about today=E2=80=99s announcements here:&nbsp;<span style=3D"color: red;"><a href=3D"https://www.whitehouse.gov/briefing-room/statements-releases/2022/10/04fact-sheet-vice-president-harris-announces-new-public-and-private-sector-efforts-to-advance-racial-equity-at-freedmans-bank-forum/" style=3D"color: purple;">FACT SHEET: Vice President Harris Announces New Public and Private-Sector Efforts to Advance Racial Equity at Freedman=E2=80=99s Bank Forum - The White House</a></span><o:p></o:p></p><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">&nbsp;<o:p></o:p></p><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;"><i><u>Highlight=E2=80=99s of today=E2=80=99s announcement:</u></i><o:p></o:p></p><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">&nbsp;<o:p></o:p></p><ul type=3D"disc" style=3D "-webkit-text-size-adjust: auto; margin-bottom: 0in; margin-top: 0in;"><li class=3D"MsoListParagraph" style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">Economic Opportunity Coalition members (a coalition of 20 companies and foundations brought together by Vice President Harris) have committed to moving $1 billion in deposits to Minority Depository Institutions (MDIs) to increase access to affordable capital in communities of color.<b>&nbsp;</b><o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">The Office of Management and Budget is issuing a memorandum to federal agencies to set individualized goals for an unprecedented 12 percent of FY 2023 governmentwide procurement dollars<b>&nbsp;</b>to go to Small, Disadvantaged Businesses.<o:p></o:p></li></ul><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">&nbsp;<o:p></o:p></p><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt 0.25in; font-size: 11pt; font-family: Calibri, sans-serif; text-indent: -0.25in;"><i><u>The Vice President=E2=80=99s Work on CDFIs and Small Business</u></i><o:p></o:p></p><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">&nbsp;<o:p></o:p></p><ul type=3D"disc" style=3D"-webkit-text-size-adjust: auto; margin-bottom: 0in; margin-top: 0in;"><li class=3D"MsoListParagraph" style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">The Vice President has consistently advocated for expanding access to capital and credit for underserved small and minority-owned businesses.<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">As Senator, the Vice President partnered with key Congressional stakeholders to secure a transformative $12 billion investment for CDFIs and MD Is in December 2020. Since that time, she has worked with Secretary Yellen and the Department of the Treasury to&nbsp;develop a forward-looking plan on amplification of CDFIs and implementation of recently appropriated funding.&nbsp;<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin: 0in0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">In July, the Vice President announced a first-of-its-kind private sector initiative=E2=80=94the Economic Opportunity Coalition (EOC)=E2=80=94 with more than 20 corporations and foundations committed to investing billions of dollars in underserved communities and small businesses emerging from the pandemic.<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;">The Vice President has also met with small business owners throughout the country to elevate their role in the community and&nbsp;discuss the new small business priorities implemented within the Biden-Harris Administration.<o:p></o:p></li></ul><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;"><o:p>&nbsp;</o:p></p><p class=3D"MsoNormal" style=3D"-webkit-text-size-adjust: auto; margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;"><o:p>&nbsp;</o:p></p><br><div dir=3D"ltr">Sent from my iPhone</div></div></div></div></body></html>
+    body_clean:
+    body_redact:
+    last_modified:
+    batch: 1
+- model: processing.item
+  pk: 5
+  fields:
+    date: 2006-10-25 14:30:59
+    reporter: Kent Brockman
+    title: Travel Pool Report /#5 Lid
+    pool_report: True
+    publish: False
+    off_the_record: False
+    redaction_review: False
+    comment: iphone style v2
+    body_original: |-
+      At 12:21 Harris finished her remarks and exited the Cash Room. =EF=BB=BF
+
+      Sent from my iPhone
+    body_clean:
+    body_redact:
+    last_modified:
+    batch: 1
+- model: processing.item
+  pk: 6
+  fields:
+    date: 2006-10-25 14:30:59
+    reporter: Kent Brockman
+    title: Travel Pool Report /#6 Lid
+    pool_report: True
+    publish: False
+    off_the_record: False
+    redaction_review: False
+    comment: ms formatting style
+    body_original: |-
+      <html>
+      <head>
+      <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1252">
+      </head>
+      <body>
+      <div dir=3D"ltr" data-ogsc=3D"" style=3D"">
+      <div>
+      <meta content=3D"text/html; charset=3Dus-ascii">
+      <meta name=3D"ProgId" content=3D"Word.Document">
+      <meta name=3D"Generator" content=3D"Microsoft Word 15">
+      <meta name=3D"Originator" content=3D"Microsoft Word 15">
+      <style>
+      <!--
+      @font-face
+      	{font-family:"Cambria Math"}
+      @font-face
+      	{font-family:Calibri}
+      @font-face
+      	{font-family:"Calibri Light"}
+      p.MsoNormal, li.MsoNormal, div.MsoNormal
+      	{margin:0in;
+      	margin-bottom:.0001pt;
+      	font-size:11.0pt;
+      	font-family:"Calibri",sans-serif}
+      a:link, span.MsoHyperlink
+      	{color:#0563C1;
+      	text-decoration:underline}
+      a:visited, span.MsoHyperlinkFollowed
+      	{color:#954F72;
+      	text-decoration:underline}
+      span.EmailStyle17
+      	{font-family:"Calibri",sans-serif;
+      	color:windowtext}
+      .MsoChpDefault
+      	{font-family:"Calibri",sans-serif}
+      @page WordSection1
+      	{margin:1.0in 1.0in 1.0in 1.0in}
+      div.WordSection1
+      	{}
+      -->
+      </style></div>
+      <div class=3D"WordSection1">
+      <p class=3D"MsoNormal">Pool gathered on the South Lawn for the president=E2=80=99s arrival, which is earlier than expected.&nbsp;</p>
+      <p class=3D"MsoNormal"><br>
+      </p>
+      <p class=3D"MsoNormal">It=E2=80=99s a frigid 32 degrees.&nbsp;</p>
+      <div class=3D"MsoNormal" style=3D"margin-top: 0px; margin-bottom: 0.00013333333481568843px;" dir=3D"ltr">
+      <br>
+      </div>
+      <div class=3D"MsoNormal" style=3D"margin-top: 0px; margin-bottom: 0.00013333333481568843px;" dir=3D"ltr">
+      <br>
+      </div>
+      <p class=3D"MsoNormal"><a name=3D"_MailAutoSig" data-ogsc=3D"" style=3D""><span style=3D"font-size:12.0pt; font-family:&quot;Calibri Light&quot;,sans-=
+      serif">Kent Brockman</span></a></p>
+      <p class=3D"MsoNormal"><span style=3D""><span style=3D"">White House correspondent</span></span></p>
+      <p class=3D"MsoNormal"><span style=3D""><span style=3D"">Springfield Times</span></span></p>
+      <p class=3D"MsoNormal"><span style=3D""><span style=3D"">555-555-5555</span></span></p>
+      <p class=3D"MsoNormal"><span style=3D""><span style=3D"">@kentbrockman</span></span></p>
+      <span style=3D""></span>
+      <p class=3D"MsoNormal">&nbsp;</p>
+      <p class=3D"MsoNormal">&nbsp;</p>
+      </div>
+      </div>
+      </body>
+      </html>
+    body_clean:
+    body_redact:
+    last_modified:
+    batch: 1
+- model: processing.item
+  pk: 7
   fields:
     date: 2006-10-25 14:30:59
     reporter: Kent Brockman
@@ -18,15 +274,78 @@
     publish: False
     off_the_record: False
     redaction_review: False
-    comment:
+    comment: ms outlook style
     body_original: |-
-      <p>Motorcade dropped off POTUS at his residence at 8:05 PM. We have a lid.<br /><br />Thanks for staying with me folks!<br />--<br /><br />Kent Brockman<br />Springfield Gazette<br />Cell: 555-555-5555<br />Email: brockman@springfieldgazette.com<br />@KentBrockman</p>
+      <html>
+      <head>
+      <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+      </head>
+      <body>
+      <div dir=3D"ltr">
+      <div></div>
+      <div>
+      <div>More on the visitors on the lower balcony of the South Portico, per the White House:</div>
+      <div dir=3D"ltr"><br>
+      </div>
+      <div dir=3D"ltr">&quot;The President and the First Lady greeted guests on the [South] Portico after arriving on Marine One. The guests included the First Ladies of DE, MA, NE, OK and UT along with youth mental health care leaders. They are here for a summit tomorrow at HHS with the Secretary to discuss youth mental health.&quot;</div>
+      <div id=3D"ms-outlook-mobile-signature">
+      <div><br>
+      </div>
+      <p style=3D"margin: 0in 0in 0.0001pt; font-family: Calibri, sans-serif; font-size: 11pt; line-height: 1.5; color: rgb(33, 33, 33);">
+      <span style=3D"font-size: 12pt; font-family: Georgia, serif, serif, EmojiFont; color: black;">Kent Brockman</span></p>
+      <p style=3D"margin: 0in 0in 0.0001pt; font-family: Calibri, sans-serif; font-size: 11pt; line-height: 1.5; color: rgb(33, 33, 33);">
+      <span style=3D"font-family: Georgia, serif, serif, EmojiFont; color: black;">White House Reporter</span></p>
+      <p style=3D"margin: 0in 0in 0.0001pt; font-family: Calibri, sans-serif; font-size: 11pt; line-height: 1.5; color: rgb(33, 33, 33);">
+      <span style=3D"font-family: Georgia, serif, serif, EmojiFont; font-size: 12pt; color: rgb(200, 38, 19);"><b>Springfield Gazette</b></span></p>
+      <p style=3D"margin: 0in 0in 0.0001pt; font-family: Calibri, sans-serif; font-size: 11pt; line-height: 1.5; color: rgb(33, 33, 33);">
+      <span style=3D"font-family: Georgia, serif, serif, EmojiFont; color: black;"><i style=3D"font-size:12px">(He / Him)</i><br>
+      </span></p>
+      <p style=3D"margin: 0in 0in 0.0001pt; font-family: Calibri, sans-serif; font-size: 11pt; line-height: 1.5; color: rgb(33, 33, 33);">
+      <b><span style=3D"font-size: 9pt; font-family: Georgia, serif, serif, EmojiFont; color: rgb(200, 38, 19);">P</span></b><span style=3D"font-size: 9pt; font-family: Georgia, serif, serif, EmojiFont; color: black;">&nbsp;<span dir=3D"ltr">555.555.5555</span><span>&nbsp;</span>|&nbsp;</span><b><span style=3D"font-size: 9pt; font-family: Georgia, serif, serif, EmojiFont; color:rgb(200, 38, 19);">M</span></b><b><span style=3D"font-size: 9pt; font-family: Georgia, serif, serif, EmojiFont; color: black;">&nbsp;</span></b><spanstyle=3D"font-size: 9pt; font-family: Georgia, serif, serif, EmojiFont; color: black;">=E2=80=AA<span dir=3D"ltr">555.555.5555</span>=E2=80=AC<span style=3D"background-color: rgb(255, 255, 255); display: inline !important;"><span>&nbsp;</span>|<span>&nbsp;</span></span><span style=3D"background-color: rgb(255, 255, 255); color: rgb(200, 38, 19); display: inline !important;"><b>T</b></span><span style=3D"background-color: rgb(255, 255, 255); display: inline !important;"><span>&nbsp;</span><a href=3D"https://twitter.com/kentbrockman" title=3D"https://twitter.com/kentbrockman">@kentbrockman</a></span></span></p>
+      </div>
+      </div>
+      </div>
+      </body>
+      </html>
     body_clean:
     body_redact:
     last_modified:
     batch: 1
 - model: processing.item
-  pk: 2
+  pk: 8
+  fields:
+    date: 2006-10-25 14:30:59
+    reporter: Kent Brockman
+    title: Travel Pool Report /#8 Lid
+    pool_report: True
+    publish: False
+    off_the_record: False
+    redaction_review: False
+    comment: outlook for ios style
+    body_original: |-
+      <html>
+      <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+      </head>
+      <body>
+      <div dir="ltr" data-ogsc="" style="">
+      <div></div>
+      <div>
+      <div>Just kidding. I am the in-town pooler now. We have a travel/photo lid at 11:26 p.m. &nbsp;</div>
+      <div><br>
+      </div>
+      <div class="ms-outlook-ios-signature" id="ms-outlook-mobile-signature">Get <a href="https://aka.ms/" data-ogsc="" style="">
+      Outlook for iOS</a></div>
+      </div>
+      </div>
+      </body>
+      </html>
+    body_clean:
+    body_redact:
+    last_modified:
+    batch: 1
+- model: processing.item
+  pk: 9
   fields:
     date: 2006-10-25 20:08:31
     reporter: Sarah Jane Smith
@@ -43,7 +362,7 @@
     last_modified:
     batch: 1
 - model: processing.item
-  pk: 3
+  pk: 10
   fields:
     date: 2006-10-25 14:30:59
     reporter: Clark Kent
