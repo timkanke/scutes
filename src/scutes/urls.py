@@ -17,6 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from processing.views import BatchList, Dashboard, ItemList, ItemView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('batchlist/', BatchList.as_view(), name='batchlist'),
+    path('dashboard/', Dashboard.as_view(), name='dashboard'),
+    path('itemlist/', ItemList.as_view(), name='itemlist'),
+    path('itemview/', ItemView.as_view(), name='itemview'),
 ]
