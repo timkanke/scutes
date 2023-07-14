@@ -1,0 +1,8 @@
+.footer {
+    font-size: 14px;
+    clear: both;
+    color: black;
+    background-color: cornflowerblue;
+    overflow: hidden;
+    padding: 20px 0 20px;
+}
