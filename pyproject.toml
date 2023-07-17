@@ -11,7 +11,9 @@ classifiers = [
 dependencies = [
     "django",
     "pathlib",
+    "django-bootstrap3",
     "django-tables2",
+    "django-filter",
 ]
 [project.optional-dependencies]
 dev = [

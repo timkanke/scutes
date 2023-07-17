@@ -1,8 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% load django_tables2 %}
+{% load bootstrap3 %}
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
 <div>
     <h1>Item List</h1>
+
+    <h3>Filter by Review Status</h3>
+    {% if filter %}
+    <form action="" method="get" class="form form-inline">
+        {% bootstrap_form filter.form layout='inline' %}
+        {% bootstrap_button 'filter' %}
+    </form>
+    {% endif %}
+    {% render_table table %}
 </div>
 
 {% endblock %}
