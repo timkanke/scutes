@@ -23,7 +23,7 @@ class BatchList(SingleTableView):
 class ItemFilter(FilterSet):
     class Meta:
         model = Item
-        fields = {'redaction_review': ['exact']}
+        fields = {'review_status': ['exact']}
 
 
 class ItemList(SingleTableMixin, FilterView):

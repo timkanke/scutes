@@ -23,6 +23,6 @@ class ItemList(tables.Table):
                   'date',
                   'reporter',
                   'title',
-                  'redaction_review']
+                  'review_status']
 
     # review = TemplateColumn(template_name='tables/view_message.html')
