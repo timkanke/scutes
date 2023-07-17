@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.db.models.query import QuerySet
 from django.views.generic.base import TemplateView
-from django_tables2 import SingleTableView
+from django_tables2 import SingleTableMixin, SingleTableView
+from django_filters import FilterSet
+from django_filters.views import FilterView
 
-from .models import Batch
-from .tables import BatchList
+from .models import Batch, Item
+from .tables import BatchList, ItemList
 
 
 class Dashboard(TemplateView):
@@ -18,8 +20,23 @@ class BatchList(SingleTableView):
     context_object_name = 'batch'
 
 
-class ItemList(TemplateView):
-    template_name = "item_list.html"
+class ItemFilter(FilterSet):
+    class Meta:
+        model = Item
+        fields = {'redaction_review': ['exact']}
+
+
+class ItemList(SingleTableMixin, FilterView):
+    model = Item
+    table_class = ItemList
+    template_name = 'item_list.html'
+
+    context_object_name = 'item'
+
+    filterset_class = ItemFilter
+
+    def get_queryset(self) -> QuerySet[any]:
+        return super().get_queryset().filter(batch=self.kwargs['batch'])
 
 
 class ItemView(TemplateView):

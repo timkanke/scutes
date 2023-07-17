@@ -23,6 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('batchlist/', BatchList.as_view(), name='batchlist'),
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
-    path('itemlist/', ItemList.as_view(), name='itemlist'),
+    path('itemlist/<int:batch>/', ItemList.as_view(), name='itemlist'),
     path('itemview/', ItemView.as_view(), name='itemview'),
 ]
