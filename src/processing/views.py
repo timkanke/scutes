@@ -1,9 +1,14 @@
 from django.db.models.query import QuerySet
+from django.http import HttpResponseForbidden
+from django.urls import reverse
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import ModelFormMixin
 from django_tables2 import SingleTableMixin, SingleTableView
 from django_filters import FilterSet
 from django_filters.views import FilterView
 
+from .forms import ItemUpdateForm
 from .models import Batch, Item
 from .tables import BatchList, ItemList
 
@@ -39,5 +44,24 @@ class ItemList(SingleTableMixin, FilterView):
         return super().get_queryset().filter(batch=self.kwargs['batch'])
 
 
-class ItemView(TemplateView):
+class ItemView(ModelFormMixin, DetailView):
+    form_class = ItemUpdateForm
+    model = Item
     template_name = "item_view.html"
+    success_message = "Saved Succesfully"
+
+    def get_success_url(self):
+        return reverse('item_view', kwargs={"pk": self.object.pk})
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden()
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        return super().form_valid(form)
