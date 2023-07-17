@@ -1,0 +1,34 @@
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Scutes</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div>
+        <header>
+            <div>
+                <div class="topnav">
+                    <a href="{% url 'dashboard' %}"> LOGO</a>
+                    <a href="{% url 'dashboard' %}"><i class="fa fa-fw fa-home"></i>Dashboard</a>
+                    <a href="{% url 'batchlist' %}"><i class="fa fa-fw fa-folder"></i>Batch List</a>
+                </div>
+            </div>
+        </header>
+        <div>
+            {% block content %}
+            {% endblock %}
+        </div>
+        <footer>
+            <div class="footer">
+                <b>Footer is here.</b>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
