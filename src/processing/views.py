@@ -1,9 +1,12 @@
+from django.core.paginator import Paginator
 from django.db.models.query import QuerySet
 from django.http import HttpResponseForbidden
 from django.urls import reverse
+from django.views.generic import UpdateView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import ModelFormMixin
+from django.views.generic.list import MultipleObjectMixin
 from django_tables2 import SingleTableMixin, SingleTableView
 from django_filters import FilterSet
 from django_filters.views import FilterView
@@ -31,11 +34,11 @@ class ItemFilter(FilterSet):
         fields = {'review_status': ['exact']}
 
 
-class ItemList(SingleTableMixin, FilterView):
+class ItemList(FilterView, SingleTableMixin):
     model = Item
     table_class = ItemList
     template_name = 'item_list.html'
-
+    paginate_by = 5
     context_object_name = 'item'
 
     filterset_class = ItemFilter
@@ -44,14 +47,15 @@ class ItemList(SingleTableMixin, FilterView):
         return super().get_queryset().filter(batch=self.kwargs['batch'])
 
 
-class ItemView(ModelFormMixin, DetailView):
+class ItemView(UpdateView, MultipleObjectMixin):
     form_class = ItemUpdateForm
     model = Item
     template_name = "item_view.html"
     success_message = "Saved Succesfully"
+    object_list = 'item'
 
     def get_success_url(self):
-        return reverse('item_view', kwargs={"pk": self.object.pk})
+        return reverse('itemview', kwargs={"pk": self.object.pk})
 
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:

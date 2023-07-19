@@ -24,4 +24,10 @@
         </div>
     </form>
 </div>
+<!-- local nav -->
+<div>
+    <p>Current Page: <b>{{object.pk}}</b></p>
+    <p>Next Page: <b>{{object.get_next_by_pk}}</b></p>
+</div>
+
 {% endblock %}
