@@ -1,7 +1,7 @@
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.db.models.query import QuerySet
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import UpdateView
@@ -64,7 +64,11 @@ class ItemView(MultipleObjectMixin, UpdateView):
         self.object = self.get_object()
         form = self.get_form()
         if form.is_valid():
-            return self.form_valid(form)
+            if 'next' in self.request.POST:
+                self.form_valid(form)
+                return HttpResponseRedirect(reverse('itemview', kwargs={'pk': self.object.pk+1}))
+            else:
+                return self.form_valid(form)
         else:
             return self.form_invalid(form)
 
