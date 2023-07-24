@@ -1,6 +1,8 @@
+from django.core import serializers
 from django.core.paginator import Paginator
 from django.db.models.query import QuerySet
 from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import UpdateView
 from django.views.generic.base import TemplateView
@@ -34,25 +36,24 @@ class ItemFilter(FilterSet):
         fields = {'review_status': ['exact']}
 
 
-class ItemList(FilterView, SingleTableMixin):
+class ItemList(SingleTableMixin, FilterView):
     model = Item
     table_class = ItemList
     template_name = 'item_list.html'
-    paginate_by = 5
+    # paginate_by = 10
     context_object_name = 'item'
 
     filterset_class = ItemFilter
 
-    def get_queryset(self) -> QuerySet[any]:
-        return super().get_queryset().filter(batch=self.kwargs['batch'])
 
-
-class ItemView(UpdateView, MultipleObjectMixin):
+class ItemView(MultipleObjectMixin, UpdateView):
     form_class = ItemUpdateForm
     model = Item
     template_name = "item_view.html"
     success_message = "Saved Succesfully"
-    object_list = 'item'
+
+    object_list = 'itemqs'
+    paginate_by = 1
 
     def get_success_url(self):
         return reverse('itemview', kwargs={"pk": self.object.pk})
@@ -69,3 +70,8 @@ class ItemView(UpdateView, MultipleObjectMixin):
 
     def form_valid(self, form):
         return super().form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['qs'] = self.request.session['qs']
+        return context
