@@ -6,6 +6,10 @@ Item Processing Application for WHCA Pool Reports Collection
 
 See [docs/DevelopmentEnvironment.md](docs/DevelopmentEnvironment.md).
 
+## CKEditor
+
+See [docs/CKEditor.md](docs/CKEditor.md).
+
 ## Database Schema
 
 ![Database Schema](docs/images/db_schema.svg)
