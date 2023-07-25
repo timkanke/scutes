@@ -1,13 +1,7 @@
-from django.core import serializers
-from django.core.paginator import Paginator
-from django.db.models.query import QuerySet
-from django.http import HttpResponseForbidden, HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import UpdateView
 from django.views.generic.base import TemplateView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import ModelFormMixin
 from django.views.generic.list import MultipleObjectMixin
 from django_tables2 import SingleTableMixin, SingleTableView
 from django_filters import FilterSet
@@ -50,10 +44,7 @@ class ItemView(MultipleObjectMixin, UpdateView):
     form_class = ItemUpdateForm
     model = Item
     template_name = "item_view.html"
-    success_message = "Saved Succesfully"
-
-    object_list = 'itemqs'
-    paginate_by = 1
+    object_list = 'item'
 
     def get_success_url(self):
         return reverse('itemview', kwargs={"pk": self.object.pk})
@@ -74,8 +65,3 @@ class ItemView(MultipleObjectMixin, UpdateView):
 
     def form_valid(self, form):
         return super().form_valid(form)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['qs'] = self.request.session['qs']
-        return context
