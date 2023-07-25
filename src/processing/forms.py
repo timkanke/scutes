@@ -1,6 +1,6 @@
 from django import forms
 
-# from static.django_ckeditor_5.widgets import CKEditor5Widget
+from django_ckeditor_5.widgets import CKEditor5Widget
 from .models import Item
 
 
@@ -25,8 +25,8 @@ class ItemUpdateForm(forms.ModelForm):
                   'body_redact')
 
         # you can use CKEditor5Widget in forms or models.
-        # widgets = {
-            # "body": CKEditor5Widget(
-                # attrs={"class": "django_ckeditor_5"}, config_name="extends"
-            # )
-        # }
+        widgets = {
+            "body_redact": CKEditor5Widget(
+                attrs={"class": "django_ckeditor_5"}, config_name="extends"
+            )
+        }
