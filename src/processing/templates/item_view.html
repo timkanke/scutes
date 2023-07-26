@@ -1,8 +1,49 @@
 {% extends "base.html" %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 {% block content %}
 
-<div>
-    <h1>Item View</h1>
-</div>
+<h1>Item View</h1>
+<div class="wrapper">
+    <!-- original body -->
+    <div class="left">
+        <p>Original Body</p>
+        {{ object.body_original|safe }}
+        {{ object.body_original }}
+    </div>
+    <div class="right">
+        <div class="">
+            <p>ID: {{ object.pk }}</p>
+            <p>Date: {{ object.date }}</p>
+        </div>
+        <!-- form -->
+        <div class="form-group">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.media}}
 
+                {% for field in form %}
+                <div>
+                    <p><label for="{{ field.id_for_label }}" class="text-dark">{{ field.label }}: </label>{{ field }}
+                    </p>
+                </div>
+                {% endfor %}
+
+                <div>
+                    <input type="submit" class="btn btn-info btn-lg" value="Save" />
+                    <input type="submit" class="btn btn-info btn-lg" name="next" value="Save &amp; Next" />
+                </div>
+            </form>
+        </div>
+        <!-- local nav -->
+        <div class="">
+            <a href="{% url 'itemview' object.pk|add:-1 %}"><button><i class="fa fa-chevron-left"></i> Prev
+                    Item</button></a>
+            <a href="{% url 'itemview' object.pk|add:1 %}"><button>Next Item <i
+                        class="fa fa-chevron-right"></i></button></a>
+        </div>
+    </div>
+</div>
 {% endblock %}

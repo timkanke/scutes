@@ -15,7 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 from processing.views import BatchList, Dashboard, ItemList, ItemView
 
@@ -24,5 +26,6 @@ urlpatterns = [
     path('batchlist/', BatchList.as_view(), name='batchlist'),
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
     path('itemlist/<int:batch>/', ItemList.as_view(), name='itemlist'),
-    path('itemview/', ItemView.as_view(), name='itemview'),
-]
+    path('itemview/<int:pk>/', ItemView.as_view(), name='itemview'),
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

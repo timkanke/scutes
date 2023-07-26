@@ -25,4 +25,4 @@ class ItemList(tables.Table):
                   'title',
                   'review_status']
 
-    # review = TemplateColumn(template_name='tables/view_message.html')
+    review = TemplateColumn(template_name='tables/view_item.html')

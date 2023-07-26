@@ -36,6 +36,23 @@ body {
     height: 200px;
 }
 
+.wrapper {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+}
+
+.left {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+}
+
+.right {
+    grid-column: 2 / 2;
+    grid-row: 1 / 1;
+}
+
+
 /* Footer */
 .footer {
     background-color: #f1f1f1;
