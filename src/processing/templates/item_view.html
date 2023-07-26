@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 {% block content %}
-<!-- original body -->
+
 <h1>Item View</h1>
 <div class="wrapper">
+    <!-- original body -->
     <div class="left">
         <p>Original Body</p>
         {{ object.body_original|safe }}
@@ -11,21 +15,23 @@
     </div>
     <div class="right">
         <div class="">
-            <p>ID: {{ object.pk }}</br>
-                Date: {{ object.date }}</p>
+            <p>ID: {{ object.pk }}</p>
+            <p>Date: {{ object.date }}</p>
         </div>
         <!-- form -->
-        <div class="">
+        <div class="form-group">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.media}}
+
                 {% for field in form %}
-                <div class="form-group">
-                    <div><label for="{{ field.id_for_label }}" class="text-dark">{{ field.label }}: </label></div>
-                    {{ field }}
+                <div>
+                    <p><label for="{{ field.id_for_label }}" class="text-dark">{{ field.label }}: </label>{{ field }}
+                    </p>
                 </div>
                 {% endfor %}
-                <div class="">
+
+                <div>
                     <input type="submit" class="btn btn-info btn-lg" value="Save" />
                     <input type="submit" class="btn btn-info btn-lg" name="next" value="Save &amp; Next" />
                 </div>
