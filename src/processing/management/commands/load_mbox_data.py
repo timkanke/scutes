@@ -102,6 +102,33 @@ def scrub_body(html: str) -> str:
     return html
 
 
+# Determine pool_report to be true or false
+# https://docs.python.org/3/library/re.html
+# r'\b...\b' is for matching "whole words"
+NONPOOL_REPORT_MARKERS = [
+    re.compile('[Dd]ear [Cc]olleagues'),
+    re.compile('[Hh]ello [Cc]olleagues'),
+    re.compile('Colleagues'),
+    re.compile('OFF RECORD', re.IGNORECASE),
+    re.compile('off the record', re.IGNORECASE),
+    re.compile(r'\bFPPO\b'),
+    re.compile('non-reportable', re.IGNORECASE),
+    re.compile(r'\breportable\b', re.IGNORECASE)
+]
+
+
+def is_pool_report(html: str) -> bool:
+    """
+    Returns True if the given HTML appears to be pool report, False
+    otherwise.
+    """
+    for marker in NONPOOL_REPORT_MARKERS:
+        if marker.search(html):
+            return False
+
+    return True
+
+
 class Command(BaseCommand):
     # Show this when the user types help
     help = "Loads data from mbox into database."
@@ -129,12 +156,6 @@ class Command(BaseCommand):
             title = message['Subject']
             item.title = scrub_title(title)
 
-            # Checkboxes
-            item.pool_report = False
-            item.publish = False
-            item.off_the_record = False
-            item.review_status = False
-
             # Body
             for part in message.walk():
                 content_type = part.get_content_type()
@@ -156,6 +177,12 @@ class Command(BaseCommand):
                     html = ""
             item.body_original = scrub_body(html)
 
+            # Checkboxes
+            item.pool_report = is_pool_report(html)
+            item.publish = False
+            item.off_the_record = False
+            item.review_status = False
+
             # fk
             item.batch = Batch(batch.pk)
 
@@ -164,9 +191,9 @@ class Command(BaseCommand):
 
 """
 TO DO
-- modify pool_report to detect true/false
 - modify input of file name and path instead of hard coded
 - automate it! determine how new files will be discovered when script runs
 - add tests
+- improve test data
 - remove test data from .gitignore
 """
