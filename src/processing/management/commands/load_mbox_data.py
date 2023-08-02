@@ -1,12 +1,8 @@
+import logging
 import mailbox
 import re
-import email
-from csv import DictReader
-from email import policy
-from email.header import decode_header, make_header
-from email.parser import BytesParser
+
 from email.utils import parsedate_to_datetime
-import logging
 from pathlib import Path
 
 from django.core.management import BaseCommand
@@ -84,8 +80,8 @@ def scrub_title(value: str) -> str:
 
 # Body Processing
 body_scrub = [
-                '''-- \nTo unsubscribe from this group and stop receiving emails from it, send an email to all+unsubscribe@whpoolreports.com.''',  # noqa
-                '''-- <br />\nTo unsubscribe from this group and stop receiving emails from it, send an email to <a href="mailto:all+unsubscribe@whpoolreports.com">all+unsubscribe@whpoolreports.com</a>.<br />''',  # noqa
+                (r'-- \nTo unsubscribe from this group and stop receiving emails from it, send an email to all\+unsubscribe@.*\.com\.', ''),  # noqa
+                (r'-- \<br /\>\nTo unsubscribe from this group and stop receiving emails from it, send an email to \<a href\="mailto\:all\+unsubscribe@.*\.com"\>all\+unsubscribe@.*\.com\</a\>\.\<br /\>', ''),  # noqa
             ]
 
 p_charset = re.compile(r'charset=[a-zA-Z0-9-]+')
@@ -93,10 +89,9 @@ p_charset = re.compile(r'charset=[a-zA-Z0-9-]+')
 
 def scrub_body(html: str) -> str:
     # Scrub specific string values
-    for scrub in body_scrub:
-        if scrub in html:
-            html = html.replace(scrub, '')
-            logger.debug(f'body: scrubbed "{scrub}"')
+    for old, new in body_scrub:
+        html = re.sub(old, new, html, re.DOTALL)
+        logger.debug(f'body: scrubbed "{old}"')
     # Update the charset since we have convert to utf-8
     html = p_charset.sub("charset=utf-8", html)
     return html
