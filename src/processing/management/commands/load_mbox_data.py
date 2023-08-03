@@ -125,18 +125,20 @@ def is_pool_report(html: str) -> bool:
 
 
 class Command(BaseCommand):
-    # Show this when the user types help
     help = "Loads data from mbox into database."
 
+    def add_arguments(self, parser):
+        parser.add_argument('file_path', type=str, help='File path to be imported.')
+
     def handle(self, *args, **options):
-        path = Path('../tests/scutes/test_data')
-        file_name = Path('apple.mbox')
+        file_path = Path(options['file_path'])
+        file_name = Path(file_path).stem
 
         batch = Batch()
-        batch.name = file_name.stem
+        batch.name = file_name
         batch.save()
 
-        for message in mailbox.mbox(path / file_name):
+        for message in mailbox.mbox(file_path):
             item = Item()
 
             # Date
@@ -182,13 +184,3 @@ class Command(BaseCommand):
             item.batch = Batch(batch.pk)
 
             item.save()
-
-
-"""
-TO DO
-- modify input of file name and path instead of hard coded
-- automate it! determine how new files will be discovered when script runs
-- add tests
-- improve test data
-- remove test data from .gitignore
-"""
