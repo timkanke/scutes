@@ -1,6 +1,6 @@
 import pytest
 
-from src.processing.management.commands.load_mbox_data import is_pool_report, process_reporter, scrub_title
+from src.processing.management.commands.load_mbox_data import is_pool_report, process_reporter, scrub_title, scrub_body
 
 
 @pytest.mark.parametrize(
@@ -30,6 +30,19 @@ def test_process_reporter(value, expected):
 def test_scrub_title(value, expected):
     title = value
     result = scrub_title(title)
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    ('value', 'expected'),
+    [
+        ('''-- \nTo unsubscribe from this group and stop receiving emails from it, send an email to all+unsubscribe@example.com.''', ''),  # noqa
+        ('''-- <br />\nTo unsubscribe from this group and stop receiving emails from it, send an email to <a href="mailto:all+unsubscribe@example.com">all+unsubscribe@example.com</a>.<br />''', '')  # noqa
+    ]
+)
+def test_scrub_body(value, expected):
+    html = value
+    result = scrub_body(html)
     assert result == expected
 
 
