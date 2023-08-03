@@ -15,6 +15,7 @@ dependencies = [
     "django-tables2",
     "django-filter",
     "Pillow",
+    "mailbox",
 ]
 [project.optional-dependencies]
 dev = [
