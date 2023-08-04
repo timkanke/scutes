@@ -181,6 +181,6 @@ class Command(BaseCommand):
             item.review_status = False
 
             # fk
-            item.batch = Batch(batch.pk)
+            item.batch = batch
 
             item.save()
