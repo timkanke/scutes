@@ -22,3 +22,12 @@ In src directory, load test data by running:
 ./manage.py loaddata test_data
 ./manage.py runserver
 ```
+
+## Architecture Decision Documents
+
+The architecture decision documents are:
+
+* [ADR Template](docs/decisions/adr-template.md)
+* [0001-record-architecture-decisions](docs/decisions/0001-record-architecture-decisions.md)
+* [0002-database](docs/decisions/0002-database.md)
+* [0003-CKEditor-installation](docs/decisions/0003-CKEditor-installation.md)
