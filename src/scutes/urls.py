@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from processing.views import BatchList, Dashboard, ItemList, ItemView
 
 urlpatterns = [
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('batchlist/', BatchList.as_view(), name='batchlist'),
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
