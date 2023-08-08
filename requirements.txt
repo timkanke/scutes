@@ -6,8 +6,10 @@ Django==4.2.3
 django-bootstrap3==23.4
 django-filter==23.2
 django-tables2==2.6.0
+emoji==2.7.0
 exceptiongroup==1.1.2
 h11==0.14.0
+html-sanitizer==2.2.0
 idna==3.4
 iniconfig==2.0.0
 logging==0.4.9.6

@@ -14,13 +14,30 @@ See [docs/CKEditor.md](docs/CKEditor.md).
 
 ![Database Schema](docs/images/db_schema.svg)
 
-## Load Test Data
+## Management Commands
 
-In src directory, load test data by running:
+All commands are ran in the src directory.
+
+Load YAML test data
 
 ```zsh
 ./manage.py loaddata test_data
-./manage.py runserver
+```
+
+Load mbox file
+
+```zsh
+# load mbox
+./manage.py load_mbox_data path/to/file.mbox 
+
+# Load test mbox file
+./manage.py load_mbox_data ../tests/processing/data/test.mbox 
+```
+
+Clean HTML
+
+```zsh
+./manage.py clean <batch_number>
 ```
 
 ## Architecture Decision Documents
