@@ -24,10 +24,14 @@ Load YAML test data
 ./manage.py loaddata test_data
 ```
 
-Load test mbox file
+Load mbox file
 
 ```zsh
-./manage.py load_mbox_data ../tests/scutes/test_data/<filename>.mbox 
+# load mbox
+./manage.py load_mbox_data path/to/file.mbox 
+
+# Load test mbox file
+./manage.py load_mbox_data ../tests/scutes/test_data/test.mbox 
 ```
 
 Clean HTML
