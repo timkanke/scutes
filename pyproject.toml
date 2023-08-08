@@ -24,6 +24,7 @@ dev = [
     "docutils",
     "pycodestyle",
     "pytest",
+    "pytest-datadir",
     "pytest-django",
     "pytest-selenium",
     "pyyaml",

@@ -31,7 +31,7 @@ Load mbox file
 ./manage.py load_mbox_data path/to/file.mbox 
 
 # Load test mbox file
-./manage.py load_mbox_data ../tests/scutes/test_data/test.mbox 
+./manage.py load_mbox_data ../tests/processing/data/test.mbox 
 ```
 
 Clean HTML
