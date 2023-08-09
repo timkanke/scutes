@@ -1,7 +1,9 @@
 import logging
 import re
+import yaml
+
 from collections import Counter
-from typing import Optional, Pattern, Union
+from typing import Dict, List, Optional, Pattern, TextIO, Union
 
 from django.core.management import BaseCommand
 
@@ -10,7 +12,10 @@ from processing.models import Item
 
 logger = logging.getLogger(__name__)
 
-# Regex redaction patterns
+# Redaction replacement string: Left three-quarters block (U+258A)
+REDACT_REPLACEMENT = '\u258A' * 10
+
+# built-in redaction patterns
 REDACT_PATTERNS = {
     'Email address': re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"),
     'North American phone number': re.compile(r'''
@@ -24,8 +29,15 @@ REDACT_PATTERNS = {
 }
 
 
-def redact_using_regex(html):
-    return html
+def redact_using_patterns(html):
+    while True:
+        for label, pattern in REDACT_PATTERNS.items():
+            match = re.findall(pattern, html)
+            print(match, label)
+            string = (str(match))[2:-2]
+            html = re.sub(pattern, '<del class="redacted" style="color:red;">'+string+'</del>', html)
+            print(html)
+        return html
 
 
 def redact_using_string(html):
@@ -36,7 +48,7 @@ class Command(BaseCommand):
     help = "Marks redactions from body_clean and saves in body_redact."
 
     def add_arguments(self, parser):
-        parser.add_argument('batch_selected', type=int, help='Batch to be cleaned.')
+        parser.add_argument('batch_selected', type=int, help='Batch to be marked redacted.')
 
     def handle(self, *args, **options):
         items = Item.objects.filter(batch=options['batch_selected'])
@@ -46,7 +58,7 @@ class Command(BaseCommand):
 
             html = item.body_clean
 
-            html = redact_using_regex(html)
+            html = redact_using_patterns(html)
             html = redact_using_string(html)
 
             item.body_redact = html
