@@ -8,7 +8,7 @@ class ItemUpdateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # fields that are null=true
-        self.fields['comment'].required = False
+        self.fields['notes'].required = False
         self.fields['body_redact'].required = False
 
     class Meta:
@@ -20,11 +20,11 @@ class ItemUpdateForm(ModelForm):
                   'publish',
                   'off_the_record',
                   'review_status',
-                  'comment')
+                  'notes')
 
         widgets = {
             'reporter': TextInput(attrs={'class': 'form-control'}),
-            'comment': Textarea(attrs={'class': 'form-control'}),
+            'notes': Textarea(attrs={'class': 'form-control'}),
             'body_redact': CKEditor5Widget(
                 attrs={'class': 'django_ckeditor_5'}, config_name='extends'
             )

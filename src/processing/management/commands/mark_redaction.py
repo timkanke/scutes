@@ -7,7 +7,7 @@ from typing import Dict, List, Optional, Pattern, TextIO, Union
 
 from django.core.management import BaseCommand
 
-from processing.models import Item
+from processing.models import Item, RedactedStrings
 
 
 logger = logging.getLogger(__name__)
@@ -41,7 +41,17 @@ def redact_using_patterns(html):
 
 
 def redact_using_string(html):
-    return html
+    redactedstrings = RedactedStrings.objects.all()
+
+    while True:
+        string = str(redactedstrings.string)
+        for string in redactedstrings:
+            match = re.findall(redactedstrings.string, html)
+            print(match)
+            # string = (str(match))[2:-2]
+            html = re.sub(string, '<del class="redacted" style="color:red;">'+string+'</del>', html)
+            print(html)
+        return html
 
 
 class Command(BaseCommand):
