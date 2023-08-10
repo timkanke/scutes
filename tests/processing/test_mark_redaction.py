@@ -1,6 +1,6 @@
 import pytest
 
-from src.processing.management.commands.mark_redaction import redact_using_patterns, redact_using_string
+from src.processing.management.commands.mark_redaction import redact_using_pattern, redact_using_string
 
 
 # TODO Requires test database setup
@@ -27,5 +27,5 @@ def test_redact_using_string(value, expected):
     ]
 )
 def test_redacted_using_patterns(value, expected):
-    result = redact_using_patterns(value)
+    result = redact_using_pattern(value)
     assert result == expected

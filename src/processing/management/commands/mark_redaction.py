@@ -8,9 +8,6 @@ from processing.models import Item, Redact
 
 logger = logging.getLogger(__name__)
 
-# Redaction replacement string: Left three-quarters block (U+258A)
-REDACT_REPLACEMENT = '\u258A' * 10
-
 # built-in redaction patterns
 REDACT_PATTERNS = {
     'Email address': re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"),
@@ -25,7 +22,7 @@ REDACT_PATTERNS = {
 }
 
 
-def redact_using_patterns(html):
+def redact_using_pattern(html):
     while True:
         for label, pattern in REDACT_PATTERNS.items():
             match = re.findall(pattern, html)
@@ -37,7 +34,7 @@ def redact_using_patterns(html):
 
 
 def redact_using_string(html):
-    name = '1'  # Magic number for Redact.object
+    name = 'redact_list'  # Magic number for Redact.object
     if Redact.objects.filter(name=name).exists():
         strings = Redact.objects.get(name=name).string
         # Object format example: {"label0": "spam", "label1": "eggs"}
@@ -70,7 +67,7 @@ class Command(BaseCommand):
 
             html = item.body_clean
 
-            html = redact_using_patterns(html)
+            html = redact_using_pattern(html)
             html = redact_using_string(html)
 
             item.body_redact = html
