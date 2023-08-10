@@ -1,5 +1,3 @@
-import re
-
 import pytest
 
 from src.processing.management.commands.mark_redaction import redact_using_patterns, redact_using_string

@@ -1,4 +1,3 @@
-import json
 import logging
 import re
 
@@ -38,8 +37,9 @@ def redact_using_patterns(html):
 
 
 def redact_using_string(html):
-    if Redact.objects.filter(id=1).exists():
-        strings = Redact.objects.get(id=1).string
+    name = '1'  # Magic number for Redact.object
+    if Redact.objects.filter(name=name).exists():
+        strings = Redact.objects.get(name=name).string
         # Object format example: {"label0": "spam", "label1": "eggs"}
         logger.debug(strings, type(strings))
         strings = list(zip(strings.keys(), strings.values()))
@@ -50,7 +50,7 @@ def redact_using_string(html):
                 match = re.findall(pattern, html)
                 logger.debug(match, label, type(match))
                 html = re.sub(pattern, '<del class="redacted" style="color:red;">'+pattern+'</del>', html)
-                logger.debug(html)
+                print(html)
             return html
     else:
         return html

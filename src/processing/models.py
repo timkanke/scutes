@@ -32,4 +32,5 @@ class Item(models.Model):
 
 class Redact(models.Model):
     id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, blank=True)
     string = models.JSONField(null=True)
