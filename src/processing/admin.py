@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Batch, Item, RedactedStrings
+from .models import Batch, Item, Redact
 
 
 @admin.register(Batch)
@@ -13,6 +13,6 @@ class ItemAdmin(admin.ModelAdmin):
     list_display = ['id', 'date', 'reporter', 'title']
 
 
-@admin.register(RedactedStrings)
-class RedactedStringsAdmin(admin.ModelAdmin):
+@admin.register(Redact)
+class RedactAdmin(admin.ModelAdmin):
     list_display = ['id', 'string']

@@ -1,13 +1,10 @@
+import json
 import logging
 import re
-import yaml
-
-from collections import Counter
-from typing import Dict, List, Optional, Pattern, TextIO, Union
 
 from django.core.management import BaseCommand
 
-from processing.models import Item, RedactedStrings
+from processing.models import Item, Redact
 
 
 logger = logging.getLogger(__name__)
@@ -33,24 +30,29 @@ def redact_using_patterns(html):
     while True:
         for label, pattern in REDACT_PATTERNS.items():
             match = re.findall(pattern, html)
-            print(match, label)
+            logger.debug(match, label, type(match))
             string = (str(match))[2:-2]
             html = re.sub(pattern, '<del class="redacted" style="color:red;">'+string+'</del>', html)
-            print(html)
+            logger.debug(html)
         return html
 
 
 def redact_using_string(html):
-    redactedstrings = RedactedStrings.objects.all()
+    if Redact.objects.filter(id=1).exists():
+        strings = Redact.objects.get(id=1).string
+        # Object format example: {"label0": "spam", "label1": "eggs"}
+        logger.debug(strings, type(strings))
+        strings = list(zip(strings.keys(), strings.values()))
+        logger.debug(strings, type(strings))
 
-    while True:
-        string = str(redactedstrings.string)
-        for string in redactedstrings:
-            match = re.findall(redactedstrings.string, html)
-            print(match)
-            # string = (str(match))[2:-2]
-            html = re.sub(string, '<del class="redacted" style="color:red;">'+string+'</del>', html)
-            print(html)
+        while True:
+            for label, pattern in strings:
+                match = re.findall(pattern, html)
+                logger.debug(match, label, type(match))
+                html = re.sub(pattern, '<del class="redacted" style="color:red;">'+pattern+'</del>', html)
+                logger.debug(html)
+            return html
+    else:
         return html
 
 

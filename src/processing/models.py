@@ -30,6 +30,6 @@ class Item(models.Model):
     )
 
 
-class RedactedStrings(models.Model):
+class Redact(models.Model):
     id = models.AutoField(primary_key=True)
-    string = models.CharField(max_length=5000)
+    string = models.JSONField(null=True)
