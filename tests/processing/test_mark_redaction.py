@@ -1,10 +1,16 @@
 import pytest
 
+from django.core.management import call_command
 from src.processing.management.commands.mark_redaction import redact_using_pattern, redact_using_string
 
 
-# TODO Requires test database setup
-@pytest.mark.django_db(True)
+@pytest.fixture(scope='session')
+def django_db_setup(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        call_command('loaddata', 'test_data.yaml')
+
+
+# TODO Requires fixture or test database setup
 @pytest.mark.parametrize(
     ('value', 'expected'),
     [
@@ -12,11 +18,10 @@ from src.processing.management.commands.mark_redaction import redact_using_patte
          '<p><del class="redacted" style="color:red;">eggs</del></p>'),
     ]
 )
-def test_redact_using_string(value, expected):
-    # result = redact_using_string(value)
-    # print(result)
-    # assert result == expected
-    pass
+def test_redact_using_string(db, django_db_setup, value, expected):
+    result = redact_using_string(value)
+    print(result)
+    assert result == expected
 
 
 @pytest.mark.parametrize(

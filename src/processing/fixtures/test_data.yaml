@@ -81,7 +81,7 @@
 - model: processing.item
   pk: 1
   fields:
-    date: 2006-10-25 14:30:59
+    date: "2011-09-01T13:20:30+03:00"
     reporter: Kent Brockman
     title: Travel Pool Report /#1 Lid
     pool_report: True
@@ -119,7 +119,7 @@
 - model: processing.item
   pk: 2
   fields:
-    date: 2006-10-25 14:30:59
+    date: "2011-09-01T13:20:30+03:00"
     reporter: Kent Brockman
     title: Travel Pool Report /#2 Lid
     pool_report: True
@@ -138,7 +138,7 @@
 - model: processing.item
   pk: 3
   fields:
-    date: 2006-10-25 14:30:59
+    date: "2011-09-01T13:20:30+03:00"
     reporter: Kent Brockman
     title: Travel Pool Report /#3 Lid
     pool_report: True
@@ -155,7 +155,7 @@
 - model: processing.item
   pk: 4
   fields:
-    date: 2006-10-25 14:30:59
+    date: "2011-09-01T13:20:30+03:00"
     reporter: Kent Brockman
     title: Travel Pool Report /#4 Lid
     pool_report: True
@@ -172,7 +172,7 @@
 - model: processing.item
   pk: 5
   fields:
-    date: 2006-10-25 14:30:59
+    date: "2011-09-01T13:20:30+03:00"
     reporter: Kent Brockman
     title: Travel Pool Report /#5 Lid
     pool_report: True
@@ -191,7 +191,7 @@
 - model: processing.item
   pk: 6
   fields:
-    date: 2006-10-25 14:30:59
+    date: "2011-09-01T13:20:30+03:00"
     reporter: Kent Brockman
     title: Travel Pool Report /#6 Lid
     pool_report: True
@@ -272,7 +272,7 @@
 - model: processing.item
   pk: 7
   fields:
-    date: 2006-10-25 14:30:59
+    date: "2011-09-01T13:20:30+03:00"
     reporter: Kent Brockman
     title: Travel Pool Report /#7 Lid
     pool_report: True
@@ -319,7 +319,7 @@
 - model: processing.item
   pk: 8
   fields:
-    date: 2006-10-25 14:30:59
+    date: "2011-09-01T13:20:30+03:00"
     reporter: Kent Brockman
     title: Travel Pool Report /#8 Lid
     pool_report: True
@@ -352,7 +352,7 @@
 - model: processing.item
   pk: 9
   fields:
-    date: 2006-10-25 20:08:31
+    date: "2011-09-01T13:20:30+03:00"
     reporter: Sarah Jane Smith
     title: In-Town Travel/Photo Lid
     pool_report: True
@@ -369,7 +369,7 @@
 - model: processing.item
   pk: 10
   fields:
-    date: 2006-10-25 14:30:59
+    date: "2011-09-01T13:20:30+03:00"
     reporter: Clark Kent
     title: Travel Pool Report /#2
     pool_report: True
