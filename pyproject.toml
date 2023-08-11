@@ -11,7 +11,7 @@ classifiers = [
 dependencies = [
     "django",
     "pathlib",
-    "django-bootstrap3",
+    "django-bootstrap5",
     "django-tables2",
     "django-filter",
     "emoji",

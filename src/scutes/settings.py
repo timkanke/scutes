@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'processing',
     'django_tables2',
     'django_filters',
-    'bootstrap3',
+    'django_bootstrap5',
     'django_ckeditor_5',
 ]
 
@@ -73,6 +73,8 @@ TEMPLATES = [
         },
     },
 ]
+
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap5.html"
 
 WSGI_APPLICATION = 'scutes.wsgi.application'
 
