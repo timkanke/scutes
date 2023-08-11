@@ -10,7 +10,6 @@ def django_db_setup(django_db_setup, django_db_blocker):
         call_command('loaddata', 'test_data.yaml')
 
 
-# TODO Requires fixture or test database setup
 @pytest.mark.parametrize(
     ('value', 'expected'),
     [
