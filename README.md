@@ -40,6 +40,12 @@ Clean HTML
 ./manage.py clean <batch_number>
 ```
 
+Redact HTML
+
+```zsh
+./manage.py mark_redaction <batch_number>
+```
+
 ## Architecture Decision Documents
 
 The architecture decision documents are:
