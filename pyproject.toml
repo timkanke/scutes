@@ -11,7 +11,9 @@ classifiers = [
 dependencies = [
     "django",
     "pathlib",
+    "crispy-bootstrap5",
     "django-bootstrap5",
+    "django-crispy-forms",
     "django-tables2",
     "django-filter",
     "emoji",

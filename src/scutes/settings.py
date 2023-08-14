@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django_filters',
     'django_bootstrap5',
     'django_ckeditor_5',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -75,6 +77,10 @@ TEMPLATES = [
 ]
 
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap5.html"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 WSGI_APPLICATION = 'scutes.wsgi.application'
 
