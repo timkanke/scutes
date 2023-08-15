@@ -13,7 +13,6 @@ h11==0.14.0
 html-sanitizer==2.2.0
 idna==3.4
 iniconfig==2.0.0
-logging==0.4.9.6
 mailbox==0.4
 markdown-it-py==3.0.0
 mdurl==0.1.2
@@ -22,6 +21,7 @@ packaging==23.1
 pathlib==1.0.1
 Pillow==10.0.0
 pluggy==1.2.0
+psycopg2-binary==2.9.7
 py==1.11.0
 Pygments==2.15.1
 PySocks==1.7.1
