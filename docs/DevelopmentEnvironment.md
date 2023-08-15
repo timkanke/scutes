@@ -61,6 +61,14 @@ This should download and install that version of Python.
    python setup-webdrivers.py
    ```
 
+7. Create src/scutes/.env:
+
+    ```env
+    DEBUG=on
+    SECRET_KEY='your-secret-key'
+    DATABASE_URL=sqlite:///./db.sqlite3
+    ```
+
 ## Running the tests
 
 ```zsh

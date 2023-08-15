@@ -12,6 +12,7 @@ dependencies = [
     "django",
     "pathlib",
     "django-bootstrap3",
+    "django-environ",
     "django-tables2",
     "django-filter",
     "emoji",
