@@ -1,3 +1,5 @@
 .venv
 .git
 .gitignore
+tests/*
+requirements.dev.txt
