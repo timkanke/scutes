@@ -8,3 +8,16 @@ services:
     read_only: true
     volumes:
       - .:/src
+    environment:
+      - DEBUG=on
+      - SECRET_KEY=ILikeTurtles! # There is nothing special about this. It could be 'ILikeTurtles!' but probably should be a randomly generated value.
+      # - DATABASE_URL=sqlite:///./db.sqlite3 # If using sqlite
+      - DATABASE_URL=psql://postgres:password@localhost:5432/scutesdb # If using postgres
+      - ALLOWED_HOSTS=localhost,127.0.0.1
+  db:
+    image: postgres:15
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      # - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - DATABASE_URL=psql://postgres:password@localhost:5432/scutesdb
