@@ -14,4 +14,9 @@ COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copy project
-COPY . .
+COPY src .
+COPY docker-compose.yml .
+COPY Dockerfile .
+COPY LICENSE .
+COPY pyproject.toml .
+COPY README.md .
