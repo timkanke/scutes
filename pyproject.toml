@@ -40,3 +40,5 @@ pythonpath = ['src', '.']
 markers = [
     "webdriver: marks tests that require webdriver(deselect with '-m \"not webdriver\"')",
 ]
+[project.scripts]
+"manage.py" = "scutes:django_manage"
