@@ -9,8 +9,8 @@ services:
     volumes:
       - .:/src
     environment:
-      - DEBUG=on
-      - SECRET_KEY=ILikeTurtles! # There is nothing special about this. It could be 'ILikeTurtles!' but probably should be a randomly generated value.
+      - DEBUG=off
+      - SECRET_KEY='ILikeTurtles!' # There is nothing special about this. It could be 'ILikeTurtles!' but probably should be a randomly generated value.
       # - DATABASE_URL=sqlite:///./db.sqlite3 # If using sqlite
       - DATABASE_URL=psql://postgres:password@host.docker.internal:5432/scutesdb # If using postgres
       - ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
