@@ -55,11 +55,21 @@ This should download and install that version of Python.
    pip install -r requirements.dev.txt -e .
    ```
 
-6. Install web drivers in .venv/bin:
+6. Install web drivers in ```.venv/bin```:
 
    ```zsh
    python setup-webdrivers.py
    ```
+
+7. For local development, create a ```src/.env```. Or change ```src/.env-dev``` to ```src/.env```.
+    The settings in the file are:
+
+    ```env
+    DEBUG=on
+    ALLOWED_HOSTS=localhost,127.0.0.1
+    SECRET_KEY='your-secret-key'
+    DATABASE_URL=sqlite:///./db.sqlite3
+    ```
 
 ## Running the tests
 

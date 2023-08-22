@@ -8,3 +8,5 @@ __pycache__
 .pytest_cache
 
 tests/scutes/test_data/*
+
+data/db/*
