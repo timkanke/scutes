@@ -218,12 +218,16 @@ CKEDITOR_5_CONFIGS = {
         'toolbar': ['paragraph', 'redact', '|',
                     'outdent', 'indent', '|',
                     'bold', 'italic', 'link', 'underline', 'strikethrough',
-                    'code', 'subscript', 'superscript', 'highlight', '|',
-                    'codeBlock', 'sourceEditing', 'insertImage',
-                    'bulletedList', 'numberedList', 'todoList', '|',
-                    'blockQuote', 'imageUpload', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
-                    'mediaEmbed', 'removeFormat', 'insertTable',],
+                    '|',
+                    # 'code', 'subscript', 'superscript', 'highlight', '|',
+                    # 'codeBlock', 
+                    'sourceEditing', 
+                    # 'insertImage',
+                    # 'bulletedList', 'numberedList', 'todoList', '|',
+                    # 'blockQuote', 'imageUpload', '|',
+                    # 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
+                    # 'mediaEmbed', 'removeFormat', 'insertTable',
+                    ],
         'image': {
             'toolbar': ['imageTextAlternative', '|',
                         'imageStyle:alignLeft', 'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',
@@ -238,7 +242,7 @@ CKEDITOR_5_CONFIGS = {
 
         },
         'table': {
-            'contentToolbar': ['tableColumn', 'tableRow', 'mergeTableCells','tableProperties', 'tableCellProperties'],
+            'contentToolbar': ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties'],
             'tableProperties': {
                 'borderColors': customColorPalette,
                 'backgroundColors': customColorPalette
