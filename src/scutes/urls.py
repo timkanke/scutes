@@ -19,14 +19,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from processing.views import BatchList, Dashboard, Index, ItemList, ItemView
+from processing.views import BatchList, Dashboard, ItemList, ItemView
 
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('batchlist/', BatchList.as_view(), name='batchlist'),
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
-    path('', Index.as_view(), name='index'),
     path('itemlist/<int:batch>/', ItemList.as_view(), name='itemlist'),
     path('itemview/<int:pk>/', ItemView.as_view(), name='itemview'),
     path("ckeditor5/", include('django_ckeditor_5.urls')),

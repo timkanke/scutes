@@ -12,10 +12,6 @@ from .models import Batch, Item
 from .tables import BatchList, ItemList
 
 
-class Index(TemplateView):
-    template_name = "index.html"
-
-
 class Dashboard(TemplateView):
     template_name = "dashboard.html"
 
