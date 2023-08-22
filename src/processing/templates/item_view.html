@@ -3,6 +3,8 @@
 {% load django_bootstrap5 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
+{% load crispy_forms_tags %}
+
 {% block content %}
 
 <h1>Item View</h1>
@@ -13,8 +15,8 @@
     </div>
     <div class="right">
         <div class="">
-            <p>ID: {{ object.pk }}</p>
-            <p>Date: {{ object.date }}</p>
+            <p>ID: {{ object.pk }}</br>
+                Date: {{ object.date }}</p>
         </div>
         <!-- form -->
         <div class="form-group">
@@ -22,12 +24,42 @@
                 {% csrf_token %}
                 {{ form.media}}
 
-                {% for field in form %}
-                <div>
-                    <p><label for="{{ field.id_for_label }}" class="text-dark">{{ field.label }}: </label>{{ field }}
-                    </p>
+                {{ form.reporter|as_crispy_field }}
+                {{ form.title|as_crispy_field }}
+
+                <div class="form-row">
+                    <div class="form-group col align-self-start">
+                        {{ form.body_original|as_crispy_field }}
+                    </div>
+                    <div class="form-group col align-self-center">
+                        {{ form.body_redact|as_crispy_field }}
+                    </div>
                 </div>
-                {% endfor %}
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.pool_report|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.publish|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.off_the_record|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.review_status|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.notes|as_crispy_field }}
+                    </div>
+                </div>
 
                 <div>
                     <input type="submit" class="btn btn-info btn-lg" value="Save" />
