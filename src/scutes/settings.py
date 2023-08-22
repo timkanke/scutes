@@ -38,8 +38,9 @@ DEBUG = env('DEBUG')
 # exception if SECRET_KEY not in os.environ
 SECRET_KEY = env('SECRET_KEY')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=[str])
 
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 
@@ -88,6 +89,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'scutes.wsgi.application'
+
+
+# postgres
+# DATABASES = {
+    # "default": {
+        # "ENGINE": "django.db.backends.postgresql",
+        # "NAME": "scutesdb",
+        # "USER": "postgres",
+        # "PASSWORD": "password",
+        # "HOST": "localhost",
+        # "PORT": "5432",
+    # }
+# }
 
 
 # Parse database connection url strings
