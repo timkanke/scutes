@@ -54,18 +54,24 @@ class ItemView(MultipleObjectMixin, UpdateView):
         return reverse('itemview', kwargs={"pk": self.object.pk})
 
     def post(self, request, *args, **kwargs):
+
         if not request.user.is_authenticated:
             return HttpResponseForbidden()
         self.object = self.get_object()
         form = self.get_form()
-        if form.is_valid():
-            if 'next' in self.request.POST:
-                self.form_valid(form)
-                return HttpResponseRedirect(reverse('itemview', kwargs={'pk': self.object.pk+1}))
+
+        if request.method == 'POST':
+            if form.is_valid():
+                if self.request.POST:
+                    if 'save_add' in request.POST:
+                        return self.form_valid(form)
+                    elif 'save_continue' in request.POST:
+                        self.form_valid(form)
+                        return HttpResponseRedirect(reverse('itemview', kwargs={'pk': self.object.pk+1}))
+                    elif 'reset' in request.POST:
+                        return HttpResponseRedirect(reverse('itemview', kwargs={'pk': self.object.pk}))
             else:
-                return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+                return self.form_invalid(form)
 
     def form_valid(self, form):
         return super().form_valid(form)
