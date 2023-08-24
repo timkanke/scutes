@@ -11,8 +11,8 @@ class Batch(models.Model):
 
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
-    date = models.DateTimeField()
-    reporter = models.CharField(max_length=100)
+    date = models.DateTimeField(blank=True)
+    reporter = models.CharField(max_length=100, blank=True)
     title = models.CharField(max_length=100, blank=True)
     pool_report = models.BooleanField(null=False)
     publish = models.BooleanField(null=False)
