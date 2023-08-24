@@ -1,49 +1,75 @@
 {% extends "base.html" %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-{% load bootstrap3 %}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
+{% load crispy_forms_tags %}
+
 {% block content %}
-
-<h1>Item View</h1>
-<div class="wrapper">
-    <!-- original body -->
-    <div class="left">
-        <p>Original Body</p>
-        {{ object.body_original|safe }}
-        {{ object.body_original }}
-    </div>
-    <div class="right">
-        <div class="">
-            <p>ID: {{ object.pk }}</p>
-            <p>Date: {{ object.date }}</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 mb-0">
+            <h1>Item View</h1>
         </div>
-        <!-- form -->
-        <div class="form-group">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.media}}
-
-                {% for field in form %}
-                <div>
-                    <p><label for="{{ field.id_for_label }}" class="text-dark">{{ field.label }}: </label>{{ field }}
-                    </p>
+        <!-- item nav -->
+        <div class="col-md-2 mb-0">
+            <div class="card p-3 mt-1">
+                <div class="row">
+                    <div class="col">
+                        <a href="{% url 'itemview' object.pk|add:-1 %}"><button class="btn btn-outline-info btn-sm"><i
+                                    class="fa fa-chevron-left"></i> Prev
+                                Item</button></a>
+                    </div>
+                    <div class="col">
+                        <a href="{% url 'itemview' object.pk|add:1 %}"><button class="btn btn-outline-info btn-sm">Next
+                                Item <i class="fa fa-chevron-right"></i></button></a>
+                    </div>
                 </div>
-                {% endfor %}
-
-                <div>
-                    <input type="submit" class="btn btn-info btn-lg" value="Save" />
-                    <input type="submit" class="btn btn-info btn-lg" name="next" value="Save &amp; Next" />
-                </div>
-            </form>
-        </div>
-        <!-- local nav -->
-        <div class="">
-            <a href="{% url 'itemview' object.pk|add:-1 %}"><button><i class="fa fa-chevron-left"></i> Prev
-                    Item</button></a>
-            <a href="{% url 'itemview' object.pk|add:1 %}"><button>Next Item <i
-                        class="fa fa-chevron-right"></i></button></a>
+            </div>
         </div>
     </div>
+    <!-- form -->
+    <form method="post" enctype="multipart/form-data" class="card p-3 mt-3">
+        {% csrf_token %}
+        {{ form.media}}
+        <div class="row">
+            <div class="col-md-10 mb-0">
+                <h3>ID: {{ object.pk }}</h3>
+                {{ form.date|as_crispy_field }}
+                {{ form.reporter|as_crispy_field }}
+                {{ form.title|as_crispy_field }}
+            </div>
+            <div class="col-md-2 mb-0">
+                <div class="row">
+                    <div class="col">
+                        <button name="reset" class="btn btn-outline-warning btn-sm" value="Reset">Reset</button>
+                    </div>
+                    <div class="col">
+                        <input type="submit" name="save_add" class="btn btn-outline-success btn-sm" value="Save" />
+                    </div>
+                    <div class="col">
+                        <input type="submit" name="save_continue" class="btn btn-success btn-sm"
+                            value="Save &amp; Next" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 mb-0 bg-light">
+                {{ form.body_original|as_crispy_field }}
+            </div>
+            <div class="col-md-5 mb-0">
+                {{ form.body_redact|as_crispy_field }}
+            </div>
+            <div class="col-md-2 mb-0">
+                <div>Metadata</div>
+                <div class="card p-3 mt-1">
+                    {{ form.pool_report|as_crispy_field }}
+                    {{ form.publish|as_crispy_field }}
+                    {{ form.off_the_record|as_crispy_field }}
+                    {{ form.review_status|as_crispy_field }}
+                </div>
+                <div class="row">
+                    {{ form.notes|as_crispy_field }}
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 {% endblock %}

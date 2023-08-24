@@ -55,8 +55,10 @@ INSTALLED_APPS = [
     'processing',
     'django_tables2',
     'django_filters',
-    'bootstrap3',
+    'django_bootstrap5',
     'django_ckeditor_5',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -87,6 +89,12 @@ TEMPLATES = [
         },
     },
 ]
+
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap5.html"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 WSGI_APPLICATION = 'scutes.wsgi.application'
 
@@ -210,12 +218,16 @@ CKEDITOR_5_CONFIGS = {
         'toolbar': ['paragraph', 'redact', '|',
                     'outdent', 'indent', '|',
                     'bold', 'italic', 'link', 'underline', 'strikethrough',
-                    'code', 'subscript', 'superscript', 'highlight', '|',
-                    'codeBlock', 'sourceEditing', 'insertImage',
-                    'bulletedList', 'numberedList', 'todoList', '|',
-                    'blockQuote', 'imageUpload', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
-                    'mediaEmbed', 'removeFormat', 'insertTable',],
+                    '|',
+                    # 'code', 'subscript', 'superscript', 'highlight', '|',
+                    # 'codeBlock', 
+                    'sourceEditing', 
+                    # 'insertImage',
+                    # 'bulletedList', 'numberedList', 'todoList', '|',
+                    # 'blockQuote', 'imageUpload', '|',
+                    # 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
+                    # 'mediaEmbed', 'removeFormat', 'insertTable',
+                    ],
         'image': {
             'toolbar': ['imageTextAlternative', '|',
                         'imageStyle:alignLeft', 'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',
@@ -230,7 +242,7 @@ CKEDITOR_5_CONFIGS = {
 
         },
         'table': {
-            'contentToolbar': ['tableColumn', 'tableRow', 'mergeTableCells','tableProperties', 'tableCellProperties'],
+            'contentToolbar': ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties'],
             'tableProperties': {
                 'borderColors': customColorPalette,
                 'backgroundColors': customColorPalette
