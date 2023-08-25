@@ -25,6 +25,15 @@
                     <a href="{% url 'dashboard' %}"><i class="fa fa-fw fa-home"></i>Dashboard</a>
                     <a href="{% url 'batchlist' %}"><i class="fa fa-fw fa-folder"></i>Batch List</a>
                 </div>
+                <div>
+                    {% if user.is_authenticated %}
+                    <li>User: {{ user.get_username }}</li>
+                    <li><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+                    {% endif %}
+                    </ul>
+                </div>
             </div>
         </header>
         <div>
