@@ -100,9 +100,7 @@ dev_env_exists = Path.exists(Path.cwd() / ".env")
 if dev_env_exists:
     DATABASES = {
     # sqlite for dev
-    'default': {
-        'DATABASE_URL': env('DATABASE_URL')
-    }
+    'default': env.db()
 }
 else:
     DATABASES = {
