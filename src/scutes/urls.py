@@ -30,4 +30,5 @@ urlpatterns = [
     path('itemlist/<int:batch>/', ItemList.as_view(), name='itemlist'),
     path('itemview/<int:pk>/', ItemView.as_view(), name='itemview'),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
+    path("accounts/", include("django.contrib.auth.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
