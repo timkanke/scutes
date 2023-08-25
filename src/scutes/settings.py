@@ -39,6 +39,7 @@ DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=[str])
+CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS', cast=[str])
 
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -100,33 +101,33 @@ WSGI_APPLICATION = 'scutes.wsgi.application'
 
 
 # postgres
-# DATABASES = {
-    # "default": {
-        # "ENGINE": "django.db.backends.postgresql",
-        # "NAME": "scutesdb",
-        # "USER": "postgres",
-        # "PASSWORD": "password",
-        # "HOST": "localhost",
-        # "PORT": "5432",
-    # }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": 'scutes',
+        "USER": env('POSTGRES_USER'),
+        "PASSWORD": env('POSTGRES_PASSWORD'),
+        "HOST": env('DB_HOST'),
+        "PORT": "5432",
+    }
+}
 
 
 # Parse database connection url strings
 # like psql://user:pass@127.0.0.1:8458/db
-DATABASES = {
-    # read os.environ['DATABASE_URL'] and raises
-    # ImproperlyConfigured exception if not found
-    #
-    # The db() method is an alias for db_url().
-    'default': env.db(),
+# DATABASES = {
+#     # read os.environ['DATABASE_URL'] and raises
+#     # ImproperlyConfigured exception if not found
+#     #
+#     # The db() method is an alias for db_url().
+#     'default': env.db(),
 
-    # read os.environ['SQLITE_URL']
-    # 'extra': env.db_url(
-        # 'SQLITE_URL',
-        # default='sqlite:////./db.sqlite3'
-    # )
-}
+#     # read os.environ['SQLITE_URL']
+#     # 'extra': env.db_url(
+#         # 'SQLITE_URL',
+#         # default='sqlite:////./db.sqlite3'
+#     # )
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

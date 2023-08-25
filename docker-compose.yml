@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   web:
-    build: .
+    build: Dockerfile.local
     ports:
       - "8000:8000"
     command: python src/manage.py runserver 0.0.0.0:8000
@@ -12,7 +12,9 @@ services:
       - DEBUG=off
       - SECRET_KEY='ILikeTurtles!' # There is nothing special about this. It could be 'ILikeTurtles!' but probably should be a randomly generated value.
       # - DATABASE_URL=sqlite:///./db.sqlite3 # If using sqlite
-      - DATABASE_URL=psql://postgres:password@host.docker.internal:5432/scutesdb # If using postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - DB_HOST=host.docker.internal
       - ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
   db:
     image: postgres:15
