@@ -61,7 +61,8 @@ This should download and install that version of Python.
    python setup-webdrivers.py
    ```
 
-7. For local development, create a ```src/.env```. Or change ```src/.env-dev``` to ```src/.env```.
+7. For local development, the ```src/.env``` file is required.
+Copy and rename ```src/.env-dev-example``` to ```src/.env```.
     The settings in the file are:
 
     ```env
@@ -69,6 +70,7 @@ This should download and install that version of Python.
     ALLOWED_HOSTS=localhost,127.0.0.1
     SECRET_KEY='your-secret-key'
     DATABASE_URL=sqlite:///./db.sqlite3
+    CSRF_TRUSTED_ORIGINS=''
     ```
 
 ## Running the tests
