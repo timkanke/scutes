@@ -18,77 +18,73 @@
     <!-- Static CSS -->
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
-
 </head>
 
 <body>
-    <div>
-        <header>
-            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-                <div class="container-fluid">
-
-                    <ul class="navbar-nav" me-auto mb-2 mb-lg-0>
-                        <li class="nav-item">
-                            <a class="navbar-brand" href="{% url 'index' %}">Scutes</a>
-                        </li>
-                        {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard' %}"><i
-                                    class="fa fa-fw fa-home"></i>Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'batchlist' %}"><i class="fa fa-fw fa-folder"></i>Batch
-                                List</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true"><i
-                                    class="fa fa-fw fa-home"></i>Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true"><i class="fa fa-fw fa-folder"></i>Batch
-                                List</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                    <ul class="navbar-nav" ml-auto>
-                        {% if user.is_authenticated %}
-
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                {{ user.get_username }}
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'password_reset' %}">Change
-                                        Password</a>
-                                </li>
-                            </ul>
-                        </li>
-
-
-
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">Login</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-
-                </div>
-            </nav>
-        </header>
+    <div class="min-vh-100 d-flex flex-column 
+    justify-content-between">
         <div>
-            {% block content %}
-            {% endblock %}
+            <header>
+                <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                    <div class="container-fluid">
+                        <ul class="navbar-nav" me-auto mb-2 mb-lg-0>
+                            <li class="nav-item">
+                                <a class="navbar-brand" href="{% url 'index' %}">Scutes</a>
+                            </li>
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'dashboard' %}"><i
+                                        class="fa fa-fw fa-home"></i>Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'batchlist' %}"><i class="fa fa-fw fa-folder"></i>Batch
+                                    List</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link disabled" aria-disabled="true"><i
+                                        class="fa fa-fw fa-home"></i>Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" aria-disabled="true"><i
+                                        class="fa fa-fw fa-folder"></i>Batch
+                                    List</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        <ul class="navbar-nav" ml-auto>
+                            {% if user.is_authenticated %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    {{ user.get_username }}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'password_reset' %}">Change
+                                            Password</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">Login</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <div>
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
-        <footer>
-            <div class="footer">
+        <footer class="bg-dark d-flex align-items-end">
+            <div>
+                <p>hi</p>
             </div>
         </footer>
     </div>
