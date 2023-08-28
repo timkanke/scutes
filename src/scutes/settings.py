@@ -72,7 +72,7 @@ ROOT_URLCONF = 'scutes.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,9 +100,7 @@ dev_env_exists = Path.exists(Path.cwd() / ".env")
 if dev_env_exists:
     DATABASES = {
     # sqlite for dev
-    'default': {
-        'DATABASE_URL': env('DATABASE_URL')
-    }
+    'default': env.db()
 }
 else:
     DATABASES = {
@@ -150,6 +148,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
+
+# Log any emails sent to the console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Internationalization

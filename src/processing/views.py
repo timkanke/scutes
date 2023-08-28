@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import UpdateView
@@ -16,11 +17,11 @@ class Index(TemplateView):
     template_name = "index.html"
 
 
-class Dashboard(TemplateView):
+class Dashboard(LoginRequiredMixin, TemplateView):
     template_name = "dashboard.html"
 
 
-class BatchList(SingleTableView):
+class BatchList(LoginRequiredMixin, SingleTableView):
     model = Batch
     table_class = BatchList
     template_name = "batch_list.html"
@@ -34,7 +35,7 @@ class ItemFilter(FilterSet):
         fields = {'review_status': ['exact']}
 
 
-class ItemList(SingleTableMixin, FilterView):
+class ItemList(LoginRequiredMixin, SingleTableMixin, FilterView):
     model = Item
     table_class = ItemList
     template_name = 'item_list.html'
@@ -44,7 +45,7 @@ class ItemList(SingleTableMixin, FilterView):
     filterset_class = ItemFilter
 
 
-class ItemView(MultipleObjectMixin, UpdateView):
+class ItemView(LoginRequiredMixin, MultipleObjectMixin, UpdateView):
     form_class = ItemUpdateForm
     model = Item
     template_name = "item_view.html"
