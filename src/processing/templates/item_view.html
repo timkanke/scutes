@@ -2,25 +2,22 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid p-2">
     <div class="row">
-        <div class="col-md-10 mb-0">
+        <div class="col-md-8 mb-0">
             <h1>Item View</h1>
         </div>
         <!-- item nav -->
-        <div class="col-md-2 mb-0">
-            <div class="card p-3 mt-1">
-                <div class="row">
-                    <div class="col">
-                        <a href="{% url 'itemview' object.pk|add:-1 %}"><button class="btn btn-outline-info btn-sm"><i
-                                    class="fa fa-chevron-left"></i> Prev
-                                Item</button></a>
-                    </div>
-                    <div class="col">
-                        <a href="{% url 'itemview' object.pk|add:1 %}"><button class="btn btn-outline-info btn-sm">Next
-                                Item <i class="fa fa-chevron-right"></i></button></a>
-                    </div>
-                </div>
+        <div class="col-md-4">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+                <a href="{% url 'itemview' object.pk|add:-1 %}"><button class="btn btn-outline-info btn-sm"><i
+                            class="fa fa-chevron-left"></i> Prev
+                        Item</button></a>
+
+                <a href="{% url 'itemview' object.pk|add:1 %}"><button class="btn btn-outline-info btn-sm">Next
+                        Item <i class="fa fa-chevron-right"></i></button></a>
+
             </div>
         </div>
     </div>
