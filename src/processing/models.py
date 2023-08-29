@@ -4,7 +4,7 @@ from django.db import models
 class Batch(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    assigned_to = models.CharField(max_length=100, blank=True, null=True)
+    assigned_to = models.CharField(max_length=255, blank=True, null=True)
     notes = models.TextField(max_length=1000, blank=True, null=True)
     datetime_added = models.DateTimeField(auto_now=True, null=True)
 
@@ -12,8 +12,8 @@ class Batch(models.Model):
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.DateTimeField(blank=True)
-    reporter = models.CharField(max_length=100, blank=True)
-    title = models.CharField(max_length=100, blank=True)
+    reporter = models.CharField(max_length=255, blank=True)
+    title = models.CharField(max_length=255, blank=True)
     pool_report = models.BooleanField(null=False)
     publish = models.BooleanField(null=False)
     off_the_record = models.BooleanField(null=False)
