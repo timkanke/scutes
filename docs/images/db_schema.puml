@@ -5,6 +5,8 @@ entity "Batch" as Batch {
   --
   *name : text
   assigned_to : text
+  notes : text
+  datetime_added : datetime
 }
 
 entity "Item" as Item {
@@ -22,8 +24,17 @@ entity "Item" as Item {
   body_original : text
   body_clean : text
   body_redact : text
+  body_final : text
   last_modified : datetime
 }
+
+entity "Redact" as Redact {
+  *id : number <<generated>>
+  --
+  name : text
+  string : JSON Field
+}
+
 
 Batch ||..|{ Item
 

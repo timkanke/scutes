@@ -140,31 +140,39 @@ class Command(BaseCommand):
 
         for message in mailbox.mbox(file_path):
             item = Item()
+            logger.debug(f'{item=}')
 
             # Date
             date = parsedate_to_datetime(message['Date']).isoformat()
             item.date = date
+            logger.debug(date)
 
             # Reporter
             reporter = message['From']
             item.reporter = process_reporter(reporter)
+            logger.debug(reporter)
 
             # Title
             title = message['Subject']
             item.title = scrub_title(title)
+            logger.debug(title)
 
             # Body
             for part in message.walk():
                 content_type = part.get_content_type()
                 if content_type in ('text/html'):
+                    logger.debug(f'Found HTML body for message')
                     content = part.get_payload(decode=True)
                     charset = part.get_content_charset()
+                    logger.debug(charset)
                     if charset is None:
                         charset = 'UTF-8'
                     html = content.decode(charset)
                 elif content_type in ('text/plain'):
+                    logger.debug(f'Found plain text body for message')
                     content = part.get_payload(decode=True)
                     charset = part.get_content_charset()
+                    logger.debug(charset)
                     if charset is None:
                         charset = 'UTF-8'
                     text = content.decode(charset)

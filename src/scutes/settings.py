@@ -99,37 +99,22 @@ dev_env_exists = Path.exists(Path.cwd() / ".env")
 
 if dev_env_exists:
     DATABASES = {
-    # sqlite for dev
-    'default': env.db()
-}
+        # sqlite for dev
+        'default': env.db()
+    }
 else:
     DATABASES = {
-    # postgres for test, qa, and prod
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'scutes',
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': '5432',
+        # postgres for test, qa, and prod
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'scutes',
+            'USER': env('POSTGRES_USER'),
+            'PASSWORD': env('POSTGRES_PASSWORD'),
+            'HOST': env('DB_HOST'),
+            'PORT': '5432',
+        }
     }
-}
 
-# DATABASES = {
-    # postgres for test, qa, prod
-    # 'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'scutes',
-        # 'USER': env('POSTGRES_USER'),
-        # 'PASSWORD': env('POSTGRES_PASSWORD'),
-        # 'HOST': env('DB_HOST'),
-        # 'PORT': '5432',
-    # },
-    # sqlite for dev
-    # 'dev': {
-        # 'DATABASE_URL': env('DATABASE_URL')
-    # }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -176,6 +161,23 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+# Logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": env('LOGGING_LEVEL'),
+    },
+}
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -230,8 +232,8 @@ CKEDITOR_5_CONFIGS = {
                     'bold', 'italic', 'link', 'underline', 'strikethrough',
                     '|',
                     # 'code', 'subscript', 'superscript', 'highlight', '|',
-                    # 'codeBlock', 
-                    'sourceEditing', 
+                    # 'codeBlock',
+                    'sourceEditing',
                     # 'insertImage',
                     # 'bulletedList', 'numberedList', 'todoList', '|',
                     # 'blockQuote', 'imageUpload', '|',
