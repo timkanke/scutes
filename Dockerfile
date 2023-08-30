@@ -8,6 +8,8 @@ ENV PYTHONUNBUFFERED=1
 ENV DEBUG=off
 ENV ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
 ENV LOGGING_LEVEL=INFO
+# DJANGO_LOG_LEVEL=DEBUG setting is very verbose as it includes all database queries.
+ENV DJANGO_LOG_LEVEL=INFO
 
 # Set work directory
 WORKDIR /scutes
