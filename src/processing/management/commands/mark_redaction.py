@@ -26,7 +26,7 @@ def redact_using_pattern(html):
     while True:
         for label, pattern in REDACT_PATTERNS.items():
             match = re.findall(pattern, html)
-            logger.debug(match, label, type(match))
+            logger.debug(f'{match}, {label}, {type(match)}')
             string = (str(match))[2:-2]
             html = re.sub(pattern, '<del class="redacted" style="color:red;">'+string+'</del>', html)
             logger.debug(html)
@@ -34,20 +34,19 @@ def redact_using_pattern(html):
 
 
 def redact_using_string(html):
-    name = 'redact_list'  # Magic number for Redact.object
+    name = 'redact_list'  # Row name for Redact.object
     if Redact.objects.filter(name=name).exists():
         strings = Redact.objects.get(name=name).string
         # Object format example: {"label0": "spam", "label1": "eggs"}
-        logger.debug(strings, type(strings))
+        logger.debug(f'{strings} {type(strings)}')
         strings = list(zip(strings.keys(), strings.values()))
-        logger.debug(strings, type(strings))
 
         while True:
             for label, pattern in strings:
                 match = re.findall(pattern, html)
-                logger.debug(match, label, type(match))
+                logger.debug(f'{match}, {label}, {type(match)}')
                 html = re.sub(pattern, '<del class="redacted" style="color:red;">'+pattern+'</del>', html)
-                print(html)
+                logger.debug(html)
             return html
     else:
         return html
@@ -63,7 +62,7 @@ class Command(BaseCommand):
         items = Item.objects.filter(batch=options['batch_selected'])
         item = Item.objects.all()
         for item in items:
-            logger.info('Scanning:', item. id, item.title)
+            logger.info(f'Marking: {item.id}, {item.title}')
 
             html = item.body_clean
 

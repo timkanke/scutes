@@ -135,7 +135,7 @@ class Command(BaseCommand):
         items = Item.objects.filter(batch=options['batch_selected'])
         item = Item.objects.all()
         for item in items:
-            logger.info('Cleaning:', item. id, item.title)
+            logger.info(f'Cleaning: {item.id}, {item.title}')
 
             html = item.body_original
             soup = BeautifulSoup(html, 'lxml')
