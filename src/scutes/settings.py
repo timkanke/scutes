@@ -165,24 +165,36 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Logging
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
+    'version': 1,  # the dictConfig format version
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
         },
     },
-    "root": {
-        "handlers": ["console"],
-        "level": env('LOGGING_LEVEL'),
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["console"],
-            "level": env("DJANGO_LOG_LEVEL"),
-            "propagate": False,
+    'formatters': {
+        'verbose': {
+            'format': '{name} {levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
         },
     },
+    'root': {
+        'handlers': ['console'],
+        'level': env('LOGGING_LEVEL'),
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': env('DJANGO_LOG_LEVEL'),
+            'propagate': False,
+        },
+    },
+
 }
 
 
