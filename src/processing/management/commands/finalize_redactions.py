@@ -1,5 +1,7 @@
 import logging
 
+from bs4 import BeautifulSoup
+
 from django.core.management import BaseCommand
 
 from processing.models import Item
@@ -9,7 +11,15 @@ logger = logging.getLogger(__name__)
 
 
 def redact_final(html):
-    pass
+    soup = BeautifulSoup(html, 'lxml')
+    tags = soup.find_all('del')
+
+    for tag in tags:
+        tag.string = '▊▊▊▊▊▊▊▊▊▊'
+        tag = tag.unwrap().get_text(strip=True)
+
+    html = str(soup)
+    return html
 
 
 class Command(BaseCommand):
@@ -28,5 +38,5 @@ class Command(BaseCommand):
 
             html = redact_final(html)
 
-            item.body_redact = html
+            item.body_final = html
             item.save(update_fields=['body_final'])
