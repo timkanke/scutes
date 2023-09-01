@@ -86,6 +86,14 @@ def emoji_fixer(html, replace=xml_escape):
     return html
 
 
+def remove_mailto(soup):
+    '''Remove <a href="mailto:name@example.com"><a>'''
+    mailtos = soup.select('a[href^=mailto]')
+
+    for mailto in mailtos:
+        mailto.unwrap().get_text(strip=True)
+    return soup
+
 def cleaner(html):
     """Sanitizes the HTML"""
 
@@ -147,6 +155,7 @@ class Command(BaseCommand):
             soup = BeautifulSoup(html, 'lxml')
             soup = ms_messages(soup)
             soup = ltr_messages(soup)
+            soup = remove_mailto(soup)
 
             html = str(soup)
             html = emoji_fixer(html, replace=xml_escape)
