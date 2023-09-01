@@ -2,6 +2,7 @@ import logging
 import mailbox
 import re
 
+from email.header import decode_header, make_header
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 
@@ -148,14 +149,18 @@ class Command(BaseCommand):
             logger.debug(date)
 
             # Reporter
-            reporter = message['From']
-            item.reporter = process_reporter(reporter)
-            logger.debug(reporter)
+            From, encoding = decode_header(message['From'])[0]
+            if isinstance(From, bytes):
+                From = From.decode(encoding)
+            item.reporter = process_reporter(From)
+            logger.debug(item.reporter)
 
             # Title
-            title = message['Subject']
-            item.title = scrub_title(title)
-            logger.debug(title)
+            subject, encoding = decode_header(message['Subject'])[0]
+            if isinstance(subject, bytes):
+                subject = subject.decode(encoding)
+            item.title = scrub_title(subject)
+            logger.debug(item.title)
 
             # Body
             for part in message.walk():
