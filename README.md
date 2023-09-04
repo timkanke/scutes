@@ -46,6 +46,12 @@ Redact HTML
 ./manage.py mark_redaction <batch_number>
 ```
 
+Finalize Redactions
+
+```zsh
+./manage.py finalize_redactions <batch_number>
+```
+
 ## Architecture Decision Documents
 
 The architecture decision documents are:
