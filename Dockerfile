@@ -11,6 +11,17 @@ ENV LOGGING_LEVEL=INFO
 # DJANGO_LOG_LEVEL=DEBUG setting is very verbose as it includes all database queries.
 ENV DJANGO_LOG_LEVEL=INFO
 
+# Set database environment variables
+ENV DB_ENGINE=django.db.backends.postgresql
+ENV DB_NAME=scutes
+# Is POSTGRES_USER in k8s
+ENV DB_USER=''
+# Is POSTGRES_PASSWORD in k8s
+ENV DB_PASSWORD=''
+# Is DB_HOST in k8s
+ENV DB_HOST=''
+ENV DB_PORT=5432
+
 # Set work directory
 WORKDIR /scutes
 

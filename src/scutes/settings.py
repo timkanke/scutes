@@ -94,26 +94,16 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 WSGI_APPLICATION = 'scutes.wsgi.application'
 
 # Databases
-# Check if local development .env is present
-dev_env_exists = Path.exists(Path.cwd() / ".env")
-
-if dev_env_exists:
-    DATABASES = {
-        # sqlite for dev
-        'default': env.db()
+DATABASES = {
+    "default": {
+        "ENGINE": env('DB_ENGINE'),
+        "NAME": env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
-else:
-    DATABASES = {
-        # postgres for test, qa, and prod
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'scutes',
-            'USER': env('POSTGRES_USER'),
-            'PASSWORD': env('POSTGRES_PASSWORD'),
-            'HOST': env('DB_HOST'),
-            'PORT': '5432',
-        }
-    }
+}
 
 
 # Password validation
