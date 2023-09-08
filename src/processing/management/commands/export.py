@@ -37,14 +37,13 @@ class Command(BaseCommand):
         batch_selected_name = batch.name
         
         # Check if all items are reviewed
-        total_items = Item.objects.filter(batch=batch_selected)
-        total_items_count = total_items.count()
+        total_items_count = Item.objects.filter(batch=batch_selected).count()
         not_reviewed = Item.objects.filter(
             batch=batch_selected,
             review_status=False
             )
         not_reviewed_count = not_reviewed.count()
-        if not_reviewed_count > 0:
+        if not_reviewed_count != 0:
             logger.info(f'Not all items in this batch have been reviewed.')
             logger.info(f'Number of items not reviewed: {not_reviewed_count} out of {total_items_count}')
             result = input('Continue export? Please answer yes or no: ')
