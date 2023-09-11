@@ -14,7 +14,7 @@ See [docs/CKEditor.md](docs/CKEditor.md).
 
 ![Database Schema](docs/images/db_schema.svg)
 
-## Management Commands
+## Custom Management Commands
 
 All commands are ran in the src directory.
 
@@ -44,6 +44,18 @@ Redact HTML
 
 ```zsh
 ./manage.py mark_redaction <batch_number>
+```
+
+Finalize Redactions
+
+```zsh
+./manage.py finalize_redactions <batch_number>
+```
+
+Export
+
+```zsh
+./manage.py export <batch_number> <output_directory>
 ```
 
 ## Architecture Decision Documents
