@@ -35,7 +35,7 @@ class Command(BaseCommand):
         batch_selected = options['batch_selected']
         batch = Batch.objects.get(id=batch_selected)
         batch_selected_name = batch.name
-        
+
         # Check if all items are reviewed
         total_items_count = Item.objects.filter(batch=batch_selected).count()
         not_reviewed = Item.objects.filter(
@@ -54,7 +54,6 @@ class Command(BaseCommand):
                 sys.exit()
         else:
             pass
-        
 
         # Select items only in selected batch and marked publish
         items = Item.objects.filter(
@@ -77,7 +76,7 @@ class Command(BaseCommand):
             # Iterate over items in database
             for item in items:
                 logger.info(f'Exporting: {item.id}, {item.title}')
-                
+
                 # Create HTML file
                 id = str(item.id)
                 file_name = ('body-' + id + '.html')
@@ -85,7 +84,7 @@ class Command(BaseCommand):
                 file.parent.mkdir(parents=True, exist_ok=True)
                 with open(file, 'w') as file:
                     file.write(item.body_final)
-                
+
                 # Write CSV row
                 csv_writer.writerow({'Identifier': item.id,
                                      'Title': item.title,
@@ -94,8 +93,9 @@ class Command(BaseCommand):
                                      'Format': 'http://vocab.lib.umd.edu/form#pool_reports',
                                      'Rights Statement': 'http://vocab.lib.umd.edu/rightsStatement#InC-NC',
                                      'FILES': (id+'/'+file_name),
-                                     'Object Type': 'http://purl.org/dc/dcmitype/Text',})
-                
+                                     'Object Type': 'http://purl.org/dc/dcmitype/Text',
+                                     })
+
         # Zip directory
         directory = Path(output_path)
         logger.info(f'Creating zip file for {directory}')
@@ -109,6 +109,3 @@ class Command(BaseCommand):
 
         with zipfile.ZipFile(zip_file, mode="r") as archive:
             archive.printdir()
-
-# TO DO
-# Check that pipes are escaped
