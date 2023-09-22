@@ -8,17 +8,32 @@ from processing.models import Item, Redact
 
 logger = logging.getLogger(__name__)
 
-# built-in redaction patterns
+'''
+Built-in Redaction Pattern
+
+North American phone number matches the following:
+000-000-0000
+000 000 0000
+000.000.0000
+
+(000)000-0000
+(000)000 0000
+(000)000.0000
+(000) 000-0000
+(000) 000 0000
+(000) 000.0000
+
+000-0000
+000 0000
+000.0000
+
+0000000
+0000000000
+(000)0000000
+'''
 REDACT_PATTERNS = {
     'Email address': re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"),
-    'North American phone number': re.compile(r'''
-    (\+\d{1,2}([ -]|%20)?)? # optional country code with separator
-    \(?\d{3}\)?             # area code
-    ([. -]|%20)             # separator
-    \d{3}                   # exchange
-    ([. -]|%20)             # separator
-    \d{4}                   # local
-    ''', re.VERBOSE)
+    'North American phone number': re.compile(r"(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})"),
 }
 
 
