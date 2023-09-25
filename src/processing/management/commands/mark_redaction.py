@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 '''
 Built-in Redaction Pattern
 
-North American phone number matches:
+Phone number matches are:
 000-000-0000
 000 000 0000
 000.000.0000
@@ -48,7 +48,7 @@ North American phone number matches:
 '''
 REDACT_PATTERNS = {
     'Email address': re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"),
-    'North American phone number': re.compile(r"(?:\+\d{1,2}[-\.\s]??|\d{4}[-\.\s]??)?(?:\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})"),
+    'Phone number': re.compile(r"(?:\+\d{1,2}[-\.\s]??|\d{4}[-\.\s]??)?(?:\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})"),
 }
 
 
