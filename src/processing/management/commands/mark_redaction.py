@@ -53,14 +53,14 @@ REDACT_PATTERNS = {
 
 
 def redact_using_pattern(html):
-    while True:
-        for label, pattern in REDACT_PATTERNS.items():
-            match = re.findall(pattern, html)
+    for label, pattern in REDACT_PATTERNS.items():
+        matches = re.findall(pattern, html)
+        for match in matches:
             logger.debug(f'{match}, {label}, {type(match)}')
-            string = (str(match))[2:-2]
+            string = (str(match))
             html = re.sub(pattern, '<del class="redacted" style="color:red;">'+string+'</del>', html)
-            logger.debug(html)
-        return html
+        logger.debug(html)
+    return html
 
 
 def redact_using_string(html):
