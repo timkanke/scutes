@@ -94,6 +94,16 @@ def remove_mailto(soup):
         mailto.unwrap().get_text(strip=True)
     return soup
 
+
+def remove_tel(soup):
+    '''Remove <a href="tel:555-555-5555"><a>'''
+    tels = soup.select('a[href^=tel]')
+
+    for tel in tels:
+        tel.unwrap().get_text(strip=True)
+    return soup
+
+
 def cleaner(html):
     """Sanitizes the HTML"""
 
@@ -156,6 +166,7 @@ class Command(BaseCommand):
             soup = ms_messages(soup)
             soup = ltr_messages(soup)
             soup = remove_mailto(soup)
+            soup = remove_tel(soup)
 
             html = str(soup)
             html = emoji_fixer(html, replace=xml_escape)

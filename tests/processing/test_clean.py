@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import pytest
 
 from src.processing.management.commands.clean import cleaner, emoji_fixer, ltr_messages, \
-      ms_messages, remove_p_br_p, replace_pre_with_p
+      ms_messages, remove_p_br_p, replace_pre_with_p, remove_mailto, remove_tel
 
 
 @pytest.mark.parametrize(
@@ -65,6 +65,32 @@ def test_ltr_messages(value, expected):
 )
 def test_emoji_fixer(value, expected):
     result = emoji_fixer(value)
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    ('value', 'expected'),
+    [
+        ('<a href="mailto:name@example.com">name@example.com</a>',
+         '<html><body>name@example.com</body></html>'),
+    ]
+)
+def test_remove_mailto(value, expected):
+    soup = BeautifulSoup(value, 'lxml')
+    result = str(remove_mailto(soup))
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    ('value', 'expected'),
+    [
+        ('<a href="tel:555-555-5555">555-555-5555</a>',
+         '<html><body>555-555-5555</body></html>'),
+    ]
+)
+def test_remove_tel(value, expected):
+    soup = BeautifulSoup(value, 'lxml')
+    result = str(remove_tel(soup))
     assert result == expected
 
 

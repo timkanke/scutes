@@ -1,6 +1,8 @@
 import logging
 import re
 
+from bs4 import BeautifulSoup as Soup
+
 from django.core.management import BaseCommand
 
 from processing.models import Item, Redact
@@ -8,29 +10,56 @@ from processing.models import Item, Redact
 
 logger = logging.getLogger(__name__)
 
-# built-in redaction patterns
+'''
+Built-in Redaction Pattern
+
+Phone number matches are:
+000-000-0000
+000 000 0000
+000.000.0000
+
+(000)000-0000
+(000)000 0000
+(000)000.0000
+(000) 000-0000
+(000) 000 0000
+(000) 000.0000
+
+000-0000
+000 0000
+000.0000
+
+0000000
+0000000000
+(000)0000000
+
+# Country code
++00 000 000 0000
++00.000.000.0000
++00-000-000-0000
++000000000000
++00 (000)000 0000
+
+0000 0000000000
+0000-000-000-0000
+00000000000000
+0000 (000)000-0000
+'''
 REDACT_PATTERNS = {
     'Email address': re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"),
-    'North American phone number': re.compile(r'''
-    (\+\d{1,2}([ -]|%20)?)? # optional country code with separator
-    \(?\d{3}\)?             # area code
-    ([. -]|%20)             # separator
-    \d{3}                   # exchange
-    ([. -]|%20)             # separator
-    \d{4}                   # local
-    ''', re.VERBOSE)
+    'Phone number': re.compile(r"(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})"),
 }
 
 
 def redact_using_pattern(html):
-    while True:
-        for label, pattern in REDACT_PATTERNS.items():
-            match = re.findall(pattern, html)
+    for label, pattern in REDACT_PATTERNS.items():
+        matches = re.findall(pattern, html)
+        for match in matches:
             logger.debug(f'{match}, {label}, {type(match)}')
-            string = (str(match))[2:-2]
-            html = re.sub(pattern, '<del class="redacted" style="color:red;">'+string+'</del>', html)
-            logger.debug(html)
-        return html
+            string = (str(match))
+            html = re.sub(match, '<del class="redacted" style="color:red;">'+string+'</del>', html)
+        logger.debug(html)
+    return html
 
 
 def redact_using_string(html):
