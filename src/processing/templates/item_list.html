@@ -3,18 +3,20 @@
 
 {% load django_tables2 %}
 {% load django_bootstrap5 %}
+{% load django_tables2 crispy_forms_tags %}
 {% load static %}
 
 <div "container-fluid">
     <h1>Item List</h1>
 
-    <h3>Filter by Review Status</h3>
+    <h3>Filter by Reporter</h3>
     {% if filter %}
     <form action="" method="get" class="form form-inline">
-        {% bootstrap_form filter.form layout='inline' %}
+        {% bootstrap_form filter.form layout='inline'|crispy %}
         {% bootstrap_button 'filter' %}
     </form>
     {% endif %}
+
     {% render_table table %}
 </div>
 

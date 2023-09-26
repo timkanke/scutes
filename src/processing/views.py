@@ -32,7 +32,7 @@ class BatchList(LoginRequiredMixin, SingleTableView):
 class ItemFilter(FilterSet):
     class Meta:
         model = Item
-        fields = {'review_status': ['exact']}
+        fields = {'reporter': ['exact'], 'review_status': ['exact']}
 
 
 class ItemList(LoginRequiredMixin, SingleTableMixin, FilterView):
