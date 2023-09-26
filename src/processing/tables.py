@@ -26,4 +26,4 @@ class ItemList(tables.Table):
                   'publish',
                   'review_status']
 
-    review = TemplateColumn(template_name='tables/view_item.html')
+    review = TemplateColumn(template_name='tables/view_item.html', orderable=False)
