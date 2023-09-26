@@ -1,6 +1,8 @@
 import logging
 import re
 
+from bs4 import BeautifulSoup as Soup
+
 from django.core.management import BaseCommand
 
 from processing.models import Item, Redact
@@ -31,9 +33,6 @@ Phone number matches are:
 0000000000
 (000)0000000
 
-# Area code: 'plus one space' style for all of the above
-+1 000-000-0000
-
 # Country code
 +00 000 000 0000
 +00.000.000.0000
@@ -48,7 +47,7 @@ Phone number matches are:
 '''
 REDACT_PATTERNS = {
     'Email address': re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"),
-    'Phone number': re.compile(r"(?:\+\d{1,2}[-\.\s]??|\d{4}[-\.\s]??)?(?:\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})"),
+    'Phone number': re.compile(r"(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})"),
 }
 
 
@@ -58,7 +57,7 @@ def redact_using_pattern(html):
         for match in matches:
             logger.debug(f'{match}, {label}, {type(match)}')
             string = (str(match))
-            html = re.sub(pattern, '<del class="redacted" style="color:red;">'+string+'</del>', html)
+            html = re.sub(match, '<del class="redacted" style="color:red;">'+string+'</del>', html)
         logger.debug(html)
     return html
 
