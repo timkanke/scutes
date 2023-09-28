@@ -22,6 +22,7 @@
                 <form action="" method="get" class="form form-inline">
                     {% bootstrap_form filter.form layout='inline'|crispy %}
                     {% bootstrap_button 'Filter' button_type="submit" button_class="btn-primary btn-sm" %}
+                    {% bootstrap_button 'Reset' button_type="reset" button_class="btn-outline-primary btn-sm" %}
                 </form>
                 {% endif %}
                 <div class="row pt-3">
