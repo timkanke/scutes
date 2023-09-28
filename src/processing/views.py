@@ -30,16 +30,19 @@ class BatchList(LoginRequiredMixin, SingleTableView):
 
 
 class ItemFilter(FilterSet):
+
     class Meta:
         model = Item
-        fields = {'review_status': ['exact']}
+        fields = {'reporter': ['contains'],
+                  'review_status': ['exact']
+                  }
 
 
 class ItemList(LoginRequiredMixin, SingleTableMixin, FilterView):
     model = Item
     table_class = ItemList
     template_name = 'item_list.html'
-    # paginate_by = 10
+    paginate_by = 15
     context_object_name = 'item'
 
     filterset_class = ItemFilter

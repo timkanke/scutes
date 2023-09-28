@@ -1,21 +1,40 @@
 {% extends "base.html" %}
-{% block content %}
 
 {% load django_tables2 %}
 {% load django_bootstrap5 %}
+{% load django_tables2 crispy_forms_tags %}
+{% load crispy_forms_tags %}
+
+{% load common_extras %}
+
 {% load static %}
 
-<div "container-fluid">
-    <h1>Item List</h1>
+{% block content %}
+<div class="container-fluid">
+    <div class="row p-1">
+        <h1>Item List</h1>
+    </div>
+    <div class="row p-1">
+        <div class="col-md-2">
+            <div class="card p-3 mt-1">
+                <h3>Filters</h3>
+                {% if filter %}
+                <form action="" method="get" class="form form-inline">
+                    {% bootstrap_form filter.form layout='inline'|crispy %}
+                    {% bootstrap_button 'Filter' button_type="submit" button_class="btn-primary btn-sm" %}
+                    {% bootstrap_button 'Reset' button_type="reset" button_class="btn-outline-primary btn-sm" %}
+                </form>
+                {% endif %}
+                <div class="row pt-3">
+                    <a href="{% clean_url %}"><button class="btn btn-warning btn-sm">Clear Filters</button></a>
+                </div>
+            </div>
+        </div>
 
-    <h3>Filter by Review Status</h3>
-    {% if filter %}
-    <form action="" method="get" class="form form-inline">
-        {% bootstrap_form filter.form layout='inline' %}
-        {% bootstrap_button 'filter' %}
-    </form>
-    {% endif %}
-    {% render_table table %}
+        <div class="col-md-10">
+            {% render_table table %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}
