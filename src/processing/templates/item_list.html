@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
-
 {% load django_tables2 %}
 {% load django_bootstrap5 %}
 {% load django_tables2 crispy_forms_tags %}
 {% load crispy_forms_tags %}
+
+{% load common_extras %}
+
 {% load static %}
 
 {% block content %}
@@ -19,9 +21,12 @@
                 {% if filter %}
                 <form action="" method="get" class="form form-inline">
                     {% bootstrap_form filter.form layout='inline'|crispy %}
-                    {% bootstrap_button 'filter' %}
+                    {% bootstrap_button 'Filter' button_type="submit" button_class="btn-primary btn-sm" %}
                 </form>
                 {% endif %}
+                <div class="row pt-3">
+                    <a href="{% clean_url %}"><button class="btn btn-warning btn-sm">Clear Filters</button></a>
+                </div>
             </div>
         </div>
 
