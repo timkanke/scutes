@@ -1,4 +1,4 @@
-from django_tables2 import tables, TemplateColumn
+from django_tables2 import Column, tables, TemplateColumn
 from .models import Batch, Item
 
 
@@ -11,7 +11,7 @@ class BatchList(tables.Table):
                   'name',
                   'assigned_to']
 
-    review = TemplateColumn(template_name='tables/view_item_list.html')
+    review = TemplateColumn(template_name='tables/view_item_list.html', orderable=False)
 
 
 class ItemList(tables.Table):
