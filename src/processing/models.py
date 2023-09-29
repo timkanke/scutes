@@ -10,6 +10,11 @@ class Batch(models.Model):
 
 
 class Item(models.Model):
+    class Status(models.IntegerChoices):
+        INACTIVE = 0, 'Not Started'
+        ACTIVE = 1, 'In Progress'
+        COMPLETE = 2, 'Complete'
+
     id = models.AutoField(primary_key=True)
     date = models.DateTimeField(blank=True)
     reporter = models.CharField(max_length=255, blank=True)
@@ -17,7 +22,7 @@ class Item(models.Model):
     pool_report = models.BooleanField(null=False)
     publish = models.BooleanField(null=False)
     off_the_record = models.BooleanField(null=False)
-    review_status = models.CharField(max_length=255, blank=True)
+    review_status = models.SmallIntegerField(choices=Status.choices)
     notes = models.TextField(max_length=1000, blank=True, null=True)
     body_original = models.TextField(blank=True, null=True)
     body_clean = models.TextField(blank=True, null=True)
@@ -28,6 +33,9 @@ class Item(models.Model):
         "Batch",
         on_delete=models.CASCADE,
     )
+
+    def __str__(self):
+        return self.name
 
 
 class Redact(models.Model):

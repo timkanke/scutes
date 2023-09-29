@@ -1,4 +1,6 @@
 from django_tables2 import Column, tables, TemplateColumn
+from django_tables2.utils import Accessor
+from django.forms import ChoiceField
 from .models import Batch, Item
 
 
@@ -22,6 +24,9 @@ class ItemList(tables.Table):
         model = Item
         template_name = "django_tables2/bootstrap5.html"
         attrs = {'class': 'table table-sm'}
+        row_attrs = {
+            "review_status": lambda value: value.name
+        }
         fields = ['id',
                   'date',
                   'reporter',
