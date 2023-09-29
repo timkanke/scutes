@@ -4,10 +4,15 @@
 {% load django_tables2 %}
 {% load static %}
 
-
-<div>
-    <h1>Batch List</h1>
-    {% render_table table %}
+<div class="container-fluid">
+    <div class="row p-1">
+        <h1>Batch List</h1>
+    </div>
+    <div class="row p-1">
+        <div class="col-md-8">
+            {% render_table table %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}

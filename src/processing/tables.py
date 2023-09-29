@@ -13,6 +13,8 @@ class BatchList(tables.Table):
 
     review = TemplateColumn(template_name='tables/view_item_list.html', orderable=False)
     assigned_to = Column(verbose_name='assigned_to (Under Development)')
+    id = Column(verbose_name='ID')
+    name = Column(verbose_name='Batch Name')
 
 
 class ItemList(tables.Table):
