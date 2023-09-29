@@ -1,10 +1,16 @@
-from django.forms import ModelForm, TextInput, Textarea
+from django.forms import ChoiceField, ModelForm, TextInput, Textarea
 from crispy_forms.helper import FormHelper
 from django_ckeditor_5.widgets import CKEditor5Widget
 from .models import Item
 
 
 class ItemUpdateForm(ModelForm):
+    REVIEW_STATUS_CHOICES = (
+        (0, 'Not Started'),
+        (1, 'In Progress'),
+        (2, 'Complete'),
+    )
+    review_status = ChoiceField(choices=REVIEW_STATUS_CHOICES)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
