@@ -24,10 +24,10 @@ class ItemList(tables.Table):
 
     class Meta:
         model = Item
-        template_name = "django_tables2/bootstrap5.html"
+        template_name = 'django_tables2/bootstrap5.html'
         attrs = {'class': 'table table-sm'}
         row_attrs = {
-            "review_status": lambda value: value.name
+            'review_status': lambda value: value.name
         }
         fields = ['id',
                   'date',
