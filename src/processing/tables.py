@@ -1,6 +1,4 @@
 from django_tables2 import Column, tables, TemplateColumn
-from django_tables2.utils import Accessor
-from django.forms import ChoiceField
 from .models import Batch, Item
 
 
@@ -20,6 +18,10 @@ class BatchList(tables.Table):
 
 
 class ItemList(tables.Table):
+
+    review_status = Column(attrs={'td': {'class': lambda value: 'bg-success' if value == 'Complete'
+                                         else ('bg-warning' if value == 'In Progress' else 'bg-danger')}})
+
     class Meta:
         model = Item
         template_name = "django_tables2/bootstrap5.html"
