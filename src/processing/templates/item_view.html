@@ -51,10 +51,10 @@
                 {{ form.body_redact|as_crispy_field }}
             </div>
             <div class="col-md-2 mb-0">
-                <div>Metadata</div>
+                <div>Publishing Metadata</div>
                 <div class="card p-3 mt-1">
-                    {{ form.pool_report|as_crispy_field }}
                     {{ form.publish|as_crispy_field }}
+                    {{ form.pool_report|as_crispy_field }}
                     {{ form.off_the_record|as_crispy_field }}
                     {{ form.review_status|as_crispy_field }}
                 </div>

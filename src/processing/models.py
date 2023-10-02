@@ -22,7 +22,7 @@ class Item(models.Model):
     pool_report = models.BooleanField(null=False)
     publish = models.BooleanField(null=False)
     off_the_record = models.BooleanField(null=False)
-    review_status = models.SmallIntegerField(choices=Status.choices)
+    review_status = models.SmallIntegerField(choices=Status.choices, blank=False, default='Unspecified')
     notes = models.TextField(max_length=1000, blank=True, null=True)
     body_original = models.TextField(blank=True, null=True)
     body_clean = models.TextField(blank=True, null=True)
