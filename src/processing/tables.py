@@ -20,7 +20,8 @@ class BatchList(tables.Table):
 class ItemList(tables.Table):
 
     review_status = Column(attrs={'td': {'class': lambda value: 'text-success' if value == 'Complete'
-                                         else ('text-warning' if value == 'In Progress' else 'text-danger')}})
+                                         else ('text-warning' if value == 'In Progress'
+                                               else 'text-danger')}})
 
     class Meta:
         model = Item
