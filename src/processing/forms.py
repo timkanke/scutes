@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, Textarea
+from django.forms import ModelForm, RadioSelect, TextInput, Textarea
 from crispy_forms.helper import FormHelper
 from django_ckeditor_5.widgets import CKEditor5Widget
 from .models import Item
@@ -34,6 +34,7 @@ class ItemUpdateForm(ModelForm):
         widgets = {
             'date': TextInput(attrs={'disabled': True}),
             'reporter': TextInput(attrs={'class': 'form-control'}),
+            'review_status': RadioSelect(attrs={'id': 'value'}),
             'notes': Textarea(attrs={'class': 'form-control'}),
             'body_redact': CKEditor5Widget(
                 attrs={'class': 'django_ckeditor_5'}, config_name='extends'

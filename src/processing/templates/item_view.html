@@ -51,14 +51,20 @@
                 {{ form.body_redact|as_crispy_field }}
             </div>
             <div class="col-md-2 mb-0">
-                <div>Metadata</div>
+                <div>Publishing Metadata</div>
                 <div class="card p-3 mt-1">
-                    {{ form.pool_report|as_crispy_field }}
-                    {{ form.publish|as_crispy_field }}
-                    {{ form.off_the_record|as_crispy_field }}
-                    {{ form.review_status|as_crispy_field }}
+                    <div class="col my-0 py-0">
+                        {{ form.publish|as_crispy_field }}
+                        <hr>
+                        {{ form.pool_report|as_crispy_field }}
+                        {{ form.off_the_record|as_crispy_field }}
+                        <hr>
+                        <div class="col my-0 py-0">
+                            {{ form.review_status|as_crispy_field }}
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
+                <div class="row mt-4">
                     {{ form.notes|as_crispy_field }}
                 </div>
             </div>
