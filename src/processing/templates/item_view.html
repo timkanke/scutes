@@ -34,12 +34,6 @@
                 {{ form.title|as_crispy_field }}
             </div>
             <div class="col-md-2">
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button name="reset" class="btn btn-outline-warning btn-sm me-1" value="Reset">Reset</button>
-                    <input type="submit" name="save_add" class="btn btn-outline-success btn-sm me-1" value="Save" />
-                    <input type="submit" name="save_continue" class="btn btn-success btn-sm me-1"
-                        value="Save &amp; Next" />
-                </div>
             </div>
         </div>
 
@@ -51,7 +45,12 @@
                 {{ form.body_redact|as_crispy_field }}
             </div>
             <div class="col-md-2 mb-0">
-                <div>Publishing Metadata</div>
+                <div class="d-grid gap-2 d-xxl-flex">
+                    <input type="submit" name="save_continue" class="btn btn-success btn-sm me-1"
+                        value="Save &amp; Next" />
+                    <input type="submit" name="save_add" class="btn btn-outline-success btn-sm me-1" value="Save" />
+                    <button name="reset" class="btn btn-outline-warning btn-sm me-1" value="Reset">Reset</button>
+                </div>
                 <div class="card p-3 mt-1">
                     <div class="col my-0 py-0">
                         {{ form.publish|as_crispy_field }}
