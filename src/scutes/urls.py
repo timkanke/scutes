@@ -20,24 +20,23 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from processing.views import BatchList, Dashboard, Index, ItemList, ItemView
+from processing.views import BatchList, Dashboard, Index, ItemListView, ItemUpdateView
 
 urlpatterns = [
-    path('admin/doc/', include('django.contrib.admindocs.urls')),
-    path('admin/', admin.site.urls),
-    path('batchlist/', BatchList.as_view(), name='batchlist'),
-    path('dashboard/', Dashboard.as_view(), name='dashboard'),
-    path('', Index.as_view(), name='index'),
-    path('itemlist/<int:batch>/', ItemList.as_view(), name='itemlist'),
-    path('itemview/<int:pk>/', ItemView.as_view(), name='itemview'),
-    path("ckeditor5/", include('django_ckeditor_5.urls')),
+    path("admin/doc/", include("django.contrib.admindocs.urls")),
+    path("admin/", admin.site.urls),
+    path("batchlist/", BatchList.as_view(), name="batchlist"),
+    path("dashboard/", Dashboard.as_view(), name="dashboard"),
+    path("", Index.as_view(), name="index"),
+    path("itemlist/<int:batch>/", ItemListView.as_view(), name="itemlistview"),
+    path("itemview/<int:pk>/", ItemUpdateView.as_view(), name="itemupdateview"),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     path(
-        'password_reset//',
+        "password_reset//",
         auth_views.PasswordChangeView.as_view(
-            template_name='registration/password_reset_form.html',
-            success_url='/'
+            template_name="registration/password_reset_form.html", success_url="/"
         ),
-        name='change_password'
+        name="change_password",
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

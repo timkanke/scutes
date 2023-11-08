@@ -3,6 +3,26 @@
 
 {% block content %}
 <div class="container-fluid p-2">
+
+    <div class="row">
+        <div class="card p-3 mt-3">
+
+            <div class="col-md-10 mb-0">
+                <h3>Info</h3>
+                <b>prev_id:</b> {{ previous_object_id }}
+                <br>
+                <b>current_id:</b> {{ current_object_id }}
+                <br>
+                <b>next_id:</b> {{ next_object_id }}
+                <br>
+                <b>batch:</b> {{ item.batch }}
+                <br>
+                <b>batch:</b> {{ item.batch.id }}
+            </div>
+        </div>
+    </div>
+
+
     <div class="row">
         <div class="col-md-8 mb-0">
             <h1>Item View</h1>
@@ -11,30 +31,57 @@
         <div class="col-md-4">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
-                <a href=""><button class="btn btn-outline-info btn-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-arrow-up" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
-                        </svg>
-                        Item List</button></a>
-
-                <a href="{% url 'itemview' object.pk|add:-1 %}"><button class="btn btn-outline-info btn-sm">
+                {% if previous_object_id %}
+                <a href="{% url 'itemupdateview' previous_object_id %}">
+                    <button class="btn btn-info btn-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-chevron-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                         </svg>
-                        Prev Item</button></a>
+                        Prev Item
+                </a>
+                {% else %}
+                <button type="button" class="btn btn-secondary btn-sm" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                    </svg>
+                    Prev Item</button>
+                {% endif %}
 
-                <a href="{% url 'itemview' object.pk|add:1 %}"><button class="btn btn-outline-info btn-sm">
+                {% if next_object_id %}
+                <a href="{% url 'itemupdateview' next_object_id %}">
+                    <button class="btn btn-info btn-sm">
                         Next Item
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-chevron-right" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
                         </svg>
-                    </button></a>
+                </a>
+                {% else %}
+                <button type="button" class="btn btn-secondary btn-sm" disabled>
+                    Next Item
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-chevron-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                    </svg>
+                </button>
+                {% endif %}
+
+                <button type="button" class="btn btn-warning btn-sm">
+                    <a class="nav-link" href="{% url 'itemlistview' item.batch.id %}">List View with No
+                        Filters</a>
+                </button>
+                <button type="button" class="btn btn-success btn-sm">
+                    <a class="nav-link" href="{% url 'itemlistview' item.batch.id %}?{{ query_filter_url }}">
+                        List View with Filters
+                    </a>
+                </button>
+
 
             </div>
         </div>
@@ -64,8 +111,15 @@
             </div>
             <div class="col-md-2 mb-0">
                 <div class="d-grid gap-2 d-xxl-flex">
+
+                    {% if next_object_id %}
                     <input type="submit" name="save_continue" class="btn btn-success btn-sm me-1"
                         value="Save &amp; Next" />
+                    {% else %}
+                    <input type="submit" name="save_continue" class="btn btn-success btn-sm me-1"
+                        value="Save &amp; Next" disabled />
+                    {% endif %}
+
                     <input type="submit" name="save_add" class="btn btn-outline-success btn-sm me-1" value="Save" />
                     <button name="reset" class="btn btn-outline-warning btn-sm me-1" value="Reset">Reset</button>
                 </div>
