@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseForbidden, HttpResponseRedirect, QueryDict
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import urlencode
@@ -48,11 +48,14 @@ class ItemListView(LoginRequiredMixin, SingleTableMixin, ListView):
         queryset = super().get_queryset()
         self.filterset = ItemFilter(self.request.GET, queryset=queryset)
 
-        # Session key
+        # Session keys
         key = 'my_qs'
+        key_url = 'key_url'
 
         # Django wants datatypes to be JSON serializable. Byte objects need to be encoded/decoded
         self.request.session[key] = b64encode(pickle.dumps(self.filterset.qs.query)).decode('ascii')
+
+        self.request.session[key_url] = self.request.GET
 
         return self.filterset.qs
 
@@ -67,9 +70,6 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
     model = Item
     form_class = ItemUpdateForm
     context_object_name = 'item'
-
-    # form_class = ItemUpdateForm
-    # object_list = 'item'
 
     # Form
     def get_success_url(self):
@@ -143,7 +143,7 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
             return None
 
     def get_object_list(self, **kwargs):
-        # Session key
+        # Session keys
         key = 'my_qs'
 
         # Django wants datatypes to be JSON serializable. Byte objects need to be encoded/decoded
@@ -152,36 +152,31 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         qs.query = query
 
         object_list = qs.order_by('id')
+
         return object_list
 
-    def query_filter_url(self):
-        object_list = self.get_object_list()
 
-        # query_filter_url = self.kwargs['parameter']
-        # query_filter_url = QueryDict(mutable=True)  # returns empty dict
-        # query_filter_url = dict(self.request.GET)  # returns empty dict, expected since it would be getting url
-
-        query_filter_url = urlencode(
-            {'review_status': '2'}
-        )  # Desired, however not hardcoded
-
-        return query_filter_url
 
     # Create context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        key_url = 'key_url'
+        query_params = self.request.session[key_url]
+
+
         current_object_id = self.object.id
         next_object_id = self.get_next_id(current_object_id)
         previous_object_id = self.get_previous_id(current_object_id)
         object_list = self.get_object_list()
-        query_filter_url = self.query_filter_url()
+    
 
+        context['query_params'] = urlencode(query_params)
         context['current_object_id'] = current_object_id
         context['next_object_id'] = next_object_id
         context['previous_object_id'] = previous_object_id
         context['object_list'] = object_list
-        context['query_filter_url'] = query_filter_url
+       
 
         try:  # If we have pk, create object with that pk
             pk = self.kwargs['pk']

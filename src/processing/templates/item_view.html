@@ -15,8 +15,6 @@
                 <br>
                 <b>next_id:</b> {{ next_object_id }}
                 <br>
-                <b>batch:</b> {{ item.batch }}
-                <br>
                 <b>batch:</b> {{ item.batch.id }}
             </div>
         </div>
@@ -77,7 +75,7 @@
                         Filters</a>
                 </button>
                 <button type="button" class="btn btn-success btn-sm">
-                    <a class="nav-link" href="{% url 'itemlistview' item.batch.id %}?{{ query_filter_url }}">
+                    <a class="nav-link" href="{% url 'itemlistview' item.batch.id %}?{{ query_params }}">
                         List View with Filters
                     </a>
                 </button>
