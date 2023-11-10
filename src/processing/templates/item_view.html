@@ -5,23 +5,6 @@
 <div class="container-fluid p-2">
 
     <div class="row">
-        <div class="card p-3 mt-3">
-
-            <div class="col-md-10 mb-0">
-                <h3>Info</h3>
-                <b>prev_id:</b> {{ previous_object_id }}
-                <br>
-                <b>current_id:</b> {{ current_object_id }}
-                <br>
-                <b>next_id:</b> {{ next_object_id }}
-                <br>
-                <b>batch:</b> {{ item.batch.id }}
-            </div>
-        </div>
-    </div>
-
-
-    <div class="row">
         <div class="col-md-8 mb-0">
             <h1>Item View</h1>
         </div>
@@ -30,15 +13,17 @@
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
                 {% if previous_object_id %}
-                <a href="{% url 'itemupdateview' previous_object_id %}">
-                    <button class="btn btn-info btn-sm">
+
+                <button type="button" class="btn btn-info btn-sm">
+                    <a class="nav-link" href="{% url 'itemupdateview' previous_object_id %}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-chevron-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                         </svg>
                         Prev Item
-                </a>
+                    </a>
+                </button>
                 {% else %}
                 <button type="button" class="btn btn-secondary btn-sm" disabled>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -50,15 +35,17 @@
                 {% endif %}
 
                 {% if next_object_id %}
-                <a href="{% url 'itemupdateview' next_object_id %}">
-                    <button class="btn btn-info btn-sm">
+
+                <button type="button" class="btn btn-info btn-sm">
+                    <a class="nav-link" href="{% url 'itemupdateview' next_object_id %}">
                         Next Item
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-chevron-right" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
                         </svg>
-                </a>
+                    </a>
+                </button>
                 {% else %}
                 <button type="button" class="btn btn-secondary btn-sm" disabled>
                     Next Item
@@ -71,12 +58,11 @@
                 {% endif %}
 
                 <button type="button" class="btn btn-warning btn-sm">
-                    <a class="nav-link" href="{% url 'itemlistview' item.batch.id %}">List View with No
-                        Filters</a>
+                    <a class="nav-link" href="{% url 'itemlistview' item.batch.id %}">List View with Fresh Start</a>
                 </button>
                 <button type="button" class="btn btn-success btn-sm">
                     <a class="nav-link" href="{% url 'itemlistview' item.batch.id %}?{{ query_params }}">
-                        List View with Filters
+                        List View with Current Filters
                     </a>
                 </button>
 

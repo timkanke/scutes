@@ -1,14 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseForbidden, HttpResponseRedirect, QueryDict
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.views.generic import ListView, UpdateView
 from django.views.generic.base import TemplateView
-from django.views.generic.list import MultipleObjectMixin
 from django_tables2 import SingleTableMixin, SingleTableView
-from django_filters import FilterSet
-from django_filters.views import FilterView
 
 import pickle
 from base64 import b64encode, b64decode
@@ -142,6 +139,7 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         else:
             return None
 
+    # Get queryset from list view
     def get_object_list(self, **kwargs):
         # Session keys
         key = 'my_qs'
@@ -155,34 +153,30 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
 
         return object_list
 
-
-
     # Create context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        # Get query URL to return to list view
         key_url = 'key_url'
         query_params = self.request.session[key_url]
-
 
         current_object_id = self.object.id
         next_object_id = self.get_next_id(current_object_id)
         previous_object_id = self.get_previous_id(current_object_id)
         object_list = self.get_object_list()
     
-
         context['query_params'] = urlencode(query_params)
         context['current_object_id'] = current_object_id
         context['next_object_id'] = next_object_id
         context['previous_object_id'] = previous_object_id
         context['object_list'] = object_list
        
-
-        try:  # If we have pk, create object with that pk
+        try:  # If we have pk, then create item with that pk
             pk = self.kwargs['pk']
             instances = Item.objects.filter(pk=pk)
             if instances:
                 kwargs['object'] = instances[0]
         except Exception as e:
-            pass  # No pk, so no detail
+            pass  # No pk, so no item
         return context
