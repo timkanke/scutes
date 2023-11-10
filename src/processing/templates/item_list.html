@@ -20,7 +20,7 @@
                 <h3>Filters</h3>
 
                 <form action="" method="get" class="form form-inline">
-                    {{ form.as_p}}
+                    {{ form|crispy}}
                     {% bootstrap_button 'Filter' button_type="submit" button_class="btn-primary btn-sm" %}
                     {% bootstrap_button 'Reset' button_type="reset" button_class="btn-outline-primary btn-sm" %}
                 </form>
