@@ -18,13 +18,13 @@
         <div class="col-md-2">
             <div class="card p-3 mt-1">
                 <h3>Filters</h3>
-                {% if filter %}
+
                 <form action="" method="get" class="form form-inline">
-                    {% bootstrap_form filter.form layout='inline'|crispy %}
+                    {{ form.as_p}}
                     {% bootstrap_button 'Filter' button_type="submit" button_class="btn-primary btn-sm" %}
                     {% bootstrap_button 'Reset' button_type="reset" button_class="btn-outline-primary btn-sm" %}
                 </form>
-                {% endif %}
+
                 <div class="row pt-3">
                     <a href="{% clean_url %}"><button class="btn btn-warning btn-sm">Clear Filters</button></a>
                 </div>
