@@ -2,21 +2,85 @@
 
 {% block content %}
 
-<div class="container-fluid">
-    <h1>MVP Testing Milestone 1</h1>
-    <p>Select features:
-    <ul>
-        <li>Batch list</li>
-        <li>Item list</li>
-        <li>Item view</li>
-        <li>Authentication (temporary) for security</li>
-        <li>Full email pre-processing via commands</li>
-    </ul>
-    </p>
-    <p>Testing data:</p>
-    <p style="margin-left: 25px;">
-        2021-05
-    </p>
+<div class="px-4">
+    <div class="row">
+        <div class="col text-center">
+            <h1 class="display-1">Scutes</h1>
+            <blockquote class="blockquote">
+                <p>An email processing and review app</p>
+            </blockquote>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col text-center">
+            <h1>Release Notes</h1>
+        </div>
+    </div>
+
+    <div class="card mx-auto px-4 mb-5 col-md-4">
+        <div class="row">
+            <div class="col">
+                <br>
+                <h2>MVP Testing Milestone 2</h2>
+                <h4>Improvements</h4>
+                <ul>
+                    <li>Item View</li>
+                    <ul>
+                        <li>Item 'Previous Item' and 'Next Item' buttons use applied filters</li>
+                        <li>'Save & Next' button uses applied filters</li>
+                        <li>Added navigation to Item List with applied filters and without applied filters</li>
+                        <li>Moved Item 'Save", 'Save & Next', and 'Reset' buttons</li>
+                    </ul>
+                    <li>Item List</li>
+                    <ul>
+                        <li>Added filtering for Publish column</li>
+                        <li>Editorial Review column has stoplight colors for better visual clarity</li>
+                    </ul>
+                    <li> Batch List</li>
+                    <ul>
+                        <li>Disabled 'Assigned to' column</li>
+                    </ul>
+                    <li> Index Page</li>
+                    <ul>
+                        <li>Improved layout and style</li>
+                    </ul>
+                    <li>Auto-redaction</li>
+                    <ul>
+                        <li>Phone number auto-redaction no longer removes numbers from redacted strikethrough in Item
+                            View body redact editor</li>
+                        <li>Email address auto-redaction removes link</li>
+                    </ul>
+                </ul>
+                </p>
+                <h4>Testing data</h4>
+                <p style="margin-left: 25px;">
+                    2021-05
+                </p>
+            </div>
+
+            <br>
+            <hr><br>
+
+            <div class="col">
+                <h2>MVP Testing Milestone 1</h2>
+                <h4>Select features</h4>
+                <ul>
+                    <li>Batch list</li>
+                    <li>Item list</li>
+                    <li>Item view</li>
+                    <li>Authentication (temporary) for security</li>
+                    <li>Full email pre-processing via commands</li>
+                </ul>
+                </p>
+                <h4>Testing data</h4>
+                <p style="margin-left: 25px;">
+                    2021-05
+                </p>
+            </div>
+        </div>
+
+    </div>
 </div>
+
 
 {% endblock %}
