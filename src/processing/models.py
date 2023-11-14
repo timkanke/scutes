@@ -35,9 +35,6 @@ class Item(models.Model):
         on_delete=models.CASCADE,
     )
 
-    def __str__(self):
-        return self.name
-
 
 class Redact(models.Model):
     id = models.AutoField(primary_key=True)
