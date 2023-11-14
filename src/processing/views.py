@@ -34,7 +34,7 @@ class BatchList(LoginRequiredMixin, SingleTableView):
 
 class ItemListView(LoginRequiredMixin, SingleTableMixin, ListView):
     model = Item
-    queryset = Item.objects.all()
+    queryset = Item.objects.order_by('id')
     context_object_name = 'item_list'
     table_class = ItemList
     template_name = 'item_list.html'
