@@ -85,11 +85,11 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
             if form.is_valid():
                 if self.request.POST:
                     if 'save_add' in request.POST:
-                        self.upon_save()
+                        self.start_review_progress()
                         return self.form_valid(form)
                     elif 'save_continue' in request.POST:
                         self.form_valid(form)
-                        self.upon_save()
+                        self.start_review_progress()
                         pk_id = self.get_next_id(self.object.id)
                         return redirect('itemupdateview', pk=pk_id)
                     elif 'reset' in request.POST:
@@ -109,7 +109,7 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         return kwargs
 
     # Update field when saved
-    def upon_save(self, *args, **kwargs):
+    def start_review_progress(self, *args, **kwargs):
         if self.object.review_status == 0:
             self.object.review_status = 1
             self.object.save(update_fields=['review_status'])
@@ -169,14 +169,14 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         previous_object_id = self.get_previous_id(current_object_id)
         object_list = self.get_object_list()
 
-        upon_save = self.upon_save()
+        start_review_progress = self.start_review_progress()
     
         context['query_params'] = urlencode(query_params)
         context['current_object_id'] = current_object_id
         context['next_object_id'] = next_object_id
         context['previous_object_id'] = previous_object_id
         context['object_list'] = object_list
-        context['upon_save'] = upon_save
+        context['start_review_progress'] = start_review_progress
        
         try:  # If we have pk, then create item with that pk
             pk = self.kwargs['pk']
