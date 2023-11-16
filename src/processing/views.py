@@ -82,12 +82,15 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         form = self.get_form()
 
         if request.method == 'POST':
+
             if form.is_valid():
                 if self.request.POST:
                     if 'save_add' in request.POST:
+                        self.upon_save()
                         return self.form_valid(form)
                     elif 'save_continue' in request.POST:
                         self.form_valid(form)
+                        self.upon_save()
                         pk = (
                             object_list.filter(id__gt=self.object.id)
                             .order_by('id')
@@ -110,6 +113,12 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super().get_form_kwargs(*args, **kwargs)
         return kwargs
+
+    # Update field when saved
+    def upon_save(self, *args, **kwargs):
+        if self.object.review_status == 0:
+            self.object.review_status = 1
+            self.object.save(update_fields=['review_status'])
 
     # Navigation
     def get_next_id(self, current_object_id, **kwargs):
@@ -165,12 +174,15 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         next_object_id = self.get_next_id(current_object_id)
         previous_object_id = self.get_previous_id(current_object_id)
         object_list = self.get_object_list()
+
+        upon_save = self.upon_save()
     
         context['query_params'] = urlencode(query_params)
         context['current_object_id'] = current_object_id
         context['next_object_id'] = next_object_id
         context['previous_object_id'] = previous_object_id
         context['object_list'] = object_list
+        context['upon_save'] = upon_save
        
         try:  # If we have pk, then create item with that pk
             pk = self.kwargs['pk']
