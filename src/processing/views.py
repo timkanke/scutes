@@ -74,7 +74,6 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
 
     # Form
     def post(self, request, *args, **kwargs):
-        object_list = self.get_object_list()
 
         if not request.user.is_authenticated:
             return HttpResponseForbidden()
