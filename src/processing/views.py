@@ -91,13 +91,8 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
                     elif 'save_continue' in request.POST:
                         self.form_valid(form)
                         self.upon_save()
-                        pk = (
-                            object_list.filter(id__gt=self.object.id)
-                            .order_by('id')
-                            .only('id')
-                            .first()
-                        )
-                        return redirect('itemupdateview', pk=pk.id)
+                        pk_id = self.get_next_id(self.object.id)
+                        return redirect('itemupdateview', pk=pk_id)
                     elif 'reset' in request.POST:
                         return HttpResponseRedirect(
                             reverse('itemupdateview', kwargs={'pk': self.object.pk})
