@@ -92,6 +92,42 @@
             </div>
             <div class="col-md-5 mb-0">
                 {{ form.body_redact|as_crispy_field }}
+
+                <!-- Attachments -->
+                {% if item.files.all %}
+                {% for file in item.files.all %}
+                <!-- Stretched attachment link trigger modal -->
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ file.file.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <a href="#" class="stretched-link" data-bs-toggle="modal" data-bs-target="#Modal{{ file.id }}">
+                            {{ file.title }}
+                            <br>
+                            {{ file.file }}
+                        </a>
+                    </div>
+                </div>
+                <!-- Modal for attachments -->
+                <div class="modal fade" id="Modal{{ file.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Title: {{ file.title }}
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <img src="{{ file.file.url }}" alt="image" style="width:100%">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="col-md-2 mb-0">
                 <div class="d-grid gap-2 d-xxl-flex">
