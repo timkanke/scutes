@@ -42,3 +42,7 @@ markers = [
 ]
 [project.scripts]
 "manage.py" = "scutes:django_manage"
+[tool.ruff]
+line-length = 120
+[tool.ruff.format]
+quote-style = "single"  # Use single quotes for strings
