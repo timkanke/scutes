@@ -94,8 +94,7 @@
                 {{ form.body_redact|as_crispy_field }}
 
                 <!-- Attachments -->
-                {% if item.files.all %}
-                {% for file in item.files.all %}
+                {% for file in object.file_set.all %}
                 <!-- Stretched attachment link trigger modal -->
                 <div class="card" style="width: 18rem;">
                     <img src="{{ file.file.url }}" class="card-img-top" alt="...">
@@ -120,6 +119,8 @@
                             </div>
                             <div class="modal-body">
                                 <img src="{{ file.file.url }}" alt="image" style="width:100%">
+                                <br><br>
+                                <a href="{{ file.file.url }}">{{ file.file.url }}</a>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -129,7 +130,7 @@
                 </div>
                 <br>
                 {% endfor %}
-                {% endif %}
+
 
             </div>
             <div class="col-md-2 mb-0">
