@@ -10,7 +10,7 @@ class BatchAdmin(admin.ModelAdmin):
 
 @admin.register(File)
 class FileAdmin(admin.ModelAdmin):
-    list_display = ['title', 'file']
+    list_display = ['id', 'name', 'content_type', 'content_disposition', 'content_id', 'item']
 
 
 @admin.register(Item)

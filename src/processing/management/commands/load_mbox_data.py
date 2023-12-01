@@ -1,3 +1,4 @@
+import io
 import logging
 import mailbox
 import re
@@ -6,6 +7,8 @@ from email.header import decode_header, make_header
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 
+from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
 from django.core.management import BaseCommand
 
 from processing.models import Batch, File, Item
@@ -205,31 +208,27 @@ class Command(BaseCommand):
             # fk
             item.batch = batch
 
-            # attachment
-            """
-            Value class for holding information about files associated with a message.
+            item.save()
 
-            Attributes
-            ----------
-            filename: str
-                The filename from the message
-            content: bytes
-                 The contents of the message file
-            output_subdir: str
-                When writing to output, the subdirectory to output to. Default
-                is '', which writes to the message folder
-            content_id: str
-                The content id associated with the file. Defaults to '', which
-                indicates no content id. Typically used for matching attachments to
-                in-line image links in the message.
-            """
+            # attachment
             file = File()
             for part in message.walk():
-                filename = part.get_filename()
-                if filename:
-                    content = part.get_payload(decode=True)
+                email_filename = part.get_filename()
+                if email_filename:
+                    content_type = part['Content-Type']
+                    content_disposition = part['Content-Disposition']
                     content_id = part['Content-ID']
-                    file.file = content
-                    file.title = decode_header(part.get_filename())[0][1]
+                    content = part.get_payload(decode=True)
 
-            item.save()
+                    content_file = ContentFile(content, name=email_filename)
+                    file = File(file=content_file)
+
+                    file.name = email_filename
+                    file.content_type = content_type
+                    file.content_disposition = content_disposition
+                    file.content_id = content_id
+
+                    # fk
+                    file.item = item
+
+                    file.save()
