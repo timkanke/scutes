@@ -9,6 +9,16 @@ entity "Batch" as Batch {
   datetime_added : datetime
 }
 
+Entity "File" as File {
+    *id : number <<generated>>
+    *item : number <<FK>>
+    name : text
+    content_type : text
+    content_disposition : text
+    content_id : text
+    file : FileField
+    }
+
 entity "Item" as Item {
   *id : number <<generated>>
   --
@@ -20,7 +30,7 @@ entity "Item" as Item {
   publish : boolean
   off_the_record : boolean
   review_status: boolean
-  comment : text
+  notes : text
   body_original : text
   body_clean : text
   body_redact : text
@@ -37,5 +47,6 @@ entity "Redact" as Redact {
 
 
 Batch ||..|{ Item
+Item ||..|{ File
 
 @enduml
