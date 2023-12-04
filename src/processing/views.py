@@ -74,14 +74,12 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
 
     # Form
     def post(self, request, *args, **kwargs):
-
         if not request.user.is_authenticated:
             return HttpResponseForbidden()
         self.object = self.get_object()
         form = self.get_form()
 
         if request.method == 'POST':
-
             if form.is_valid():
                 if self.request.POST:
                     if 'save_add' in request.POST:
@@ -93,9 +91,7 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
                         pk_id = self.get_next_id(self.object.id)
                         return redirect('itemupdateview', pk=pk_id)
                     elif 'reset' in request.POST:
-                        return HttpResponseRedirect(
-                            reverse('itemupdateview', kwargs={'pk': self.object.pk})
-                        )
+                        return HttpResponseRedirect(reverse('itemupdateview', kwargs={'pk': self.object.pk}))
             else:
                 return self.form_invalid(form)
 
@@ -117,12 +113,7 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
     # Navigation
     def get_next_id(self, current_object_id, **kwargs):
         object_list = self.get_object_list()
-        qs = (
-            object_list.filter(id__gt=current_object_id)
-            .order_by('id')
-            .only('id')
-            .first()
-        )
+        qs = object_list.filter(id__gt=current_object_id).order_by('id').only('id').first()
         if qs:
             return qs.id
         else:
@@ -131,12 +122,7 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
     # Navigation
     def get_previous_id(self, current_object_id, **kwargs):
         object_list = self.get_object_list()
-        qs = (
-            object_list.filter(id__lt=current_object_id)
-            .order_by('-id')
-            .only('id')
-            .first()
-        )
+        qs = object_list.filter(id__lt=current_object_id).order_by('-id').only('id').first()
         if qs:
             return qs.id
         else:
@@ -170,14 +156,14 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         object_list = self.get_object_list()
 
         start_review_progress = self.start_review_progress()
-    
+
         context['query_params'] = urlencode(query_params)
         context['current_object_id'] = current_object_id
         context['next_object_id'] = next_object_id
         context['previous_object_id'] = previous_object_id
         context['object_list'] = object_list
         context['start_review_progress'] = start_review_progress
-       
+
         try:  # If we have pk, then create item with that pk
             pk = self.kwargs['pk']
             instances = Item.objects.filter(pk=pk)

@@ -10,3 +10,4 @@ __pycache__
 tests/scutes/test_data/*
 
 data/db/*
+src/media/*

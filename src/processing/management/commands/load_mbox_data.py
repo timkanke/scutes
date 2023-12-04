@@ -1,3 +1,4 @@
+import io
 import logging
 import mailbox
 import re
@@ -6,9 +7,11 @@ from email.header import decode_header, make_header
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 
+from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
 from django.core.management import BaseCommand
 
-from processing.models import Batch, Item
+from processing.models import Batch, File, Item
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +22,8 @@ reporter_scrub = [
     'EOP/WHO',
 ]
 
-reporter_extract = re.compile(r'''
+reporter_extract = re.compile(
+    r"""
     ^
     ["\' ]*     # ignore punctuation and whitespace
     (.*?)       # reporter name (minimal match)
@@ -28,11 +32,13 @@ reporter_extract = re.compile(r'''
     ["\' ]*     # ignore punctuation and whitespace
     <.*>        # ignore the email address
     $
-''', re.VERBOSE)
+""",
+    re.VERBOSE,
+)
 
 
 def process_reporter(reporter: str) -> str:
-    """ Build the Reporter field from the message From header. """
+    """Build the Reporter field from the message From header."""
 
     logger.debug(f'reporter: From={reporter}')
 
@@ -48,7 +54,7 @@ def process_reporter(reporter: str) -> str:
         else:
             # Change "LastName, FirstName" to "FirstName LastName"
             # Ignore anything after a second comma
-            reporter = s[1] + " " + s[0]
+            reporter = s[1] + ' ' + s[0]
 
         logger.debug(f'reporter: extracted: {reporter}')
 
@@ -81,9 +87,15 @@ def scrub_title(value: str) -> str:
 
 # Body Processing
 body_scrub = [
-                (r'-- \nTo unsubscribe from this group and stop receiving emails from it, send an email to all\+unsubscribe@.*\.com\.', ''),  # noqa
-                (r'-- \<br /\>\nTo unsubscribe from this group and stop receiving emails from it, send an email to \<a href\="mailto\:all\+unsubscribe@.*\.com"\>all\+unsubscribe@.*\.com\</a\>\.\<br /\>', ''),  # noqa
-            ]
+    (
+        r'-- \nTo unsubscribe from this group and stop receiving emails from it, send an email to all\+unsubscribe@.*\.com\.',
+        '',
+    ),  # noqa
+    (
+        r'-- \<br /\>\nTo unsubscribe from this group and stop receiving emails from it, send an email to \<a href\="mailto\:all\+unsubscribe@.*\.com"\>all\+unsubscribe@.*\.com\</a\>\.\<br /\>',
+        '',
+    ),  # noqa
+]
 
 p_charset = re.compile(r'charset=[a-zA-Z0-9-]+')
 
@@ -94,7 +106,7 @@ def scrub_body(html: str) -> str:
         html = re.sub(old, new, html, re.DOTALL)
         logger.debug(f'body: scrubbed "{old}"')
     # Update the charset since we have convert to utf-8
-    html = p_charset.sub("charset=utf-8", html)
+    html = p_charset.sub('charset=utf-8', html)
     return html
 
 
@@ -109,7 +121,7 @@ NONPOOL_REPORT_MARKERS = [
     re.compile('off the record', re.IGNORECASE),
     re.compile(r'\bFPPO\b'),
     re.compile('non-reportable', re.IGNORECASE),
-    re.compile(r'\breportable\b', re.IGNORECASE)
+    re.compile(r'\breportable\b', re.IGNORECASE),
 ]
 
 
@@ -126,7 +138,7 @@ def is_pool_report(html: str) -> bool:
 
 
 class Command(BaseCommand):
-    help = "Loads data from mbox into database."
+    help = 'Loads data from mbox into database.'
 
     def add_arguments(self, parser):
         parser.add_argument('file_path', type=str, help='File path to be imported.')
@@ -166,7 +178,7 @@ class Command(BaseCommand):
             for part in message.walk():
                 content_type = part.get_content_type()
                 if content_type in ('text/html'):
-                    logger.debug(f'Found HTML body for message')
+                    logger.debug('Found HTML body for message')
                     content = part.get_payload(decode=True)
                     charset = part.get_content_charset()
                     logger.debug(charset)
@@ -174,17 +186,17 @@ class Command(BaseCommand):
                         charset = 'UTF-8'
                     html = content.decode(charset)
                 elif content_type in ('text/plain'):
-                    logger.debug(f'Found plain text body for message')
+                    logger.debug('Found plain text body for message')
                     content = part.get_payload(decode=True)
                     charset = part.get_content_charset()
                     logger.debug(charset)
                     if charset is None:
                         charset = 'UTF-8'
                     text = content.decode(charset)
-                    html = f"<html><body><pre>{text}</pre></body></html>"
+                    html = f'<html><body><pre>{text}</pre></body></html>'
                 elif content_type in (''):
-                    logger.warning(f'Unable to find body for message')
-                    html = ""
+                    logger.warning('Unable to find body for message')
+                    html = ''
             item.body_original = scrub_body(html)
 
             # Checkboxes
@@ -197,3 +209,26 @@ class Command(BaseCommand):
             item.batch = batch
 
             item.save()
+
+            # attachment
+            file = File()
+            for part in message.walk():
+                email_filename = part.get_filename()
+                if email_filename:
+                    content_type = part['Content-Type']
+                    content_disposition = part['Content-Disposition']
+                    content_id = part['Content-ID']
+                    content = part.get_payload(decode=True)
+
+                    content_file = ContentFile(content, name=email_filename)
+                    file = File(file=content_file)
+
+                    file.name = email_filename
+                    file.content_type = content_type
+                    file.content_disposition = content_disposition
+                    file.content_id = content_id
+
+                    # fk
+                    file.item = item
+
+                    file.save()
