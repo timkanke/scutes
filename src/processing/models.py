@@ -28,6 +28,10 @@ class File(models.Model):
             return 'image'
         if file_type == 'image/png':
             return 'image'
+        if file_type == 'application/pdf':
+            return 'pdf'
+        if file_type == 'audio/mpeg':
+            return 'audio'
         return 'other'
 
 
