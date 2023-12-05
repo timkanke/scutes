@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 
 
@@ -17,6 +19,16 @@ class File(models.Model):
     content_id = models.CharField(max_length=100, blank=True, null=True)
     file = models.FileField(upload_to='files')
     item = models.ForeignKey('Item', on_delete=models.CASCADE)
+
+    def file_type(self):
+        file_type = re.split(';', self.content_type)[0]
+        if file_type == 'image/jpeg':
+            return 'image'
+        if file_type == 'image/jpg':
+            return 'image'
+        if file_type == 'image/png':
+            return 'image'
+        return 'other'
 
 
 class Item(models.Model):
