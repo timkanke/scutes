@@ -3,6 +3,7 @@ import logging
 import mailbox
 import re
 
+from bs4 import BeautifulSoup
 from email.header import decode_header, make_header
 from email.utils import parsedate_to_datetime
 from pathlib import Path
@@ -210,7 +211,7 @@ class Command(BaseCommand):
 
             item.save()
 
-            # attachment
+            # Attachment
             file = File()
             for part in message.walk():
                 email_filename = part.get_filename()
@@ -232,3 +233,52 @@ class Command(BaseCommand):
                     file.item = item
 
                     file.save()
+
+                    # Inline
+                    if content_disposition is not None:
+                        file_disposition_type = re.split(';', content_disposition)[0]
+                        if file_disposition_type == 'inline':
+                            for inline in file_disposition_type:
+                                if file.content_id is not None:
+                                    content_id = str(file.content_id)
+                                    url = file.file.url
+
+                                    image_src_prefix = 'cid:'
+                                    image_src_id = content_id.strip('<>')
+                                    image_src = image_src_prefix + image_src_id
+
+                                    html = item.body_original
+                                    soup = BeautifulSoup(html, 'lxml')
+                                    images = soup.findAll('img')
+                                    for image in images:
+                                        if image.has_attr('src'):
+                                            if image['src'] == image_src:
+                                                image['src'] = url
+                                                item.body_original = str(soup)
+                                                item.save(update_fields=['body_original'])
+                                elif file.content_id is None:
+                                    html = item.body_original
+                                    url = file.file.url
+
+                                    soup = BeautifulSoup(html, 'lxml')
+                                    inline_image = soup.new_tag('img', src=url)
+                                    soup.append(inline_image)
+                                    item.save(update_fields=['body_original'])
+                    elif content_disposition is None:
+                        if file.content_id is not None:
+                            content_id = str(file.content_id)
+                            url = file.file.url
+
+                            image_src_prefix = 'cid:'
+                            image_src_id = content_id.strip('<>')
+                            image_src = image_src_prefix + image_src_id
+
+                            html = item.body_original
+                            soup = BeautifulSoup(html, 'lxml')
+                            images = soup.findAll('img')
+                            for image in images:
+                                if image.has_attr('src'):
+                                    if image['src'] == image_src:
+                                        image['src'] = url
+                                        item.body_original = str(soup)
+                                        item.save(update_fields=['body_original'])
