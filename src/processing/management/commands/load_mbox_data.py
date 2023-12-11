@@ -263,6 +263,7 @@ class Command(BaseCommand):
                                     soup = BeautifulSoup(html, 'lxml')
                                     inline_image = soup.new_tag('img', src=url)
                                     soup.append(inline_image)
+                                    item.body_original = str(soup)
                                     item.save(update_fields=['body_original'])
                     elif content_disposition is None:
                         if file.content_id is not None:
