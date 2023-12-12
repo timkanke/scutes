@@ -221,6 +221,11 @@ class Command(BaseCommand):
                     content_id = part['Content-ID']
                     content = part.get_payload(decode=True)
 
+                    if content_disposition is not None:
+                        disposition = re.split(';', content_disposition)[0]
+                    else:
+                        disposition = content_disposition
+
                     content_file = ContentFile(content, name=email_filename)
                     file = File(file=content_file)
 
@@ -228,6 +233,7 @@ class Command(BaseCommand):
                     file.content_type = content_type
                     file.content_disposition = content_disposition
                     file.content_id = content_id
+                    file.disposition = disposition
 
                     # fk
                     file.item = item

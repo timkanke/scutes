@@ -17,6 +17,7 @@ class File(models.Model):
     content_type = models.CharField(max_length=100, blank=True, null=True)
     content_disposition = models.CharField(max_length=100, blank=True, null=True)
     content_id = models.CharField(max_length=100, blank=True, null=True)
+    disposition = models.CharField(max_length=100, blank=True, null=True)
     file = models.FileField(upload_to='files')
     item = models.ForeignKey('Item', on_delete=models.CASCADE)
 
