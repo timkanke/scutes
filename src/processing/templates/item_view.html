@@ -95,13 +95,10 @@
                 <br>
 
                 <!-- Attachments -->
-                {% for file in object.file_set.all %}
-                {% if file.disposition == 'attachment' %}
-                {% with total=object.file_set.all.count %}
-                <p class="fw-medium">{{ total }} {{ file.disposition|capfirst }}{{ total|pluralize }}</p>
-                {% endwith %}
+
+                {% if file_attachment_count is not 0 %}
+                <h6>{{ file_attachment_count }} Attachment{{ file_attachment_count|pluralize }}</h6>
                 {% endif %}
-                {% endfor %}
 
                 {% for file in object.file_set.all %}
                 {% if file.disposition == 'attachment' %}
@@ -220,19 +217,16 @@
 
 
                 <!-- Inline -->
-                {% for file in object.file_set.all %}
-                {% if file.disposition == 'inline' %}
-                {% with total=object.file_set.all.count %}
-                <p class="fw-medium">{{ total }} {{ file.disposition|capfirst }}{{ total|pluralize }}</p>
-                {% endwith %}
+
+                {% if file_inline_count is not 0 %}
+                <h6>{{ file_inline_count }} Inline{{ file_inline_count|pluralize }}</h6>
                 {% endif %}
-                {% endfor %}
 
                 {% for file in object.file_set.all %}
                 {% if file.disposition == 'inline' %}
                 <div class="card" style="width: 18rem;">
                     <div class="card-header">
-                        {{ file.file_type|capfirst }}
+                        {{ file.disposition|capfirst }} - {{ file.file_type|capfirst }}
                     </div>
                     <div class="card-body">
                         <p class="fw-medium">{{ file.name }}</p>
@@ -250,6 +244,7 @@
                         </button>
                     </div>
                 </div>
+                <br>
                 {% endif %}
                 {% endfor %}
 
