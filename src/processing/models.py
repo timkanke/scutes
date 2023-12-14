@@ -21,6 +21,7 @@ class File(models.Model):
     file = models.FileField(upload_to='files')
     item = models.ForeignKey('Item', on_delete=models.CASCADE)
 
+    @property
     def file_type(self):
         file_type = re.split(';', self.content_type)[0]
         if file_type == 'image/jpeg':
@@ -62,6 +63,14 @@ class Item(models.Model):
         'Batch',
         on_delete=models.CASCADE,
     )
+
+    @property
+    def attachment_count(self):
+        return self.file_set.filter(disposition__contains='attachment').count
+
+    @property
+    def inline_count(self):
+        return self.file_set.filter(disposition__contains='inline').count
 
 
 class Redact(models.Model):

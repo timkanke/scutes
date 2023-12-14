@@ -96,8 +96,8 @@
 
                 <!-- Attachments -->
 
-                {% if file_attachment_count is not 0 %}
-                <h6>{{ file_attachment_count }} Attachment{{ file_attachment_count|pluralize }}</h6>
+                {% if attachment_count is not 0 %}
+                <h6>{{ attachment_count }} Attachment{{ attachment_count|pluralize }}</h6>
                 {% endif %}
 
                 {% for file in object.file_set.all %}
@@ -218,8 +218,8 @@
 
                 <!-- Inline -->
 
-                {% if file_inline_count is not 0 %}
-                <h6>{{ file_inline_count }} Inline{{ file_inline_count|pluralize }}</h6>
+                {% if inline_count is not 0 %}
+                <h6>{{ inline_count }} Inline{{ inline_count|pluralize }}</h6>
                 {% endif %}
 
                 {% for file in object.file_set.all %}

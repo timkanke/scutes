@@ -12,7 +12,7 @@ from base64 import b64encode, b64decode
 
 from .filters import ItemFilter
 from .forms import ItemUpdateForm
-from .models import Batch, File, Item
+from .models import Batch, Item
 from .tables import BatchList, ItemList
 
 
@@ -137,22 +137,8 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         query = pickle.loads(b64decode(self.request.session[key]))
         qs = Item.objects.all()
         qs.query = query
-
         object_list = qs.order_by('id')
-
         return object_list
-
-    # Get file attachment count
-    def get_file_attachment_count(self):
-        detail_item = Item.objects.get(id=self.object.id)
-        file_attachment_count = detail_item.file_set.filter(disposition__contains='attachment').count
-        return file_attachment_count
-
-    # Get file inline count
-    def get_file_inline_count(self):
-        detail_item = Item.objects.get(id=self.object.id)
-        file_inline_count = detail_item.file_set.filter(disposition__contains='inline').count
-        return file_inline_count
 
     # Create context
     def get_context_data(self, **kwargs):
@@ -162,29 +148,24 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         key_url = 'key_url'
         query_params = self.request.session[key_url]
 
-        current_object_id = self.object.id
-        next_object_id = self.get_next_id(current_object_id)
-        previous_object_id = self.get_previous_id(current_object_id)
-        object_list = self.get_object_list()
-        file_attachment_count = self.get_file_attachment_count()
-        file_inline_count = self.get_file_inline_count()
-
-        start_review_progress = self.start_review_progress()
-
-        context['query_params'] = urlencode(query_params)
-        context['current_object_id'] = current_object_id
-        context['next_object_id'] = next_object_id
-        context['previous_object_id'] = previous_object_id
-        context['object_list'] = object_list
-        context['start_review_progress'] = start_review_progress
-        context['file_attachment_count'] = file_attachment_count
-        context['file_inline_count'] = file_inline_count
+        context.update(
+            {
+                'query_params': urlencode(query_params),
+                'current_object_id': self.object.id,
+                'next_object_id': self.get_next_id(self.object.id),
+                'previous_object_id': self.get_previous_id(self.object.id),
+                'object_list': self.get_object_list(),
+                'start_review_progress': self.start_review_progress(),
+                'attachment_count': self.object.attachment_count,
+                'inline_count': self.object.inline_count,
+            }
+        )
 
         try:  # If we have pk, then create item with that pk
             pk = self.kwargs['pk']
             instances = Item.objects.filter(pk=pk)
             if instances:
                 kwargs['object'] = instances[0]
-        except Exception as e:
+        except Exception:
             pass  # No pk, so no item
         return context
