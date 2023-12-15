@@ -137,9 +137,7 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         query = pickle.loads(b64decode(self.request.session[key]))
         qs = Item.objects.all()
         qs.query = query
-
         object_list = qs.order_by('id')
-
         return object_list
 
     # Create context
@@ -150,25 +148,24 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         key_url = 'key_url'
         query_params = self.request.session[key_url]
 
-        current_object_id = self.object.id
-        next_object_id = self.get_next_id(current_object_id)
-        previous_object_id = self.get_previous_id(current_object_id)
-        object_list = self.get_object_list()
-
-        start_review_progress = self.start_review_progress()
-
-        context['query_params'] = urlencode(query_params)
-        context['current_object_id'] = current_object_id
-        context['next_object_id'] = next_object_id
-        context['previous_object_id'] = previous_object_id
-        context['object_list'] = object_list
-        context['start_review_progress'] = start_review_progress
+        context.update(
+            {
+                'query_params': urlencode(query_params),
+                'current_object_id': self.object.id,
+                'next_object_id': self.get_next_id(self.object.id),
+                'previous_object_id': self.get_previous_id(self.object.id),
+                'object_list': self.get_object_list(),
+                'start_review_progress': self.start_review_progress(),
+                'attachment_count': self.object.attachment_count,
+                'inline_count': self.object.inline_count,
+            }
+        )
 
         try:  # If we have pk, then create item with that pk
             pk = self.kwargs['pk']
             instances = Item.objects.filter(pk=pk)
             if instances:
                 kwargs['object'] = instances[0]
-        except Exception as e:
+        except Exception:
             pass  # No pk, so no item
         return context

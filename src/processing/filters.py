@@ -15,10 +15,14 @@ STATUS_CHOICES = (
 
 
 class ItemFilter(FilterSet):
-    reporter = CharFilter(field_name="reporter", label="Reporter Name Contains",lookup_expr='icontains')
-    publish = ChoiceFilter(field_name="publish", label="Publish", choices=PUBLISH_CHOICES)
-    review_status = ChoiceFilter(field_name="review_status", label="Editorial Review", choices=STATUS_CHOICES)
+    reporter = CharFilter(field_name='reporter', label='Reporter Name Contains', lookup_expr='icontains')
+    publish = ChoiceFilter(field_name='publish', label='Publish', choices=PUBLISH_CHOICES)
+    review_status = ChoiceFilter(field_name='review_status', label='Editorial Review', choices=STATUS_CHOICES)
 
     class Meta:
         model = Item
-        fields = ('reporter', 'publish', 'review_status')
+        fields = (
+            'reporter',
+            'publish',
+            'review_status',
+        )
