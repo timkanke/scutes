@@ -13,7 +13,6 @@
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
                 {% if previous_object_id %}
-
                 <button type="button" class="btn btn-info btn-sm">
                     <a class="nav-link" href="{% url 'itemupdateview' previous_object_id %}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -35,7 +34,6 @@
                 {% endif %}
 
                 {% if next_object_id %}
-
                 <button type="button" class="btn btn-info btn-sm">
                     <a class="nav-link" href="{% url 'itemupdateview' next_object_id %}">
                         Next Item
@@ -94,161 +92,11 @@
                 {{ form.body_redact|as_crispy_field }}
                 <br>
 
-                <!-- Attachments -->
-
-                {% if attachment_count is not 0 %}
-                <h6>{{ attachment_count }} Attachment{{ attachment_count|pluralize }}</h6>
-                {% endif %}
-
-                {% for file in object.file_set.all %}
-                {% if file.disposition == 'attachment' %}
-                {% if file.file_type == 'image' %}
-                <!-- Stretched attachment link trigger modal -->
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ file.file.url }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <a href="#" class="stretched-link" data-bs-toggle="modal" data-bs-target="#Modal{{ file.id }}">
-                            {{ file.name }}
-                        </a>
-                    </div>
-                </div>
-                <!-- Modal for attachments -->
-                <div class="modal fade" id="Modal{{ file.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Name: {{ file.name }}
-                                </h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <img src="{{ file.file.url }}" alt="image" style="width:100%">
-                                <br><br>
-                                <button type="button" class="btn btn-light">
-                                    <a href="{{ file.file.url }}" target="_blank" rel="noopener noreferrer">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-                                            <path
-                                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                                            <path
-                                                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                                        </svg>
-                                    </a>
-                                </button>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                {% elif file.file_type == 'pdf' %}
-                <div class="card" style="width: 18rem;">
-                    <div class="card-header">
-                        PDF
-                    </div>
-                    <div class="card-body">
-                        <p class="fw-medium">{{ file.name }}</p>
-                        <p class="fw-lighter">{{ file.file.size|filesizeformat }}</p>
-                        <button type="button" class="btn btn-light">
-                            <a href="{{ file.file.url }}" target="_blank" rel="noopener noreferrer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-download" viewBox="0 0 16 16">
-                                    <path
-                                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                                    <path
-                                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                                </svg>
-                            </a>
-                        </button>
-                    </div>
-                </div>
-                <br>
-                {% elif file.file_type == 'audio' %}
-                <div class="card" style="width: 18rem;">
-                    <div class="card-header">
-                        Audio
-                    </div>
-                    <div class="card-body">
-                        <p class="fw-medium">{{ file.name }}</p>
-                        <p class="fw-lighter">{{ file.file.size|filesizeformat }}</p>
-                        <button type="button" class="btn btn-light">
-                            <a href="{{ file.file.url }}" target="_blank" rel="noopener noreferrer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-download" viewBox="0 0 16 16">
-                                    <path
-                                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                                    <path
-                                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                                </svg>
-                            </a>
-                        </button>
-                    </div>
-                </div>
-                <br>
-                {% else %}
-                <div class="card" style="width: 18rem;">
-                    <div class="card-header">
-                        File
-                    </div>
-                    <div class="card-body">
-                        <p class="fw-medium">{{ file.name }}</p>
-                        <p class="fw-lighter">{{ file.file.size|filesizeformat }}</p>
-                        <button type="button" class="btn btn-light">
-                            <a href="{{ file.file.url }}" target="_blank" rel="noopener noreferrer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-download" viewBox="0 0 16 16">
-                                    <path
-                                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                                    <path
-                                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                                </svg>
-                            </a>
-                        </button>
-                    </div>
-                </div>
-
-                {% endif %}
-                {% endif %}
-                {% endfor %}
-
+                <!-- Attachment -->
+                {% include "partials/item_attachment.html" %}
 
                 <!-- Inline -->
-
-                {% if inline_count is not 0 %}
-                <h6>{{ inline_count }} Inline{{ inline_count|pluralize }}</h6>
-                {% endif %}
-
-                {% for file in object.file_set.all %}
-                {% if file.disposition == 'inline' %}
-                <div class="card" style="width: 18rem;">
-                    <div class="card-header">
-                        {{ file.disposition|capfirst }} - {{ file.file_type|capfirst }}
-                    </div>
-                    <div class="card-body">
-                        <p class="fw-medium">{{ file.name }}</p>
-                        <p class="fw-lighter">{{ file.file.size|filesizeformat }}</p>
-                        <button type="button" class="btn btn-light">
-                            <a href="{{ file.file.url }}" target="_blank" rel="noopener noreferrer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-download" viewBox="0 0 16 16">
-                                    <path
-                                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                                    <path
-                                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                                </svg>
-                            </a>
-                        </button>
-                    </div>
-                </div>
-                <br>
-                {% endif %}
-                {% endfor %}
-
-
+                {% include "partials/item_inline.html" %}
                 <br>
             </div>
             <div class="col-md-2 mb-0">
