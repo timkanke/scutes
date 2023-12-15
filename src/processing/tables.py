@@ -1,5 +1,5 @@
 from django_tables2 import Column, tables, TemplateColumn
-from .models import Batch, Item
+from .models import Batch, File, Item
 
 
 class BatchList(tables.Table):
@@ -39,8 +39,6 @@ class ItemList(tables.Table):
             'title',
             'publish',
             'review_status',
-            'attachment_count',
-            'inline_count',
         ]
 
     id = Column(verbose_name='ID', orderable=False)
@@ -48,6 +46,4 @@ class ItemList(tables.Table):
     reporter = Column(orderable=False)
     title = Column(orderable=False)
     publish = Column(orderable=False)
-    attachment_count = Column(orderable=False)
-    inline_count = Column(orderable=False)
     review = TemplateColumn(template_name='tables/view_item.html', orderable=False)
