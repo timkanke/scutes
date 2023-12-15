@@ -255,13 +255,24 @@ class Command(BaseCommand):
 
                                     html = item.body_original
                                     soup = BeautifulSoup(html, 'lxml')
-                                    images = soup.findAll('img')
-                                    for image in images:
-                                        if image.has_attr('src'):
-                                            if image['src'] == image_src:
-                                                image['src'] = url
-                                                item.body_original = str(soup)
-                                                item.save(update_fields=['body_original'])
+
+                                    tag_exists = soup.find('img')
+                                    if tag_exists is not None:
+                                        images = soup.findAll('img')
+                                        for image in images:
+                                            if image.has_attr('src'):
+                                                if image['src'] == image_src:
+                                                    image['src'] = url
+                                                    item.body_original = str(soup)
+                                                    item.save(update_fields=['body_original'])
+                                    else:
+                                        files = File.objects.filter(item=item)
+                                        for file in files:
+                                            url = file.file.url
+                                            inline_image = soup.new_tag('img', src=url)
+                                            soup.append(inline_image)
+                                            item.body_original = str(soup)
+                                            item.save(update_fields=['body_original'])
                                 elif file.content_id is None:
                                     html = item.body_original
                                     url = file.file.url
