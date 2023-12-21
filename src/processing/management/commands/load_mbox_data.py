@@ -1,15 +1,15 @@
-import io
 import logging
 import mailbox
+import os
 import re
+import requests
 
 from bs4 import BeautifulSoup
-from email.header import decode_header, make_header
+from email.header import decode_header
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 
 from django.core.files.base import ContentFile
-from django.core.files.storage import FileSystemStorage
 from django.core.management import BaseCommand
 
 from processing.models import Batch, File, Item
@@ -211,8 +211,50 @@ class Command(BaseCommand):
 
             item.save()
 
-            # Attachment
+            # Files
             file = File()
+
+            # External images
+            external_image_list = []
+            html = item.body_original
+            soup = BeautifulSoup(html, 'lxml')
+            for link in soup.find_all('img'):
+                src = link.get('src')
+                if src is not None:
+                    if src.startswith('http'):
+                        external_image_list.append(src)
+
+            for external_image in external_image_list:
+                try:
+                    response = requests.get(external_image, stream=True)
+                except requests.ConnectionError as e:
+                    logger.warning(f"FAILED to retrieve '{src}'. Connection error: {e}")
+                    # self.failed_src_retrievals.append(src)
+                    continue
+                if response.ok:
+                    logger.debug(f"Successfully Retrieved '{src}'.")
+                    # Save file
+                    filename = os.path.split(src)[1]
+                    content = response.raw.data
+                    content_file = ContentFile(content, name=filename)
+                    file = File(file=content_file)
+                    file.content_type = response.headers['Content-Type']
+                    file.disposition = 'external'
+                    file.content_id = src
+                    file.item = item  # fk
+                    file.save()
+
+                    # Replace url and save body with internal link
+                    tag = soup.find('img')
+                    if tag is not None:
+                        new_external_image_src = file.file.url
+                        tag['src'] = new_external_image_src
+                        item.body_original = str(soup)
+                        item.save(update_fields=['body_original'])
+                else:
+                    logger.warning(f"FAILED to retrieve '{src}'. response={response}")
+
+            # Attachments and Inlines
             for part in message.walk():
                 email_filename = part.get_filename()
                 if email_filename:
@@ -240,7 +282,8 @@ class Command(BaseCommand):
 
                     file.save()
 
-                    # Inline
+                    # Inlines
+
                     if content_disposition is not None:
                         file_disposition_type = re.split(';', content_disposition)[0]
                         if file_disposition_type == 'inline':
