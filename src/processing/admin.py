@@ -15,10 +15,7 @@ class FileAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ['id', 'date', 'reporter', 'title', 'file_name']
-
-    def file_name(self, obj):
-        return ','.join([file.name for file in obj.file_set.all()])
+    list_display = ['id', 'date', 'reporter', 'title']
 
 
 @admin.register(Redact)
