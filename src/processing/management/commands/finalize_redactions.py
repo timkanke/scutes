@@ -12,18 +12,18 @@ logger = logging.getLogger(__name__)
 
 def redact_final(html):
     soup = BeautifulSoup(html, 'lxml')
-    tags = soup.find_all('del')
+    tags = soup.find_all('del', {'class': 'redacted'})
 
     for tag in tags:
-        tag.string = '▊▊▊▊▊▊▊▊▊▊'
-        tag = tag.unwrap().get_text(strip=True)
+        new_string = '▊▊▊▊▊▊▊▊▊▊'
+        tag = tag.replace_with(new_string)
 
     html = str(soup)
     return html
 
 
 class Command(BaseCommand):
-    help = "Finalize redactions from body_redact and saves to body_final."
+    help = 'Finalize redactions from body_redact and saves to body_final.'
 
     def add_arguments(self, parser):
         parser.add_argument('batch_selected', type=int, help='Batch to have redactions finalized.')
