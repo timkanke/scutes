@@ -12,7 +12,7 @@ ENV LOGGING_LEVEL=INFO
 ENV DJANGO_LOG_LEVEL=INFO
 
 ENV MEDIA_URL='/media/'
-ENV MEDIA_ROOT=''
+ENV MEDIA_ROOT='/media'
 
 # Set database environment variables
 ENV DB_ENGINE=django.db.backends.postgresql
