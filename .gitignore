@@ -11,3 +11,4 @@ tests/scutes/test_data/*
 
 data/db/*
 src/media/*
+src/scutes.egg-info/*
