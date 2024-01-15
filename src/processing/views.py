@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core import management
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -30,6 +31,16 @@ class BatchList(LoginRequiredMixin, SingleTableView):
     template_name = 'batch_list.html'
     paginate_by = 10
     context_object_name = 'batch'
+
+    def run_management_command(self, object_id):
+        batch_number = 1
+        run_mark_redaction = management.call_command('mark_redaction', batch_number)
+        return run_mark_redaction
+
+    def get_context_data(self, **kwargs):
+        context = super(BatchList, self).get_context_data(**kwargs)
+        context['run_management_command'] = self.run_management_command(self.object.id)
+        return context
 
 
 class ItemListView(LoginRequiredMixin, SingleTableMixin, ListView):
