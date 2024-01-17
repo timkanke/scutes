@@ -9,6 +9,7 @@ from pathlib import Path
 from django.core.management import BaseCommand
 
 from processing.models import Batch, File, Item
+from processing.common.export import export
 
 
 logger = logging.getLogger(__name__)
@@ -25,112 +26,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         batch_selected = options['batch_selected']
-        batch = Batch.objects.get(id=batch_selected)
-        batch_selected_name = batch.name
-
-        # Check if all items are reviewed
-        total_items_count = Item.objects.filter(batch=batch_selected).count()
-        not_reviewed = Item.objects.filter(batch=batch_selected, review_status=False)
-        not_reviewed_count = not_reviewed.count()
-        if not_reviewed_count != 0:
-            logger.info('Not all items in this batch have been reviewed.')
-            logger.info(f'Number of items not reviewed: {not_reviewed_count} out of {total_items_count}')
-            result = input('Continue export? Please answer yes or no: ')
-            if result == 'yes':
-                pass
-            else:
-                logger.info('Exiting Script')
-                sys.exit()
-        else:
-            pass
-
-        # Select items only in selected batch and marked publish
-        items = Item.objects.filter(batch=batch_selected, publish=True)
-
-        # Create output path if not exists
-        path = Path(options['file_path'], batch_selected_name)
-        path.mkdir(parents=True, exist_ok=True)
-        output_path = path
-
-        # Open the output CSV for writing
-        with open(output_path / 'whpool.csv', 'w') as csv_file:
-            csv_writer = DictWriter(csv_file, fieldnames=HEADER, extrasaction='ignore', escapechar='\\')
-            # Add the headers
-            csv_writer.writeheader()
-
-            # Iterate over items in database
-            for item in items:
-                logger.info(f'Exporting: {item.id}, {item.title}')
-
-                files_path = []
-
-                # Create HTML file
-                id = str(item.id)
-                body_name = 'body-' + id + '.html'
-                body = Path(output_path / id / body_name)
-                body.parent.mkdir(parents=True, exist_ok=True)
-                with open(body, 'w') as body:
-                    body.write(item.body_final)
-                file_path = id + '/' + body_name
-                files_path.append(file_path)
-
-                # Create attachment file
-                files = File.objects.filter(item=item)
-                for file in files:
-                    if file.disposition == 'attachment':
-                        file_name = file.name
-                        file_path = Path(output_path / id / 'attachments' / file_name)
-                        file_path.parent.mkdir(parents=True, exist_ok=True)
-                        file_to_download = file.file.read()
-                        with open(file_path, 'wb') as f:
-                            f.write(file_to_download)
-                        file_path = id + '/' + 'media' + '/' + file_name
-                        files_path.append(file_path)
-                    elif file.disposition == 'inline':
-                        file_name = file.file.name
-                        file_path = Path(output_path / id / 'media' / file_name)
-                        file_path.parent.mkdir(parents=True, exist_ok=True)
-                        file_to_download = file.file.read()
-                        with open(file_path, 'wb') as f:
-                            f.write(file_to_download)
-                        file_path = id + '/' + 'media' + '/' + file_name
-                        files_path.append(file_path)
-                    elif file.disposition == 'external':
-                        file_name = file.file.name
-                        file_path = Path(output_path / id / 'media' / file_name)
-                        file_path.parent.mkdir(parents=True, exist_ok=True)
-                        file_to_download = file.file.read()
-                        with open(file_path, 'wb') as f:
-                            f.write(file_to_download)
-                        file_path = id + '/' + 'media' + '/' + file_name
-                        files_path.append(file_path)
-                    else:
-                        pass
-
-                # Write CSV row
-                csv_writer.writerow(
-                    {
-                        'Identifier': item.id,
-                        'Title': item.title,
-                        'Date': item.date,
-                        'Creator': item.reporter,
-                        'Format': 'http://vocab.lib.umd.edu/form#pool_reports',
-                        'Rights Statement': 'http://vocab.lib.umd.edu/rightsStatement#InC-NC',
-                        'FILES': ';'.join(files_path),
-                        'Object Type': 'http://purl.org/dc/dcmitype/Text',
-                    }
-                )
-
-        # Zip directory
-        directory = Path(output_path)
-        logger.info(f'Creating zip file for {directory}')
-
-        zip_file_name = batch_selected_name + '.zip'
-        zip_file = Path(directory.parent / zip_file_name)
-
-        with zipfile.ZipFile(zip_file, mode='w') as archive:
-            for file_path in directory.rglob('*'):
-                archive.write(file_path, arcname=file_path.relative_to(directory))
-
-        with zipfile.ZipFile(zip_file, mode='r') as archive:
-            archive.printdir()
+        export_path = Path(options['file_path'])
+        export(batch_selected, export_path)
