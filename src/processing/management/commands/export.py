@@ -1,20 +1,13 @@
 import logging
-import sys
-import zipfile
 
-from bs4 import BeautifulSoup
-from csv import DictWriter
 from pathlib import Path
 
 from django.core.management import BaseCommand
 
-from processing.models import Batch, File, Item
 from processing.common.export import export
 
 
 logger = logging.getLogger(__name__)
-
-HEADER = ['Identifier', 'Title', 'Date', 'Creator', 'Format', 'Rights Statement', 'FILES', 'Object Type']
 
 
 class Command(BaseCommand):
