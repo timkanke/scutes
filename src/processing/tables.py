@@ -13,6 +13,7 @@ class BatchList(tables.Table):
     assigned_to = Column(attrs={'th': {'class': 'text-decoration-line-through text-muted'}}, orderable=False)
     id = Column(verbose_name='ID')
     name = Column(verbose_name='Batch Name')
+    finalize = TemplateColumn(template_name='tables/finalize.html', orderable=False)
 
 
 class ItemList(tables.Table):

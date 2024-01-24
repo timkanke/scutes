@@ -19,21 +19,35 @@ HEADER = ['Identifier', 'Title', 'Date', 'Creator', 'Format', 'Rights Statement'
 def export(batch_selected, export_path):
     batch = Batch.objects.get(id=batch_selected)
     batch_selected_name = batch.name
+
     # Check if all items are reviewed
     total_items_count = Item.objects.filter(batch=batch_selected).count()
-    not_reviewed = Item.objects.filter(batch=batch_selected, review_status=False)
-    not_reviewed_count = not_reviewed.count()
-    if not_reviewed_count != 0:
+    items_completed = Item.objects.filter(batch=batch_selected, review_status=2)
+    items_in_progress = Item.objects.filter(batch=batch_selected, review_status=1)
+    items_not_started = Item.objects.filter(batch=batch_selected, review_status=0)
+
+    items_reviewed_count = items_completed.count()
+    not_reviewed_count = items_in_progress.count() + items_not_started.count()
+
+    if items_reviewed_count != 0:
         logger.info('Not all items in this batch have been reviewed.')
         logger.info(f'Number of items not reviewed: {not_reviewed_count} out of {total_items_count}')
-        result = input('Continue export? Please answer yes or no: ')
-        if result == 'yes':
-            pass
-        else:
-            logger.info('Exiting Script')
-            sys.exit()
+
+        yield '<div class="text-bg-danger p-3">Warning! Not all items in this batch have been reviewed.</div>'
+        yield f'<div class="text-bg-warning p-3">Number of items not reviewed: {not_reviewed_count} out of {total_items_count} items.<br>'
+        yield f'Number of items in progress: {items_in_progress.count()}<br>'
+        yield f'Number of items not started: {items_not_started.count()}</div>'
+
+        # Disabled user input to proceed
+        # result = input('Continue export? Please answer yes or no: ')
+        # if result == 'yes':
+        # pass
+        # else:
+        # logger.info('Exiting Script')
+        # sys.exit()
     else:
         pass
+
     # Select items only in selected batch and marked publish
     items = Item.objects.filter(batch=batch_selected, publish=True)
     # Create output path if not exists
@@ -48,6 +62,7 @@ def export(batch_selected, export_path):
         # Iterate over items in database
         for item in items:
             logger.info(f'Exporting: {item.id}, {item.title}')
+            yield f'Exporting: {item.id}, {item.title}<br>'
             files_path = []
             # Create HTML file
             id = str(item.id)
@@ -106,10 +121,13 @@ def export(batch_selected, export_path):
     # Zip directory
     directory = Path(output_path)
     logger.info(f'Creating zip file for {directory}')
+    yield f'Creating zip file for {batch_selected_name}'
     zip_file_name = batch_selected_name + '.zip'
     zip_file = Path(directory.parent / zip_file_name)
     with zipfile.ZipFile(zip_file, mode='w') as archive:
         for file_path in directory.rglob('*'):
             archive.write(file_path, arcname=file_path.relative_to(directory))
-    with zipfile.ZipFile(zip_file, mode='r') as archive:
-        archive.printdir()
+
+    # Disabled info about created zip file
+    # with zipfile.ZipFile(zip_file, mode='r') as archive:
+    # archive.printdir()
