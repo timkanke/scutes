@@ -20,7 +20,16 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from processing.views import BatchList, Dashboard, Index, ItemListView, ItemUpdateView
+from processing.views import (
+    BatchList,
+    batch_export,
+    batch_redaction,
+    Dashboard,
+    FinalizeBatchView,
+    Index,
+    ItemListView,
+    ItemUpdateView,
+)
 
 urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
@@ -30,6 +39,9 @@ urlpatterns = [
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
     path('', Index.as_view(), name='index'),
     path('itemlist/<int:batch>/', ItemListView.as_view(), name='itemlistview'),
+    path('finalizebatch/<int:pk>/', FinalizeBatchView.as_view(), name='finalizebatchview'),
+    path('batch_redaction/', batch_redaction, name='batch_redaction'),
+    path('batch_export/', batch_export, name='batch_export'),
     path('itemview/<int:pk>/', ItemUpdateView.as_view(), name='itemupdateview'),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('accounts/', include('django.contrib.auth.urls')),

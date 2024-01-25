@@ -1,19 +1,29 @@
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http.response import StreamingHttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import urlencode
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView, DetailView, UpdateView
 from django.views.generic.base import TemplateView
 from django_tables2 import SingleTableMixin, SingleTableView
 
+import logging
+import os
 import pickle
+
 from base64 import b64encode, b64decode
 
 from .filters import ItemFilter
 from .forms import ItemUpdateForm
 from .models import Batch, Item
 from .tables import BatchList, ItemList
+from processing.common.export import export
+from processing.common.finalize_redactions import convert_redaction
+
+
+logger = logging.getLogger(__name__)
 
 
 class Index(TemplateView):
@@ -169,3 +179,35 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         except Exception:
             pass  # No pk, so no item
         return context
+
+
+class FinalizeBatchView(LoginRequiredMixin, DetailView):
+    template_name = 'finalize_batch.html'
+    queryset = Item.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update(
+            {
+                'batch_selected': self.object.pk,
+            }
+        )
+        return context
+
+
+def batch_redaction(request):
+    batch_selected = request.POST['id']
+    stream = convert_redaction(batch_selected)
+    response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    return response
+
+
+def batch_export(request):
+    batch_selected = request.POST['id']
+    export_path = os.path.join(settings.MEDIA_ROOT, 'export')
+    stream = export(batch_selected, export_path)
+    response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    return response
