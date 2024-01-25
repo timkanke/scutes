@@ -14,15 +14,25 @@ See [docs/CKEditor.md](docs/CKEditor.md).
 
 ![Database Schema](docs/images/db_schema.svg)
 
-## Custom Management Commands
+## Management Commands
 
 All commands are ran in the src directory.
+
+### Built-in Management Commands
 
 Load YAML test data
 
 ```zsh
 ./manage.py loaddata test_data
 ```
+
+To Start the dev server. Run manage command in src directory.
+
+```zsh
+./manage.py runserver
+```
+
+### Custom Management Commands
 
 Load mbox file
 

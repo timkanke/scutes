@@ -42,6 +42,12 @@ This should download and install that version of Python.
     pyenv version
     ```
 
+    If not correct version, set python version to local directory
+
+    ```zsh
+    pyenv local 3.11
+    ```
+
 4. Create and activate the virtual environment:
 
    ```zsh
@@ -66,11 +72,65 @@ Copy and rename ```src/.env-dev-example``` to ```src/.env```.
     The settings in the file are:
 
     ```env
+    # SECURITY WARNING: don't run with debug turned on in production!  
     DEBUG=on
+
     ALLOWED_HOSTS=localhost,127.0.0.1
+
+    # SECURITY WARNING: keep the secret key used in production secret!  
     SECRET_KEY='your-secret-key'
-    DATABASE_URL=sqlite:///./db.sqlite3
+
+    # Database  
+    # Preferred development database is sqlite3  
+    DB_ENGINE=django.db.backends.sqlite3  
+    DB_NAME=db.sqlite3  
+    DB_USER=''  
+    DB_PASSWORD=''  
+    DB_HOST=''  
+    DB_PORT=''
+
     CSRF_TRUSTED_ORIGINS=''
+
+    LOGGING_LEVEL=DEBUG
+
+    # DJANGO_LOG_LEVEL=DEBUG setting is very verbose as it includes all database queries.  
+    DJANGO_LOG_LEVEL=INFO
+    ```
+
+## Set up
+
+1. If not in src directory, then change into src directory:
+
+    ```zsh
+    cd src
+    ```
+
+2. Run migrate command:
+
+    ```zsh
+    ./manage.py migrate
+    ```
+
+3. Run createsuperuser command:
+
+    ```zsh
+    ./manage.py createsuperuser
+    ```
+
+4. Import Data
+    Use either YAML test data or an .mbox file
+    See Management Commands
+
+5. To Start the dev server. Run manage command in src directory.
+
+    ```zsh
+    ./manage.py runserver
+    ```
+
+    Note: Use ctrl+c to stop server. If server command prompt is given back without stopping the server, you will need to kill the process in order to see logging. For example, you accidentally hit ctrl-z.
+
+    ```zsh
+    lsof -t -i tcp:8000 | xargs kill -9
     ```
 
 ## Running the tests
