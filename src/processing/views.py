@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
@@ -10,6 +11,7 @@ from django.views.generic.base import TemplateView
 from django_tables2 import SingleTableMixin, SingleTableView
 
 import logging
+import os
 import pickle
 import time
 import sys
@@ -212,7 +214,7 @@ def batch_redaction(request):
 
 def batch_export(request):
     batch_selected = request.POST['id']
-    export_path = '/Users/tkanke/Downloads/scutes'  # TODO YAY! Hardcoded Value
+    export_path = os.path.join(settings.MEDIA_ROOT, 'export')
     stream = export(batch_selected, export_path)
     response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
     response['Cache-Control'] = 'no-cache'
