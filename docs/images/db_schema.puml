@@ -16,6 +16,7 @@ Entity "File" as File {
     content_type : text
     content_disposition : text
     content_id : text
+    disposition : text
     file : FileField
     }
 
@@ -29,7 +30,7 @@ entity "Item" as Item {
   pool_report : boolean
   publish : boolean
   off_the_record : boolean
-  review_status: boolean
+  review_status: int
   notes : text
   body_original : text
   body_clean : text
