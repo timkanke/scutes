@@ -1,9 +1,8 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
-from django.shortcuts import redirect, render
-from django.template.response import TemplateResponse
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, UpdateView
@@ -13,23 +12,16 @@ from django_tables2 import SingleTableMixin, SingleTableView
 import logging
 import os
 import pickle
-import time
-import sys
 
-from bs4 import BeautifulSoup
 from base64 import b64encode, b64decode
-from queue import Queue, Empty
-from threading import Thread, current_thread
 
 from .filters import ItemFilter
 from .forms import ItemUpdateForm
 from .models import Batch, Item
 from .tables import BatchList, ItemList
-
-from processing.common.finalize_redactions import convert_redaction
 from processing.common.export import export
+from processing.common.finalize_redactions import convert_redaction
 
-import subprocess as sp
 
 logger = logging.getLogger(__name__)
 

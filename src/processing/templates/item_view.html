@@ -3,7 +3,6 @@
 
 {% block content %}
 <div class="container-fluid p-2">
-
     <div class="row">
         <div class="col-md-8 mb-0">
             <h1>Item View</h1>
@@ -11,7 +10,6 @@
         <!-- item nav -->
         <div class="col-md-4">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-
                 {% if previous_object_id %}
                 <button type="button" class="btn btn-info btn-sm">
                     <a class="nav-link" href="{% url 'itemupdateview' previous_object_id %}">
@@ -32,7 +30,6 @@
                     </svg>
                     Prev Item</button>
                 {% endif %}
-
                 {% if next_object_id %}
                 <button type="button" class="btn btn-info btn-sm">
                     <a class="nav-link" href="{% url 'itemupdateview' next_object_id %}">
@@ -54,7 +51,6 @@
                     </svg>
                 </button>
                 {% endif %}
-
                 <button type="button" class="btn btn-warning btn-sm">
                     <a class="nav-link" href="{% url 'itemlistview' item.batch.id %}">List View with Fresh Start</a>
                 </button>
@@ -63,8 +59,6 @@
                         List View with Current Filters
                     </a>
                 </button>
-
-
             </div>
         </div>
     </div>
@@ -72,7 +66,6 @@
     <form method="post" enctype="multipart/form-data" class="card p-3 mt-3">
         {% csrf_token %}
         {{ form.media}}
-
         <div class="row">
             <div class="col-md-10 mb-0">
                 <h3>ID: {{ object.pk }}</h3>
@@ -83,7 +76,6 @@
             <div class="col-md-2">
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-5 mb-0 bg-light">
                 {{ form.body_original|as_crispy_field }}

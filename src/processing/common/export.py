@@ -1,12 +1,8 @@
 import logging
-import sys
 import zipfile
 
-from bs4 import BeautifulSoup
 from csv import DictWriter
 from pathlib import Path
-
-from django.core.management import BaseCommand
 
 from processing.models import Batch, File, Item
 
@@ -38,7 +34,7 @@ def export(batch_selected, export_path):
         yield f'Number of items in progress: {items_in_progress.count()}<br>'
         yield f'Number of items not started: {items_not_started.count()}</div>'
 
-        # Disabled user input to proceed
+        # Disabled command line input to proceed
         # result = input('Continue export? Please answer yes or no: ')
         # if result == 'yes':
         # pass
@@ -127,7 +123,3 @@ def export(batch_selected, export_path):
     with zipfile.ZipFile(zip_file, mode='w') as archive:
         for file_path in directory.rglob('*'):
             archive.write(file_path, arcname=file_path.relative_to(directory))
-
-    # Disabled info about created zip file
-    # with zipfile.ZipFile(zip_file, mode='r') as archive:
-    # archive.printdir()
