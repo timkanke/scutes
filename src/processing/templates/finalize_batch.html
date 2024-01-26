@@ -4,36 +4,42 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row p-1">
-        <h1>Finalize Batch</h1>
-        <h3>Batch ID: {{ object.pk }}</h3>
-    </div>
-    <div class="row p-1">
-        <div class="col">
-            <div class="card p-3 mt-1" style="height:700px;">
-                <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                    hx-post="/batch_redaction/" hx-target="#redactDataLocation" hx-include="[name='id']"
-                    hx-swap="innerHTML" value="{{ object.pk }}" name="id">
-                    Convert Redactions
-                </button>
-                <p class="card-text">
-                <div class="overflow-auto">
-                    <div id="redactDataLocation"></div>
-                </div>
-                </p>
+        <h1>Convert & Export Batch</h1>
+
+        <div class="card p-3 mt-1">
+            <div class="row p-1">
+                <h4>ID: {{ object.pk }}</h4>
+                <h4>Name: {{ batch.name }}</h4>
             </div>
-        </div>
-        <div class="col">
-            <div class="card p-3 mt-1" style="height:700px;">
-                <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                    hx-post="/batch_export/" hx-target="#exportDataLocation" hx-include="[name='id']"
-                    hx-swap="innerHTML" value="{{ object.pk }}" name="id">
-                    Export
-                </button>
-                <p class="card-text">
-                <div class="overflow-auto">
-                    <div id="exportDataLocation"></div>
+            <div class="row p-1">
+                <div class="col">
+                    <div class="card p-3 mt-1" style="height:700px;">
+                        <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                            hx-post="/batch_redaction/" hx-target="#redactDataLocation" hx-include="[name='id']"
+                            hx-swap="innerHTML" value="{{ object.pk }}" name="id">
+                            Convert Redactions
+                        </button>
+                        <p class="card-text">
+                        <div class="overflow-auto">
+                            <div id="redactDataLocation"></div>
+                        </div>
+                        </p>
+                    </div>
                 </div>
-                </p>
+                <div class="col">
+                    <div class="card p-3 mt-1" style="height:700px;">
+                        <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                            hx-post="/batch_export/" hx-target="#exportDataLocation" hx-include="[name='id']"
+                            hx-swap="innerHTML" value="{{ object.pk }}" name="id">
+                            Export
+                        </button>
+                        <p class="card-text">
+                        <div class="overflow-auto">
+                            <div id="exportDataLocation"></div>
+                        </div>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
