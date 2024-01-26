@@ -183,10 +183,12 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
 
 class FinalizeBatchView(LoginRequiredMixin, DetailView):
     template_name = 'finalize_batch.html'
-    queryset = Item.objects.all()
+    queryset = Batch.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['batch_qs'] = Batch.objects.all
+        context['item_qs'] = Item.objects.filter(batch=1)
 
         context.update(
             {
