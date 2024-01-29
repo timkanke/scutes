@@ -3,6 +3,35 @@
 
 {% block content %}
 <div class="container-fluid">
+
+    {% if item_review_not_complete %}
+    <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Warning</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        {{ item_review_not_complete }} out of {{ object.item_set.count }}
+                        items have not been completely reviewed.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning btn-md">
+                        <a class="nav-link" href="{% url 'itemlistview' batch.id %}?review_status=0&review_status=1">
+                            Go to List View with Item Review Not Completed
+                        </a>
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+
     <div class="row p-1">
         <h1>Convert & Export Batch</h1>
 
@@ -44,4 +73,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    var myModal = new bootstrap.Modal(document.getElementById('myModal'), {})
+    myModal.toggle()
+</script>
+
 {% endblock %}
