@@ -196,9 +196,6 @@ class FinalizeBatchView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['batch_qs'] = Batch.objects.all
-        # context['item_qs'] = Item.objects.all
-
         context.update(
             {
                 'batch_id': self.object.id,
