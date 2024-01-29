@@ -38,7 +38,9 @@
         <div class="card p-3 mt-1">
             <div class="row p-1">
                 <h4>ID: {{ object.pk }}</h4>
-                <h4>Name: {{ batch.name }}</h4>
+                <h5>Name: {{ batch.name }}</h5>
+                <h5>Number of items: {{ object.item_set.count }}</h5>
+                <h5>Number of items to be published: {{ item_publish }}</h5>
             </div>
             <div class="row p-1">
                 <div class="col">

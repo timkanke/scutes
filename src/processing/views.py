@@ -194,12 +194,18 @@ class FinalizeBatchView(LoginRequiredMixin, DetailView):
         else:
             return None
 
+    def item_publish(self):
+        batch_id = self.object.id
+        qs = Item.objects.filter(batch=batch_id, publish=1)
+        return qs.count
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(
             {
                 'batch_id': self.object.id,
                 'item_review_not_complete': self.item_review_not_complete(),
+                'item_publish': self.item_publish(),
             }
         )
         return context
