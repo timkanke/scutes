@@ -117,9 +117,10 @@ def export(batch_selected, export_path):
     # Zip directory
     directory = Path(output_path)
     logger.info(f'Creating zip file for {directory}')
-    yield f'Creating zip file for {batch_selected_name}'
+    yield f'Creating zip file for {batch_selected_name}<br>'
     zip_file_name = batch_selected_name + '.zip'
     zip_file = Path(directory.parent / zip_file_name)
     with zipfile.ZipFile(zip_file, mode='w') as archive:
         for file_path in directory.rglob('*'):
             archive.write(file_path, arcname=file_path.relative_to(directory))
+    yield f'Finished export of {batch_selected_name}'
