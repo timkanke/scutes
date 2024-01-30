@@ -5,8 +5,8 @@
 <div class="container-fluid">
 
     {% if item_review_not_complete %}
-    <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog"
-        aria-labelledby="myModalLabel">
+    <div class="modal fade" id="incompleteReviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        role="dialog" aria-labelledby="incompleteReviewModal">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -47,11 +47,11 @@
                     <div class="card p-3 mt-1" style="height:700px;">
                         <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                             hx-post="/batch_redaction/" hx-target="#redactDataLocation" hx-include="[name='id']"
-                            hx-swap="innerHTML" value="{{ object.pk }}" name="id">
+                            hx-swap="innerHTML show:bottom" value="{{ object.pk }}" name="id">
                             Convert Redactions
                         </button>
                         <p class="card-text">
-                        <div class="overflow-auto">
+                        <div class="overflow-scroll">
                             <div id="redactDataLocation"></div>
                         </div>
                         </p>
@@ -61,7 +61,7 @@
                     <div class="card p-3 mt-1" style="height:700px;">
                         <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                             hx-post="/batch_export/" hx-target="#exportDataLocation" hx-include="[name='id']"
-                            hx-swap="innerHTML" value="{{ object.pk }}" name="id">
+                            hx-swap="innerHTML show:bottom" value="{{ object.pk }}" name="id">
                             Export
                         </button>
                         <p class="card-text">
@@ -77,8 +77,8 @@
 </div>
 
 <script>
-    var myModal = new bootstrap.Modal(document.getElementById('myModal'), {})
-    myModal.toggle()
+    var incompleteReviewModal = new bootstrap.Modal(document.getElementById('incompleteReviewModal'), {})
+    incompleteReviewModal.toggle()
 </script>
 
 {% endblock %}
