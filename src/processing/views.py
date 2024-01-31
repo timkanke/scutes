@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
@@ -183,14 +184,28 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
 
 class FinalizeBatchView(LoginRequiredMixin, DetailView):
     template_name = 'finalize_batch.html'
-    queryset = Item.objects.all()
+    queryset = Batch.objects.all()
+
+    def item_review_not_complete(self, **kwargs):
+        batch_id = self.object.id
+        qs = Item.objects.filter(batch=batch_id, review_status=1) | Item.objects.filter(batch=batch_id, review_status=0)
+        if qs:
+            return qs.count
+        else:
+            return None
+
+    def item_publish(self):
+        batch_id = self.object.id
+        qs = Item.objects.filter(batch=batch_id, publish=1)
+        return qs.count
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context.update(
             {
-                'batch_selected': self.object.pk,
+                'batch_id': self.object.id,
+                'item_review_not_complete': self.item_review_not_complete(),
+                'item_publish': self.item_publish(),
             }
         )
         return context

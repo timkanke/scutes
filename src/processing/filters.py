@@ -1,4 +1,5 @@
-from django_filters import FilterSet, CharFilter, ChoiceFilter
+from django import forms
+from django_filters import FilterSet, CharFilter, ChoiceFilter, MultipleChoiceFilter
 
 from .models import Item
 
@@ -17,7 +18,12 @@ STATUS_CHOICES = (
 class ItemFilter(FilterSet):
     reporter = CharFilter(field_name='reporter', label='Reporter Name Contains', lookup_expr='icontains')
     publish = ChoiceFilter(field_name='publish', label='Publish', choices=PUBLISH_CHOICES)
-    review_status = ChoiceFilter(field_name='review_status', label='Editorial Review', choices=STATUS_CHOICES)
+    review_status = MultipleChoiceFilter(
+        field_name='review_status',
+        label='Editorial Review',
+        choices=STATUS_CHOICES,
+        widget=forms.CheckboxSelectMultiple,
+    )
 
     class Meta:
         model = Item
