@@ -394,3 +394,13 @@
     body_redact:
     last_modified:
     batch: 1
+- model: processing.file
+  pk: 1
+  fields:
+    name: Socks_the_Cat_Explores.jpg By Barbara Kinney - Clinton Presidential Library &amp; Museum [1], Public Domain, https://commons.wikimedia.org/w/index.php?curid=40304453
+    content_type: image/png
+    content_disposition:
+    content_id: https://en.wikipedia.org/wiki/Socks_(cat)#/media/File:Socks_the_Cat_Explores.jpg
+    disposition: attachment
+    file: testfiles/Socks_the_Cat_Explores.jpg
+    item: 1
