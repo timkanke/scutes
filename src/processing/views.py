@@ -19,7 +19,7 @@ from base64 import b64encode, b64decode
 from .filters import ItemFilter
 from .forms import ItemUpdateForm
 from .models import Batch, Item
-from .tables import BatchList, ItemList
+from .tables import BatchList
 from processing.common.export import export
 from processing.common.finalize_redactions import convert_redaction
 
@@ -47,9 +47,7 @@ class ItemListView(LoginRequiredMixin, ListView):
     model = Item
     queryset = Item.objects.order_by('id')
     context_object_name = 'item_list'
-    table_class = ItemList
     template_name = 'item_list.html'
-    paginate_by = 15
     context_object_name = 'item'
 
     def get_queryset(self):
