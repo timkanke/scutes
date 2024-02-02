@@ -32,7 +32,40 @@
         </div>
 
         <div class="col-md-10">
-            {% render_table table %}
+            <div class="card p-3 mt-1">
+                {% csrf_token %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Reporter</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Publish</th>
+                            <th scope="col">Editorial Review</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.date }}</td>
+                            <td>{{ item.reporter }}</td>
+                            <td>{{ item.title }}</td>
+                            <td>{{ item.publish }}</td>
+                            <td class="{% if item.get_review_status_display == 'Complete' %} text-success 
+                            {% elif item.get_review_status_display == 'In Progress' %} text-warning 
+                            {% else %} text-danger 
+                            {% endif %}">
+                                {{ item.get_review_status_display }}
+                            </td>
+                            <td><a class="btn btn-info btn-sm" href="{% url 'itemupdateview' item.id %}">Open</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

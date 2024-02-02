@@ -43,7 +43,7 @@ class BatchList(LoginRequiredMixin, SingleTableView):
     context_object_name = 'batch'
 
 
-class ItemListView(LoginRequiredMixin, SingleTableMixin, ListView):
+class ItemListView(LoginRequiredMixin, ListView):
     model = Item
     queryset = Item.objects.order_by('id')
     context_object_name = 'item_list'
@@ -70,6 +70,7 @@ class ItemListView(LoginRequiredMixin, SingleTableMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(ItemListView, self).get_context_data(**kwargs)
         context['form'] = self.filterset.form
+        context['items'] = Item.objects.order_by('id')
         return context
 
 
