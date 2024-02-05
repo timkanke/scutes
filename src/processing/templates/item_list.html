@@ -42,6 +42,8 @@
                             <th scope="col">Reporter</th>
                             <th scope="col">Title</th>
                             <th scope="col">Publish</th>
+                            <th scope="col">Pool Report</th>
+                            <th scope="col">Off the Record</th>
                             <th scope="col">Editorial Review</th>
                             <th scope="col"></th>
                         </tr>
@@ -54,6 +56,8 @@
                             <td>{{ item.reporter }}</td>
                             <td>{{ item.title }}</td>
                             <td>{{ item.publish }}</td>
+                            <td>{{ item.pool_report }}</td>
+                            <td>{{ item.off_the_record }}</td>
                             <td class="{% if item.get_review_status_display == 'Complete' %} text-success 
                             {% elif item.get_review_status_display == 'In Progress' %} text-warning 
                             {% else %} text-danger 
