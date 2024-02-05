@@ -67,8 +67,10 @@ class ItemListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ItemListView, self).get_context_data(**kwargs)
+        item_filter = ItemFilter(self.request.GET, queryset=Item.objects.order_by('id'))
+
         context['form'] = self.filterset.form
-        context['items'] = Item.objects.order_by('id')
+        context['items'] = item_filter.qs
         return context
 
 
