@@ -51,3 +51,7 @@ urlpatterns = [
         name='change_password',
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+htmx_urlpatterns = []
+
+urlpatterns += htmx_urlpatterns
