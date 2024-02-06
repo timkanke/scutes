@@ -22,11 +22,10 @@
                 <form action="" method="get" class="form form-inline">
                     {{ form|crispy}}
                     {% bootstrap_button 'Filter' button_type="submit" button_class="btn-primary btn-sm" %}
-                    {% bootstrap_button 'Reset' button_type="reset" button_class="btn-outline-primary btn-sm" %}
                 </form>
 
                 <div class="row pt-3">
-                    <a href="{% clean_url %}"><button class="btn btn-warning btn-sm">Clear Filters</button></a>
+                    <a href="{% clean_url %}"><button class="btn btn-warning btn-sm">Clear All Filters</button></a>
                 </div>
             </div>
         </div>
@@ -49,26 +48,8 @@
                                 <th scope="col"></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {% for item in items %}
-                            <tr>
-                                <td>{{ item.id }}</td>
-                                <td>{{ item.date }}</td>
-                                <td>{{ item.reporter }}</td>
-                                <td>{{ item.title }}</td>
-                                <td>{{ item.publish }}</td>
-                                <td>{{ item.pool_report }}</td>
-                                <td>{{ item.off_the_record }}</td>
-                                <td class="{% if item.get_review_status_display == 'Complete' %} text-success 
-                            {% elif item.get_review_status_display == 'In Progress' %} text-warning 
-                            {% else %} text-danger 
-                            {% endif %}">
-                                    {{ item.get_review_status_display }}
-                                </td>
-                                <td><a class="btn btn-info btn-sm" href="{% url 'itemupdateview' item.id %}">Open</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
+                        <tbody id="results">
+                            {% include 'partials/item_list_results.html' %}
                         </tbody>
                     </table>
                 </div>

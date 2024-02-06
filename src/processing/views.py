@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, UpdateView
@@ -45,13 +45,12 @@ class BatchList(LoginRequiredMixin, SingleTableView):
 
 class ItemListView(LoginRequiredMixin, ListView):
     model = Item
-    queryset = Item.objects.order_by('id')
     context_object_name = 'item_list'
     template_name = 'item_list.html'
-    context_object_name = 'item'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        # queryset = super().get_queryset()
+        queryset = Item.objects.filter(batch=self.request.resolver_match.kwargs['batch']).order_by('id')
         self.filterset = ItemFilter(self.request.GET, queryset=queryset)
 
         # Session keys
@@ -65,12 +64,27 @@ class ItemListView(LoginRequiredMixin, ListView):
 
         return self.filterset.qs
 
+    def item_list_batch(self, **kwargs):
+        item_list_batch = self.request.resolver_match.kwargs['batch']
+        return item_list_batch
+
+    # def item_list_filter(self, request, **kwargs):
+    # if self.request.htmx:
+    # queryset = Item.objects.order_by('id')
+    # item_filter = ItemFilter(request.GET, queryset=queryset)
+    #
+    # return render(request, 'partials/item_list_filter.html')
+
+    # return render(request, self.template_name)
+
     def get_context_data(self, **kwargs):
         context = super(ItemListView, self).get_context_data(**kwargs)
-        item_filter = ItemFilter(self.request.GET, queryset=Item.objects.order_by('id'))
+        item_filter = ItemFilter(self.request.GET, queryset=self.queryset)
 
         context['form'] = self.filterset.form
         context['items'] = item_filter.qs
+        context['item_list_batch'] = self.item_list_batch
+        # context['item_list_filter'] = self.item_list_filter
         return context
 
 
@@ -227,3 +241,14 @@ def batch_export(request):
     response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
     response['Cache-Control'] = 'no-cache'
     return response
+
+
+def item_list_results(request):
+    if request.method == 'GET':
+        queryset = Item.objects.order_by('id')
+        item_filter = ItemFilter(request.GET, queryset=queryset)
+        items = item_filter.qs
+        return render(request, 'partials/item_list_results.html', {'items': items})
+    else:
+        queryset = Item.objects.order_by('id')
+        return render(request, 'partials/item_list_results.html', {'queryset': queryset})

@@ -1,0 +1,19 @@
+{% for item in items %}
+<tr>
+    <td>{{ item.id }}</td>
+    <td>{{ item.date }}</td>
+    <td>{{ item.reporter }}</td>
+    <td>{{ item.title }}</td>
+    <td>{{ item.publish }}</td>
+    <td>{{ item.pool_report }}</td>
+    <td>{{ item.off_the_record }}</td>
+    <td class="{% if item.get_review_status_display == 'Complete' %} text-success 
+                            {% elif item.get_review_status_display == 'In Progress' %} text-warning 
+                            {% else %} text-danger 
+                            {% endif %}">
+        {{ item.get_review_status_display }}
+    </td>
+    <td><a class="btn btn-info btn-sm" href="{% url 'itemupdateview' item.id %}">Open</a>
+    </td>
+</tr>
+{% endfor %}
