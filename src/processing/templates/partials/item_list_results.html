@@ -1,5 +1,12 @@
 {% for item in items %}
+
+{% if forloop.last and page_obj.has_next %}
+<tr hx-get="{% url 'itemlistview' item_list_batch %}?page={{ page_obj.next_page_number }}" hx-trigger="intersect once"
+    hx-swap="afterend" hx-select="this" hx-push-url="true">
+    {% else %}
 <tr>
+    {% endif %}
+
     <td>{{ item.id }}</td>
     <td>{{ item.date }}</td>
     <td>{{ item.reporter }}</td>
@@ -16,4 +23,5 @@
     <td><a class="btn btn-info btn-sm" href="{% url 'itemupdateview' item.id %}">Open</a>
     </td>
 </tr>
+
 {% endfor %}

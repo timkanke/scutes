@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
@@ -47,6 +48,12 @@ class ItemListView(LoginRequiredMixin, ListView):
     model = Item
     context_object_name = 'item_list'
     template_name = 'item_list.html'
+    paginate_by = 20
+
+    def get_redirect_field_name(self):
+        if self.request.htmx:
+            return 'partials/item_list_results.html'
+        return 'item_list.html'
 
     def get_queryset(self):
         # queryset = super().get_queryset()
@@ -67,15 +74,6 @@ class ItemListView(LoginRequiredMixin, ListView):
     def item_list_batch(self, **kwargs):
         item_list_batch = self.request.resolver_match.kwargs['batch']
         return item_list_batch
-
-    # def item_list_filter(self, request, **kwargs):
-    # if self.request.htmx:
-    # queryset = Item.objects.order_by('id')
-    # item_filter = ItemFilter(request.GET, queryset=queryset)
-    #
-    # return render(request, 'partials/item_list_filter.html')
-
-    # return render(request, self.template_name)
 
     def get_context_data(self, **kwargs):
         context = super(ItemListView, self).get_context_data(**kwargs)
