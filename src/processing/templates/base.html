@@ -85,11 +85,6 @@
                                     aria-expanded="false">
                                     {{ user.get_username }}
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{% url 'password_reset' %}">Change
-                                            Password</a>
-                                    </li>
-                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}">Logout</a>

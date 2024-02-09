@@ -45,10 +45,5 @@ urlpatterns = [
     path('itemview/<int:pk>/', ItemUpdateView.as_view(), name='itemupdateview'),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path(
-        'password_reset//',
-        auth_views.PasswordChangeView.as_view(template_name='registration/password_reset_form.html', success_url='/'),
-        name='change_password',
-    ),
     (r'saml2/', include('djangosaml2.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
