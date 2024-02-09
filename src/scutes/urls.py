@@ -45,5 +45,5 @@ urlpatterns = [
     path('itemview/<int:pk>/', ItemUpdateView.as_view(), name='itemupdateview'),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    (r'saml2/', include('djangosaml2.urls')),
+    path(r'saml2/', include('djangosaml2.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
