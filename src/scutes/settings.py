@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_bootstrap5',
     'django_ckeditor_5',
+    'django_htmx',
     'crispy_forms',
     'crispy_bootstrap5',
     'debug_toolbar',
@@ -71,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
     'django.contrib.admindocs.middleware.XViewMiddleware',
 ]
 
