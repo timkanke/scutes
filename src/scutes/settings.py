@@ -6,10 +6,14 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
+
+Production checklist
+https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 """
 
 import environ
 import os
+import saml2
 
 from pathlib import Path
 
@@ -22,9 +26,6 @@ env = environ.Env(
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'debug_toolbar',
+    'djangosaml2',
 ]
 
 MIDDLEWARE = [
@@ -73,6 +75,46 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.admindocs.middleware.XViewMiddleware',
 ]
+
+
+""" SAML Config """
+
+MIDDLEWARE.append('djangosaml2.middleware.SamlSessionMiddleware')
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'djangosaml2.backends.Saml2Backend',
+)
+
+# SameSite Cookies
+# The storage linked to it is accessible by default at request.saml_session.
+SAML_SESSION_COOKIE_NAME = 'saml_session'
+# By default, djangosaml2 will set “SameSite=None” for the SAML session cookie.
+SAML_SESSION_COOKIE_SAMESITE = 'None'
+# Remember that in your browser “SameSite=None” attribute MUST also have the “Secure” attribute,
+# which is required in order to use “SameSite=None”, otherwise the cookie will be blocked.
+SESSION_COOKIE_SECURE = True
+
+# Default login path
+LOGIN_URL = '/saml2/login/'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Handling Post-Login Redirects
+SAML_ALLOWED_HOSTS = env('SAML_ALLOWED_HOSTS', cast=[str])
+
+SAML_DEFAULT_BINDING = saml2.BINDING_HTTP_POST
+SAML_LOGOUT_REQUEST_PREFERRED_BINDING = saml2.BINDING_HTTP_POST
+SAML_IGNORE_LOGOUT_ERRORS = True
+
+# Users, attributes and account linking
+SAML_CREATE_UNKNOWN_USER = True
+SAML_ATTRIBUTE_MAPPING = {
+    'uid': ('username',),
+    'mail': ('email',),
+    'cn': ('first_name',),
+    'sn': ('last_name',),
+}
+
 
 ROOT_URLCONF = 'scutes.urls'
 
