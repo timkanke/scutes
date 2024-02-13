@@ -121,7 +121,19 @@ Copy and rename ```src/.env-dev-example``` to ```src/.env```.
     Use either YAML test data or an .mbox file
     See Management Commands
 
-5. To Start the dev server. Run manage command in src directory.
+5. Edit your "/etc/hosts" file:
+
+    ```zsh
+    sudo vi /etc/hosts
+    ```
+
+    and add "scutes-local" aliases to the "127.0.0.1" entry:
+
+    ```
+    127.0.0.1       localhost scutes-local
+    ```
+
+6. To Start the dev server. Run manage command in src directory.
 
     ```zsh
     ./manage.py runserver
