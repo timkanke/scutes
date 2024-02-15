@@ -119,15 +119,16 @@ SAML_CREATE_UNKNOWN_USER = True
 SAML_ATTRIBUTE_MAPPING = {
     'uid': ('username',),
     'mail': ('email',),
-    'cn': ('first_name',),
+    'givenName': ('first_name',),
     'sn': ('last_name',),
+    # 'eduPersonEntitlement': ('groups'),
 }
 
 BASEDIR = path.dirname(path.abspath(__file__))
 
 SAML_CONFIG = {
     # full path to the xmlsec1 binary programm
-    'xmlsec_binary': '/usr/bin/xmlsec1',
+    'xmlsec_binary': '/opt/homebrew/bin/xmlsec1',  # TODO Make an ENV
     # your entity id, usually your subdomain plus the url to the metadata view
     'entityid': 'http://localhost:15000/saml2/metadata/',
     # directory with attribute mapping
@@ -173,7 +174,7 @@ SAML_CONFIG = {
             # Enable AllowCreate in NameIDPolicy.
             'name_id_format_allow_create': False,
             # attributes that this project need to identify a user
-            'required_attributes': ['givenName', 'sn', 'mail'],
+            'required_attributes': ['givenName', 'sn', 'mail', 'eduPersonEntitlement'],
             # attributes that may be useful to have but not required
             'optional_attributes': ['eduPersonAffiliation'],
             'want_response_signed': True,
@@ -195,12 +196,12 @@ SAML_CONFIG = {
                 # only an IdP defined here. This IdP should be
                 # present in our metadata
                 # the keys of this dictionary are entity ids
-                'https://localhost/simplesaml/saml2/idp/metadata.php': {
+                'https://shib.idm.umd.edu/shibboleth-idp/shibboleth': {
                     'single_sign_on_service': {
-                        saml2.BINDING_HTTP_REDIRECT: 'https://localhost/simplesaml/saml2/idp/SSOService.php',
+                        saml2.BINDING_HTTP_REDIRECT: 'https://shib.idm.umd.edu/shibboleth-idp/profile/SAML2/Redirect/SSO',
                     },
                     'single_logout_service': {
-                        saml2.BINDING_HTTP_REDIRECT: 'https://localhost/simplesaml/saml2/idp/SingleLogoutService.php',
+                        saml2.BINDING_HTTP_REDIRECT: 'https://shib.idm.umd.edu/shibboleth-idp/profile/Logout',
                     },
                 },
             },
@@ -209,27 +210,21 @@ SAML_CONFIG = {
     # where the remote metadata is stored, local, remote or mdq server.
     # One metadatastore or many ...
     'metadata': {
-        'local': [path.join(BASEDIR, 'remote_metadata.xml')],
+        # 'local': [path.join(BASEDIR, 'scutes-local-sp.xml')],
         'remote': [
-            {'url': 'https://idp.testunical.it/idp/shibboleth'},
-        ],
-        'mdq': [
-            {
-                'url': 'https://ds.testunical.it',
-                'cert': 'certficates/others/ds.testunical.it.cert',
-            }
+            {'url': 'https://shib.idm.umd.edu/shibboleth-idp/shibboleth'},
         ],
     },
     # set to 1 to output debugging information
     'debug': 1,
     # Signing
-    'key_file': path.join(BASEDIR, 'private.key'),  # private part
-    'cert_file': path.join(BASEDIR, 'public.pem'),  # public part
+    'key_file': path.join(BASEDIR, 'scutes-test-lib-umd-edu-sp.key'),  # private part
+    'cert_file': path.join(BASEDIR, 'scutes-test-lib-umd-edu-sp.crt'),  # public part
     # Encryption
     'encryption_keypairs': [
         {
-            'key_file': path.join(BASEDIR, 'private.key'),  # private part
-            'cert_file': path.join(BASEDIR, 'public.pem'),  # public part
+            'key_file': path.join(BASEDIR, 'scutes-test-lib-umd-edu-sp.key'),  # private part
+            'cert_file': path.join(BASEDIR, 'scutes-test-lib-umd-edu-sp.crt'),  # public part
         }
     ],
     # own metadata settings
