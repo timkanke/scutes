@@ -130,7 +130,7 @@ SAML_CONFIG = {
     # full path to the xmlsec1 binary programm
     'xmlsec_binary': '/opt/homebrew/bin/xmlsec1',  # TODO Make an ENV
     # your entity id, usually your subdomain plus the url to the metadata view
-    'entityid': 'http://localhost:15000/saml2/metadata/',
+    'entityid': 'scutes-local:15000',
     # directory with attribute mapping
     'attribute_map_dir': path.join(BASEDIR, 'attribute-maps'),
     # Permits to have attributes not configured in attribute-mappings
@@ -156,14 +156,14 @@ SAML_CONFIG = {
                 # url and binding to the assetion consumer service view
                 # do not change the binding or service name
                 'assertion_consumer_service': [
-                    ('http://localhost:15000/saml2/acs/', saml2.BINDING_HTTP_POST),
+                    ('http://scutes-local:15000/saml2/acs/', saml2.BINDING_HTTP_POST),
                 ],
                 # url and binding to the single logout service view
                 # do not change the binding or service name
                 'single_logout_service': [
                     # Disable next two lines for HTTP_REDIRECT for IDP's that only support HTTP_POST. Ex. Okta:
-                    ('http://localhost:15000/saml2/ls/', saml2.BINDING_HTTP_REDIRECT),
-                    ('http://localhost:15000/saml2/ls/post', saml2.BINDING_HTTP_POST),
+                    ('http://scutes-local:15000/saml2/ls/', saml2.BINDING_HTTP_REDIRECT),
+                    ('http://scutes-local:15000/saml2/ls/post', saml2.BINDING_HTTP_POST),
                 ],
             },
             'signing_algorithm': saml2.xmldsig.SIG_RSA_SHA256,
@@ -198,7 +198,7 @@ SAML_CONFIG = {
                 # the keys of this dictionary are entity ids
                 'https://shib.idm.umd.edu/shibboleth-idp/shibboleth': {
                     'single_sign_on_service': {
-                        saml2.BINDING_HTTP_REDIRECT: 'https://shib.idm.umd.edu/shibboleth-idp/profile/SAML2/Redirect/SSO',
+                        saml2.BINDING_HTTP_POST: 'https://shib.idm.umd.edu/shibboleth-idp/profile/SAML2/POST/SSO',
                     },
                     'single_logout_service': {
                         saml2.BINDING_HTTP_REDIRECT: 'https://shib.idm.umd.edu/shibboleth-idp/profile/Logout',
