@@ -98,10 +98,10 @@ AUTHENTICATION_BACKENDS = (
 # The storage linked to it is accessible by default at request.saml_session.
 SAML_SESSION_COOKIE_NAME = 'saml_session'
 # By default, djangosaml2 will set “SameSite=None” for the SAML session cookie.
-SAML_SESSION_COOKIE_SAMESITE = 'None'
+SAML_SESSION_COOKIE_SAMESITE = 'Lax'
 # Remember that in your browser “SameSite=None” attribute MUST also have the “Secure” attribute,
 # which is required in order to use “SameSite=None”, otherwise the cookie will be blocked.
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False
 
 # Default login path
 LOGIN_URL = '/saml2/login/'
@@ -177,18 +177,18 @@ SAML_CONFIG = {
             'required_attributes': ['givenName', 'sn', 'mail', 'eduPersonEntitlement'],
             # attributes that may be useful to have but not required
             'optional_attributes': ['eduPersonAffiliation'],
-            'want_response_signed': True,
+            'want_response_signed': False,
             'authn_requests_signed': True,
             'logout_requests_signed': True,
             # Indicates that Authentication Responses to this SP must
             # be signed. If set to True, the SP will not consume
             # any SAML Responses that are not signed.
-            'want_assertions_signed': True,
+            'want_assertions_signed': False,
             'only_use_keys_in_metadata': True,
             # When set to true, the SP will consume unsolicited SAML
             # Responses, i.e. SAML Responses for which it has not sent
             # a respective SAML Authentication Request.
-            'allow_unsolicited': False,
+            'allow_unsolicited': True,
             # in this section the list of IdPs we talk to are defined
             # This is not mandatory! All the IdP available in the metadata will be considered instead.
             'idp': {
