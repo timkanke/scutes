@@ -124,7 +124,7 @@ SAML_ATTRIBUTE_MAPPING = {
 
 SAML_CONFIG = {
     # full path to the xmlsec1 binary programm
-    'xmlsec_binary': '/opt/homebrew/bin/xmlsec1',  # TODO Make an ENV
+    'xmlsec_binary': env('XMLSEC_BINARY'),
     # your entity id, usually your subdomain plus the url to the metadata view
     'entityid': 'scutes-local:15000',
     # directory with attribute mapping
