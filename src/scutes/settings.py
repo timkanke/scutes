@@ -12,13 +12,11 @@ https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 """
 
 import environ
-import os
 import saml2
 import saml2.saml
 
 from django.core.management.commands.runserver import Command as runserver
 
-from os import path
 from pathlib import Path
 
 
@@ -32,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(Path(BASE_DIR) / '.env')
 
 # False if not in os.environ because of casting above
 DEBUG = env('DEBUG')
@@ -124,15 +122,13 @@ SAML_ATTRIBUTE_MAPPING = {
     'eduPersonEntitlement': ('groups',),
 }
 
-BASEDIR = path.dirname(path.abspath(__file__))
-
 SAML_CONFIG = {
     # full path to the xmlsec1 binary programm
     'xmlsec_binary': '/opt/homebrew/bin/xmlsec1',  # TODO Make an ENV
     # your entity id, usually your subdomain plus the url to the metadata view
     'entityid': 'scutes-local:15000',
     # directory with attribute mapping
-    'attribute_map_dir': path.join(BASEDIR, 'attribute-maps'),
+    'attribute_map_dir': str(Path(BASE_DIR) / 'scutes' / 'attribute-maps'),
     # Permits to have attributes not configured in attribute-mappings
     # otherwise...without OID will be rejected
     'allow_unknown_attributes': True,
@@ -218,13 +214,13 @@ SAML_CONFIG = {
     # set to 1 to output debugging information
     'debug': 1,
     # Signing
-    'key_file': path.join(BASEDIR, 'scutes-test-lib-umd-edu-sp.key'),  # private part
-    'cert_file': path.join(BASEDIR, 'scutes-test-lib-umd-edu-sp.crt'),  # public part
+    'key_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.key'),  # private part
+    'cert_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.crt'),  # public part
     # Encryption
     'encryption_keypairs': [
         {
-            'key_file': path.join(BASEDIR, 'scutes-test-lib-umd-edu-sp.key'),  # private part
-            'cert_file': path.join(BASEDIR, 'scutes-test-lib-umd-edu-sp.crt'),  # public part
+            'key_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.key'),  # private part
+            'cert_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.crt'),  # public part
         }
     ],
     # own metadata settings
@@ -246,7 +242,7 @@ ROOT_URLCONF = 'scutes.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [Path(BASE_DIR) / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
