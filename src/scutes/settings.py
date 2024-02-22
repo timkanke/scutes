@@ -206,7 +206,6 @@ SAML_CONFIG = {
     # where the remote metadata is stored, local, remote or mdq server.
     # One metadatastore or many ...
     'metadata': {
-        # 'local': [path.join(BASEDIR, 'scutes-local-sp.xml')],
         'remote': [
             {'url': 'https://shib.idm.umd.edu/shibboleth-idp/shibboleth'},
         ],
