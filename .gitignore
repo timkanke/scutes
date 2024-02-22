@@ -15,6 +15,5 @@ src/media/export
 src/scutes.egg-info/*
 
 src/scutes/scutes-local-sp.xml
-src/scutes/attribute-maps
 *.crt
 *.key
