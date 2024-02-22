@@ -1,6 +1,15 @@
 import re
 
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    def process_groups(self, groups):
+        # process list of group names in argument 'groups'
+        pass
+
+    pass
 
 
 class Batch(models.Model):

@@ -119,7 +119,7 @@ SAML_ATTRIBUTE_MAPPING = {
     'mail': ('email',),
     'givenName': ('first_name',),
     'urn:mace:umd.edu:sn': ('last_name',),
-    'eduPersonEntitlement': ('groups',),
+    'eduPersonEntitlement': ('process_groups',),
 }
 
 SAML_CONFIG = {
