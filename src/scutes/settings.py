@@ -82,6 +82,7 @@ MIDDLEWARE = [
     'django.contrib.admindocs.middleware.XViewMiddleware',
 ]
 
+AUTH_USER_MODEL = 'processing.User'
 
 """ SAML Config """
 
