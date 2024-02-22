@@ -120,8 +120,8 @@ SAML_ATTRIBUTE_MAPPING = {
     'uid': ('username',),
     'mail': ('email',),
     'givenName': ('first_name',),
-    'sn': ('last_name',),
-    # 'eduPersonEntitlement': ('groups'),
+    'urn:mace:umd.edu:sn': ('last_name',),
+    'eduPersonEntitlement': ('groups',),
 }
 
 BASEDIR = path.dirname(path.abspath(__file__))
