@@ -127,7 +127,7 @@ SAML_CONFIG = {
     # full path to the xmlsec1 binary programm
     'xmlsec_binary': env('XMLSEC_BINARY'),
     # your entity id, usually your subdomain plus the url to the metadata view
-    'entityid': env('ADDRESS') + ':' + env('PORT'),
+    'entityid': env('ENTITYID'),
     # directory with attribute mapping
     'attribute_map_dir': str(Path(BASE_DIR) / 'scutes' / 'attribute-maps'),
     # Permits to have attributes not configured in attribute-mappings

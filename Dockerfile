@@ -5,7 +5,8 @@ FROM python:3.11.4-slim
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV DEBUG=off
+# Production should have DEBUG=off
+ENV DEBUG=on
 ENV ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
 
 # Should be using a production web server instead
@@ -14,6 +15,8 @@ ENV RUNSERVER_DEFAULT_ADDR=''
 
 ENV SAML_ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
 ENV XMLSEC_BINARY=''
+ENV ENTITYID=''
+ENV ENDPOINT_ADDRESS=''
 
 ENV LOGGING_LEVEL=INFO
 # DJANGO_LOG_LEVEL=DEBUG setting is very verbose as it includes all database queries.
