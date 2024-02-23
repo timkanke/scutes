@@ -42,8 +42,8 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
 CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS', cast=[str])
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
-runserver.default_port = env('PORT')
-runserver.default_addr = env('ADDRESS')
+runserver.default_port = env('RUNSERVER_DEFAULT_PORT')
+runserver.default_addr = env('RUNSERVER_DEFAULT_ADDR')
 
 # Needed for Django Debug Toolbar
 INTERNAL_IPS = [
@@ -153,14 +153,14 @@ SAML_CONFIG = {
                 # url and binding to the assetion consumer service view
                 # do not change the binding or service name
                 'assertion_consumer_service': [
-                    ('http://' + env('ADDRESS') + ':' + env('PORT') + '/saml2/acs/', saml2.BINDING_HTTP_POST),
+                    (env('ENDPOINT_ADDRESS') + '/saml2/acs/', saml2.BINDING_HTTP_POST),
                 ],
                 # url and binding to the single logout service view
                 # do not change the binding or service name
                 'single_logout_service': [
                     # Disable next two lines for HTTP_REDIRECT for IDP's that only support HTTP_POST. Ex. Okta:
-                    ('http://' + env('ADDRESS') + ':' + env('PORT') + '/saml2/ls/', saml2.BINDING_HTTP_REDIRECT),
-                    ('http://' + env('ADDRESS') + ':' + env('PORT') + '/saml2/ls/post', saml2.BINDING_HTTP_POST),
+                    (env('ENDPOINT_ADDRESS') + '/saml2/ls/', saml2.BINDING_HTTP_REDIRECT),
+                    (env('ENDPOINT_ADDRESS') + '/saml2/ls/post', saml2.BINDING_HTTP_POST),
                 ],
             },
             'signing_algorithm': saml2.xmldsig.SIG_RSA_SHA256,

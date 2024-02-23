@@ -8,8 +8,9 @@ ENV PYTHONUNBUFFERED=1
 ENV DEBUG=off
 ENV ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
 
-ENV PORT='15000'
-ENV ADDRESS=''
+# Should be using a production web server instead
+ENV RUNSERVER_DEFAULT_PORT=''
+ENV RUNSERVER_DEFAULT_ADDR=''
 
 ENV SAML_ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
 ENV XMLSEC_BINARY=''
