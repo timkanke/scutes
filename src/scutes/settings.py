@@ -135,12 +135,9 @@ SAML_CONFIG = {
     'allow_unknown_attributes': True,
     # this block states what services we provide
     'service': {
-        # we are just a lonely SP
         'sp': {
             'name': 'Federated Django sample SP',
             'name_id_format': saml2.saml.NAMEID_FORMAT_TRANSIENT,
-            # For Okta add signed logout requests. Enable this:
-            # "logout_requests_signed": True,
             # Define the authentication context
             'requested_authn_context': {
                 'authn_context_class_ref': [
@@ -205,7 +202,6 @@ SAML_CONFIG = {
         },
     },
     # where the remote metadata is stored, local, remote or mdq server.
-    # One metadatastore or many ...
     'metadata': {
         'remote': [
             {'url': 'https://shib.idm.umd.edu/shibboleth-idp/shibboleth'},
@@ -222,16 +218,6 @@ SAML_CONFIG = {
             'key_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.key'),  # private part
             'cert_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.crt'),  # public part
         }
-    ],
-    # own metadata settings
-    'contact_person': [
-        {
-            'given_name': '',
-            'sur_name': '',
-            'company': '',
-            'email_address': '',
-            'contact_type': '',
-        },
     ],
 }
 
