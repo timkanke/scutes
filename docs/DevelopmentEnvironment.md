@@ -69,33 +69,8 @@ This should download and install that version of Python.
 
 7. For local development, the ```src/.env``` file is required.
 Copy and rename ```src/.env-dev-example``` to ```src/.env```.
-    The settings in the file are:
 
-    ```env
-    # SECURITY WARNING: don't run with debug turned on in production!  
-    DEBUG=on
-
-    ALLOWED_HOSTS=localhost,127.0.0.1
-
-    # SECURITY WARNING: keep the secret key used in production secret!  
-    SECRET_KEY='your-secret-key'
-
-    # Database  
-    # Preferred development database is sqlite3  
-    DB_ENGINE=django.db.backends.sqlite3  
-    DB_NAME=db.sqlite3  
-    DB_USER=''  
-    DB_PASSWORD=''  
-    DB_HOST=''  
-    DB_PORT=''
-
-    CSRF_TRUSTED_ORIGINS=''
-
-    LOGGING_LEVEL=DEBUG
-
-    # DJANGO_LOG_LEVEL=DEBUG setting is very verbose as it includes all database queries.  
-    DJANGO_LOG_LEVEL=INFO
-    ```
+8. Add key and crt files to src/scutes directory.
 
 ## Set up
 
