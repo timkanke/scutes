@@ -42,8 +42,8 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
 CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS', cast=[str])
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
-runserver.default_port = '15000'
-runserver.default_addr = 'scutes-local'
+runserver.default_port = env('PORT')
+runserver.default_addr = env('ADDRESS')
 
 # Needed for Django Debug Toolbar
 INTERNAL_IPS = [
@@ -127,7 +127,7 @@ SAML_CONFIG = {
     # full path to the xmlsec1 binary programm
     'xmlsec_binary': env('XMLSEC_BINARY'),
     # your entity id, usually your subdomain plus the url to the metadata view
-    'entityid': 'scutes-local:15000',
+    'entityid': env('ADDRESS') + ':' + env('PORT'),
     # directory with attribute mapping
     'attribute_map_dir': str(Path(BASE_DIR) / 'scutes' / 'attribute-maps'),
     # Permits to have attributes not configured in attribute-mappings
@@ -153,14 +153,14 @@ SAML_CONFIG = {
                 # url and binding to the assetion consumer service view
                 # do not change the binding or service name
                 'assertion_consumer_service': [
-                    ('http://scutes-local:15000/saml2/acs/', saml2.BINDING_HTTP_POST),
+                    ('http://' + env('ADDRESS') + ':' + env('PORT') + '/saml2/acs/', saml2.BINDING_HTTP_POST),
                 ],
                 # url and binding to the single logout service view
                 # do not change the binding or service name
                 'single_logout_service': [
                     # Disable next two lines for HTTP_REDIRECT for IDP's that only support HTTP_POST. Ex. Okta:
-                    ('http://scutes-local:15000/saml2/ls/', saml2.BINDING_HTTP_REDIRECT),
-                    ('http://scutes-local:15000/saml2/ls/post', saml2.BINDING_HTTP_POST),
+                    ('http://' + env('ADDRESS') + ':' + env('PORT') + '/saml2/ls/', saml2.BINDING_HTTP_REDIRECT),
+                    ('http://' + env('ADDRESS') + ':' + env('PORT') + '/saml2/ls/post', saml2.BINDING_HTTP_POST),
                 ],
             },
             'signing_algorithm': saml2.xmldsig.SIG_RSA_SHA256,

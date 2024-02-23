@@ -7,6 +7,13 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DEBUG=off
 ENV ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
+
+ENV PORT='15000'
+ENV ADDRESS=''
+
+ENV SAML_ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
+ENV XMLSEC_BINARY=''
+
 ENV LOGGING_LEVEL=INFO
 # DJANGO_LOG_LEVEL=DEBUG setting is very verbose as it includes all database queries.
 ENV DJANGO_LOG_LEVEL=INFO
