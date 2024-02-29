@@ -91,6 +91,7 @@ MIDDLEWARE.append('djangosaml2.middleware.SamlSessionMiddleware')
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'djangosaml2.backends.Saml2Backend',
+    # 'scutes.authentication.ModifiedSaml2Backend',
 )
 
 # SameSite Cookies
@@ -120,7 +121,7 @@ SAML_ATTRIBUTE_MAPPING = {
     'mail': ('email',),
     'givenName': ('first_name',),
     'urn:mace:umd.edu:sn': ('last_name',),
-    'eduPersonEntitlement': ('process_groups',),
+    'eduPersonEntitlement': ('process_entitlement',),
 }
 
 SAML_CONFIG = {

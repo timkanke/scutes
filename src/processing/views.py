@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout
+from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
 from django.shortcuts import redirect
@@ -31,19 +32,25 @@ class Index(TemplateView):
     template_name = 'index.html'
 
 
-class Dashboard(LoginRequiredMixin, TemplateView):
+class Dashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     template_name = 'dashboard.html'
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class BatchList(LoginRequiredMixin, SingleTableView):
+
+class BatchList(LoginRequiredMixin, UserPassesTestMixin, SingleTableView):
     model = Batch
     table_class = BatchList
     template_name = 'batch_list.html'
     paginate_by = 10
     context_object_name = 'batch'
 
+    def test_func(self):
+        return self.request.user.is_staff
 
-class ItemListView(LoginRequiredMixin, SingleTableMixin, ListView):
+
+class ItemListView(LoginRequiredMixin, UserPassesTestMixin, SingleTableMixin, ListView):
     model = Item
     queryset = Item.objects.order_by('id')
     context_object_name = 'item_list'
@@ -51,6 +58,9 @@ class ItemListView(LoginRequiredMixin, SingleTableMixin, ListView):
     template_name = 'item_list.html'
     paginate_by = 15
     context_object_name = 'item'
+
+    def test_func(self):
+        return self.request.user.is_staff
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -73,11 +83,14 @@ class ItemListView(LoginRequiredMixin, SingleTableMixin, ListView):
         return context
 
 
-class ItemUpdateView(LoginRequiredMixin, UpdateView):
+class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'item_view.html'
     model = Item
     form_class = ItemUpdateForm
     context_object_name = 'item'
+
+    def test_func(self):
+        return self.request.user.is_staff
 
     # Form
     def get_success_url(self):
@@ -182,9 +195,12 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 
-class FinalizeBatchView(LoginRequiredMixin, DetailView):
+class FinalizeBatchView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = 'finalize_batch.html'
     queryset = Batch.objects.all()
+
+    def test_func(self):
+        return self.request.user.is_staff
 
     def item_review_not_complete(self, **kwargs):
         batch_id = self.object.id
