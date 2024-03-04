@@ -44,6 +44,7 @@ WORKDIR /scutes
 # Install dependencies
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
+RUN apt-get install xmlsec1
 
 # Copy project
 COPY src ./src
