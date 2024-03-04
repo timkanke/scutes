@@ -5,8 +5,22 @@ FROM python:3.11.4-slim
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV DEBUG=off
+# Production should have DEBUG=off
+ENV DEBUG=on
 ENV ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
+
+# Should be using a production web server instead
+ENV RUNSERVER_DEFAULT_PORT=''
+ENV RUNSERVER_DEFAULT_ADDR=''
+
+# SAML
+ENV SAML_ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
+ENV XMLSEC_BINARY=''
+ENV ENTITYID=''
+ENV ENDPOINT_ADDRESS=''
+ENV KEY_FILE=''
+ENV CERT_FILE=''
+
 ENV LOGGING_LEVEL=INFO
 # DJANGO_LOG_LEVEL=DEBUG setting is very verbose as it includes all database queries.
 ENV DJANGO_LOG_LEVEL=INFO
@@ -30,6 +44,7 @@ WORKDIR /scutes
 # Install dependencies
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
+RUN apt-get install xmlsec1
 
 # Copy project
 COPY src ./src

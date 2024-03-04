@@ -13,3 +13,6 @@ data/db/*
 src/media/files
 src/media/export
 src/scutes.egg-info/*
+
+*.crt
+*.key
