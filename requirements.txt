@@ -38,4 +38,7 @@ tenacity==8.2.2
 trio==0.22.1
 trio-websocket==0.10.3
 urllib3==2.0.3
+waitress==3.0.0
+whitenoise==6.6.0
 wsproto==1.2.0
+xmlschema==2.5.1
