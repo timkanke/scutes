@@ -5,12 +5,12 @@ class ModifiedSaml2Backend(Saml2Backend):
     def _update_user(self, user, attributes: dict, attribute_mapping: dict, force_save: bool = False):
         if 'eduPersonEntitlement' in attributes:
             groups = [g.lower() for g in attributes['eduPersonEntitlement']]
-            if 'scutes-administrators' in groups:
+            if 'scutes-administrator' in groups:
                 user.is_staff = True
                 user.is_superuser = True
                 user.is_active = True
                 force_save = True
-            elif 'scutes-users' in groups:
+            elif 'scutes-user' in groups:
                 user.is_staff = True
                 user.is_superuser = False
                 user.is_active = True
