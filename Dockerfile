@@ -13,10 +13,13 @@ ENV ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
 ENV RUNSERVER_DEFAULT_PORT=''
 ENV RUNSERVER_DEFAULT_ADDR=''
 
+# SAML
 ENV SAML_ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
 ENV XMLSEC_BINARY=''
 ENV ENTITYID=''
 ENV ENDPOINT_ADDRESS=''
+ENV KEY_FILE=''
+ENV CERT_FILE=''
 
 ENV LOGGING_LEVEL=INFO
 # DJANGO_LOG_LEVEL=DEBUG setting is very verbose as it includes all database queries.

@@ -210,13 +210,13 @@ SAML_CONFIG = {
     # set to 1 to output debugging information
     'debug': 1,
     # Signing
-    'key_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.key'),  # private part # TODO make env
-    'cert_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.crt'),  # public part # TODO make env
+    'key_file': env('KEY_FILE'),  # private part
+    'cert_file': env('CERT_FILE'),  # public part
     # Encryption
     'encryption_keypairs': [
         {
-            'key_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.key'),  # private part
-            'cert_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.crt'),  # public part
+            'key_file': env('KEY_FILE'),  # private part
+            'cert_file': env('CERT_FILE'),  # public part
         }
     ],
 }
