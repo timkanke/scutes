@@ -5,19 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    def process_entitlement(self, values):
-        if 'Scutes-User' and 'Scutes-Administrator' in values:
-            self.is_staff = True
-            self.is_superuser = True
-            self.save()
-        elif 'Scutes-User' in values:
-            self.is_staff = True
-            self.is_superuser = False
-            self.save()
-        else:
-            self.is_staff = False
-            self.is_superuser = False
-            self.save()
+    pass
 
 
 class Batch(models.Model):

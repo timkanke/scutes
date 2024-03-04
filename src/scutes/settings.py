@@ -90,18 +90,17 @@ MIDDLEWARE.append('djangosaml2.middleware.SamlSessionMiddleware')
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'djangosaml2.backends.Saml2Backend',
-    # 'scutes.authentication.ModifiedSaml2Backend',
+    'scutes.authentication.ModifiedSaml2Backend',
 )
 
 # SameSite Cookies
 # The storage linked to it is accessible by default at request.saml_session.
 SAML_SESSION_COOKIE_NAME = 'saml_session'
 # By default, djangosaml2 will set “SameSite=None” for the SAML session cookie.
-SAML_SESSION_COOKIE_SAMESITE = 'Lax'
+SAML_SESSION_COOKIE_SAMESITE = 'Lax'  # TODO make env
 # Remember that in your browser “SameSite=None” attribute MUST also have the “Secure” attribute,
 # which is required in order to use “SameSite=None”, otherwise the cookie will be blocked.
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False  # TODO make env
 
 # Default login path
 LOGIN_URL = '/saml2/login/'
@@ -137,7 +136,7 @@ SAML_CONFIG = {
     # this block states what services we provide
     'service': {
         'sp': {
-            'name': 'Federated Django sample SP',
+            'name': 'Scutes',
             'name_id_format': saml2.saml.NAMEID_FORMAT_TRANSIENT,
             # Define the authentication context
             'requested_authn_context': {
@@ -211,8 +210,8 @@ SAML_CONFIG = {
     # set to 1 to output debugging information
     'debug': 1,
     # Signing
-    'key_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.key'),  # private part
-    'cert_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.crt'),  # public part
+    'key_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.key'),  # private part # TODO make env
+    'cert_file': str(Path(BASE_DIR) / 'scutes' / 'scutes-test-lib-umd-edu-sp.crt'),  # public part # TODO make env
     # Encryption
     'encryption_keypairs': [
         {
