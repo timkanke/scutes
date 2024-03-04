@@ -11,6 +11,12 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'scutes.settings')
+from whitenoise import WhiteNoise
+from dotenv import load_dotenv
 
+load_dotenv()  # take environment variables from .env
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'scutes.settings')
 application = get_wsgi_application()
+# application = WhiteNoise(get_wsgi_application())
+application = WhiteNoise(application, root=os.getenv('WHITENOISE_ROOT'))

@@ -9,9 +9,16 @@ ENV PYTHONUNBUFFERED=1
 ENV DEBUG=on
 ENV ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
 
-# Should be using a production web server instead
+# Django runserver - Production use waitress instead
 ENV RUNSERVER_DEFAULT_PORT=''
 ENV RUNSERVER_DEFAULT_ADDR=''
+
+# waitress
+ENV SERVER_HOST=''
+ENV SERVER_PORT=''
+
+# whitenoise
+ENV WHITENOISE_ROOT=''
 
 # SAML
 ENV SAML_ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
