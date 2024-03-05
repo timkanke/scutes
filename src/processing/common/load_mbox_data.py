@@ -7,7 +7,6 @@ import requests
 from bs4 import BeautifulSoup
 from email.header import decode_header
 from email.utils import parsedate_to_datetime
-from pathlib import Path
 
 from django.core.files.base import ContentFile
 
