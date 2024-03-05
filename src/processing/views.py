@@ -1,7 +1,5 @@
 from django.conf import settings
-from django.contrib import messages
-from django.contrib.auth import logout
-from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
 from django.shortcuts import redirect
