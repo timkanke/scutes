@@ -50,7 +50,6 @@ class BatchList(LoginRequiredMixin, UserPassesTestMixin, SingleTableView):
 
 class ItemListView(LoginRequiredMixin, UserPassesTestMixin, SingleTableMixin, ListView):
     model = Item
-    queryset = Item.objects.order_by('id')
     context_object_name = 'item_list'
     table_class = ItemList
     template_name = 'item_list.html'
@@ -61,7 +60,7 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, SingleTableMixin, Li
         return self.request.user.is_staff
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = Item.objects.filter(batch=self.request.resolver_match.kwargs['batch']).order_by('id')
         self.filterset = ItemFilter(self.request.GET, queryset=queryset)
 
         # Session keys
