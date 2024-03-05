@@ -138,12 +138,9 @@ def is_pool_report(html: str) -> bool:
     return True
 
 
-def load_data(file_path):
-    file_name = Path(file_path).stem
-
-    batch = Batch()
-    batch.name = file_name
-    batch.save()
+def load_data(file_path, batch_id):
+    batch = Batch(id=batch_id)
+    logger.debug(f'Batch ID: {batch_id}')
 
     for message in mailbox.mbox(file_path):
         item = Item()
