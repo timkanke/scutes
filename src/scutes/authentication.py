@@ -11,10 +11,7 @@ class ModifiedSaml2Backend(Saml2Backend):
         **kwargs,
     ) -> bool:
         groups = [g.lower() for g in attributes['eduPersonEntitlement']]
-        if 'scutes-user' not in groups:
-            return False
-        else:
-            return True
+        return 'scutes-user' in groups
 
     def _update_user(self, user, attributes: dict, attribute_mapping: dict, force_save: bool = False):
         if 'eduPersonEntitlement' in attributes:
