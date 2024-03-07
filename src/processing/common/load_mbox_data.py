@@ -3,6 +3,8 @@ import mailbox
 import os
 import re
 import requests
+import sys
+import time
 
 from bs4 import BeautifulSoup
 from email.header import decode_header
@@ -214,12 +216,28 @@ def load_data(file_path, batch_id):
                     external_image_list.append(src)
 
         for external_image in external_image_list:
+            TOTAL_TIMEOUT = 10
+
+            def trace_function(frame, event, arg):
+                if time.time() - start > TOTAL_TIMEOUT:
+                    raise Exception('Timed out!')
+
+                return trace_function
+
+            start = time.time()
+            sys.settrace(trace_function)
+
             try:
                 response = requests.get(external_image, stream=True)
             except requests.ConnectionError as e:
                 logger.warning(f"FAILED to retrieve '{src}'. Connection error: {e}")
                 # self.failed_src_retrievals.append(src)
                 continue
+            except:
+                raise
+            finally:
+                sys.settrace(None)
+
             if response.ok:
                 logger.debug(f"Successfully Retrieved '{src}'.")
                 # Save file
@@ -260,7 +278,7 @@ def load_data(file_path, batch_id):
                 content_file = ContentFile(content, name=email_filename)
                 file = File(file=content_file)
 
-                file.name = email_filename
+                file.name = email_filename[:255]
                 file.content_type = content_type
                 file.content_disposition = content_disposition
                 file.content_id = content_id
