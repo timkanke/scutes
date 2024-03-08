@@ -41,15 +41,18 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        file = options['file']
+        import_file = options['file']
         file_path = Path(options['file_path'])
         files = []
         existing_batchs = list(Batch.objects.all().values_list('name', flat=True))
         existing_batchs = [existing_batch + '.mbox' for existing_batch in existing_batchs]
 
-        if file:
+        if import_file:
             import_batch(file_path)
         else:
+            # for dirpath, dirnames, filenames in dir.walk():
+            # files.extend(dirname / name for name in filenames if name.endswith(‘.mbox’))
+
             paths = Path(file_path).glob(
                 '**/*.mbox',
             )

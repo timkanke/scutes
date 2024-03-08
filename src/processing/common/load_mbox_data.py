@@ -228,11 +228,12 @@ def load_data(file_path, batch_id):
             sys.settrace(trace_function)
 
             try:
-                response = requests.get(external_image, stream=True)
+                response = requests.get(external_image, stream=True, timeout=(3, 6))
             except requests.ConnectionError as e:
                 logger.warning(f"FAILED to retrieve '{src}'. Connection error: {e}")
-                # self.failed_src_retrievals.append(src)
                 continue
+            except requests.Timeout as e:
+                logger.warning(f"Timeout '{src}'. Connection error: {e}")
             except:
                 raise
             finally:
@@ -242,6 +243,9 @@ def load_data(file_path, batch_id):
                 logger.debug(f"Successfully Retrieved '{src}'.")
                 # Save file
                 filename = os.path.split(src)[1]
+                logger.debug(f'filename: {filename}')
+                filename = filename[:100]
+                logger.debug(f'filename: {filename}')
                 content = response.raw.data
                 content_file = ContentFile(content, name=filename)
                 file = File(file=content_file)
@@ -278,7 +282,7 @@ def load_data(file_path, batch_id):
                 content_file = ContentFile(content, name=email_filename)
                 file = File(file=content_file)
 
-                file.name = email_filename[:255]
+                file.name = email_filename
                 file.content_type = content_type
                 file.content_disposition = content_disposition
                 file.content_id = content_id
