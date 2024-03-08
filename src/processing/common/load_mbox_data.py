@@ -216,17 +216,15 @@ def load_data(file_path, batch_id):
                     external_image_list.append(src)
 
         for external_image in external_image_list:
-            TOTAL_TIMEOUT = 10
+            trace_timeout = 10
 
             def trace_function(frame, event, arg):
-                if time.time() - start > TOTAL_TIMEOUT:
+                if time.time() - start > trace_timeout:
                     raise Exception('Timed out!')
-
                 return trace_function
 
             start = time.time()
             sys.settrace(trace_function)
-
             try:
                 response = requests.get(external_image, stream=True, timeout=(3, 6))
             except requests.ConnectionError as e:
