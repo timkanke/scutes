@@ -51,10 +51,10 @@ WORKDIR /scutes
 # Install dependencies
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
-RUN apt-get install xmlsec1
+RUN apt install -y xmlsec1 libssl-dev libsasl2-dev
 
 # Copy project
 COPY src ./src
 COPY pyproject.toml .
 
-CMD python src/manage.py runserver 0.0.0.0:8000
+CMD python src/manage.py runserver 0.0.0.0:15000
