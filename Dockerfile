@@ -51,7 +51,7 @@ WORKDIR /scutes
 # Install dependencies
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
-RUN apt install -y xmlsec1 libssl-dev libsasl2-dev
+RUN apt-get update && apt-get install -y xmlsec1 libssl-dev libsasl2-dev
 
 # Copy project
 COPY src ./src
