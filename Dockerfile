@@ -6,27 +6,27 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 # Production should have DEBUG=off
-ENV DEBUG=on
+# ENV DEBUG=''
 ENV ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
 
 # Django runserver - Production use waitress instead
-ENV RUNSERVER_DEFAULT_PORT=''
-ENV RUNSERVER_DEFAULT_ADDR=''
+# ENV RUNSERVER_DEFAULT_PORT=''
+# ENV RUNSERVER_DEFAULT_ADDR=''
 
 # waitress
-ENV SERVER_HOST=''
-ENV SERVER_PORT=''
+# ENV SERVER_HOST=''
+# ENV SERVER_PORT=''
 
 # whitenoise
-ENV WHITENOISE_ROOT=''
+# ENV WHITENOISE_ROOT=''
 
 # SAML
 ENV SAML_ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
-ENV XMLSEC_BINARY=''
-ENV ENTITYID=''
-ENV ENDPOINT_ADDRESS=''
-ENV KEY_FILE=''
-ENV CERT_FILE=''
+# ENV XMLSEC_BINARY=''
+# ENV ENTITYID=''
+# ENV ENDPOINT_ADDRESS=''
+# ENV KEY_FILE=''
+# ENV CERT_FILE=''
 
 ENV LOGGING_LEVEL=INFO
 # DJANGO_LOG_LEVEL=DEBUG setting is very verbose as it includes all database queries.
@@ -38,9 +38,7 @@ ENV MEDIA_ROOT='/media'
 # Set database environment variables
 ENV DB_ENGINE=django.db.backends.postgresql
 ENV DB_NAME=scutes
-# Was POSTGRES_USER in k8s, now DB_USER
 # ENV DB_USER=''
-# Was POSTGRES_PASSWORD in k8s, now DB_PASSWORD
 # ENV DB_PASSWORD=''
 # ENV DB_HOST=''
 ENV DB_PORT=5432
