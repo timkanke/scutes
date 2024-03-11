@@ -98,10 +98,10 @@ AUTHENTICATION_BACKENDS = (
 # The storage linked to it is accessible by default at request.saml_session.
 SAML_SESSION_COOKIE_NAME = 'saml_session'
 # By default, djangosaml2 will set “SameSite=None” for the SAML session cookie.
-SAML_SESSION_COOKIE_SAMESITE = 'Lax'  # TODO make env
+SAML_SESSION_COOKIE_SAMESITE = env('SAML_SESSION_COOKIE_SAMESITE')
 # Remember that in your browser “SameSite=None” attribute MUST also have the “Secure” attribute,
 # which is required in order to use “SameSite=None”, otherwise the cookie will be blocked.
-SESSION_COOKIE_SECURE = False  # TODO make env
+SESSION_COOKIE_SECURE = env('SESSION_COOKIE_SECURE', cast=bool)
 
 # Default login path
 LOGIN_URL = '/saml2/login/'
