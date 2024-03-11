@@ -68,18 +68,18 @@ def export(batch_selected, export_path):
             with open(body, 'w') as body:
                 body.write(item.body_final)
             file_path = id + '/' + body_name
-            files_path.append(file_path)
+            files_path = []
             # Create attachment file
             files = File.objects.filter(item=item)
             for file in files:
                 if file.disposition == 'attachment':
                     file_name = file.file.name
-                    file_path = Path(output_path / id / 'media' / file_name)
+                    file_path = Path(output_path / id / 'attachment' / file_name)
                     file_path.parent.mkdir(parents=True, exist_ok=True)
                     file_to_download = file.file.read()
                     with open(file_path, 'wb') as f:
                         f.write(file_to_download)
-                    file_path = id + '/' + 'media' + '/' + file_name
+                    file_path = id + '/' + 'attachment' + '/' + file_name
                     files_path.append(file_path)
                 elif file.disposition == 'inline':
                     file_name = file.file.name
