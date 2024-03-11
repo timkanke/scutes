@@ -73,8 +73,8 @@ def export(batch_selected, export_path):
             files = File.objects.filter(item=item)
             for file in files:
                 if file.disposition == 'attachment':
-                    file_name = file.name
-                    file_path = Path(output_path / id / 'attachments' / file_name)
+                    file_name = file.file.name
+                    file_path = Path(output_path / id / 'media' / file_name)
                     file_path.parent.mkdir(parents=True, exist_ok=True)
                     file_to_download = file.file.read()
                     with open(file_path, 'wb') as f:
