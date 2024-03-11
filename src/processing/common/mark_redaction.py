@@ -3,7 +3,7 @@ import re
 
 from bs4 import BeautifulSoup as Soup
 
-from processing.models import Item, Redact
+from processing.models import Item
 
 
 logger = logging.getLogger(__name__)
@@ -62,25 +62,6 @@ def redact_using_pattern(html):
     return html
 
 
-def redact_using_string(html):
-    name = 'redact_list'  # Row name for Redact.object
-    if Redact.objects.filter(name=name).exists():
-        strings = Redact.objects.get(name=name).string
-        # Object format example: {"label0": "spam", "label1": "eggs"}
-        logger.debug(f'{strings} {type(strings)}')
-        strings = list(zip(strings.keys(), strings.values()))
-
-        while True:
-            for label, pattern in strings:
-                match = re.findall(pattern, html)
-                logger.debug(f'{match}, {label}, {type(match)}')
-                html = re.sub(pattern, '<del class="redacted" style="color:red;">' + pattern + '</del>', html)
-                logger.debug(html)
-            return html
-    else:
-        return html
-
-
 def mark_redaction(batch_selected):
     items = Item.objects.filter(batch=batch_selected)
     item = Item.objects.all()
@@ -88,6 +69,5 @@ def mark_redaction(batch_selected):
         logger.info(f'Marking: {item.id}, {item.title}')
         html = item.body_clean
         html = redact_using_pattern(html)
-        html = redact_using_string(html)
         item.body_redact = html
         item.save(update_fields=['body_redact'])

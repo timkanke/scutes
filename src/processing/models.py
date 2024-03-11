@@ -76,9 +76,3 @@ class Item(models.Model):
     @property
     def inline_count(self):
         return self.file_set.filter(disposition__contains='inline').count
-
-
-class Redact(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, blank=True)
-    string = models.JSONField(null=True)
