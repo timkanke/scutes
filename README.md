@@ -34,6 +34,13 @@ To Start the dev server. Run manage command in src directory.
 
 ### Custom Management Commands
 
+Import Batches
+
+```zsh
+# Imports mbox file(s), cleans HTML, and marks redactions from a directory
+./manage.py import_process path/to/dir 
+```
+
 Load mbox file
 
 ```zsh
