@@ -39,14 +39,6 @@ entity "Item" as Item {
   last_modified : datetime
 }
 
-entity "Redact" as Redact {
-  *id : number <<generated>>
-  --
-  name : text
-  string : JSON Field
-}
-
-
 Batch ||..|{ Item
 Item ||..|{ File
 
