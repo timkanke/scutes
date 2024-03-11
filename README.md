@@ -14,9 +14,17 @@ See [docs/CKEditor.md](docs/CKEditor.md).
 
 ![Database Schema](docs/images/db_schema.svg)
 
-## Management Commands
+## Commands
 
 All commands are ran in the src directory.
+
+### Production Webserver
+
+To start waitress.
+
+```zsh
+python server.py
+```
 
 ### Built-in Management Commands
 
@@ -26,7 +34,7 @@ Load YAML test data
 ./manage.py loaddata test_data
 ```
 
-To Start the dev server. Run manage command in src directory.
+To start the dev server. Run manage command in src directory.
 
 ```zsh
 ./manage.py runserver
@@ -34,7 +42,7 @@ To Start the dev server. Run manage command in src directory.
 
 ### Custom Management Commands
 
-Import Batches
+Import batches
 
 ```zsh
 # Imports mbox file(s), cleans HTML, and marks redactions from a directory
