@@ -46,14 +46,6 @@ def export(batch_selected, export_path):
         yield f'<div class="text-bg-warning p-3">Number of items not reviewed: {not_reviewed_count} out of {total_items_count} items.<br>'
         yield f'Number of items in progress: {items_in_progress.count()}<br>'
         yield f'Number of items not started: {items_not_started.count()}</div>'
-
-        # Disabled command line input to proceed
-        # result = input('Continue export? Please answer yes or no: ')
-        # if result == 'yes':
-        # pass
-        # else:
-        # logger.info('Exiting Script')
-        # sys.exit()
     else:
         pass
 
