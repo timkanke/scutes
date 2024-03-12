@@ -1,6 +1,7 @@
 import logging
 import zipfile
 
+from bs4 import BeautifulSoup
 from csv import DictWriter
 from pathlib import Path
 
@@ -10,6 +11,18 @@ from processing.models import Batch, File, Item
 logger = logging.getLogger(__name__)
 
 HEADER = ['Identifier', 'Title', 'Date', 'Creator', 'Format', 'Rights Statement', 'FILES', 'Object Type']
+
+
+def convert_body_src(body_final):
+    soup = BeautifulSoup(body_final, 'lxml')
+    imgs = soup.find_all('img')
+    for img in imgs:
+        img_url = img['src']
+        new_url = img_url.strip('/')
+        img['src'] = new_url
+
+    body_final = str(soup)
+    return body_final
 
 
 def export(batch_selected, export_path):
@@ -65,8 +78,10 @@ def export(batch_selected, export_path):
             body_name = 'body-' + id + '.html'
             body = Path(output_path / id / body_name)
             body.parent.mkdir(parents=True, exist_ok=True)
+            body_final = item.body_final
+            body_final = convert_body_src(body_final)
             with open(body, 'w') as body:
-                body.write(item.body_final)
+                body.write(body_final)
             file_path = id + '/' + body_name
             files_path = []
             # Create attachment file
