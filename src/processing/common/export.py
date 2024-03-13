@@ -1,3 +1,4 @@
+import datetime
 import logging
 import zipfile
 
@@ -120,3 +121,6 @@ def export(batch_selected, export_path):
         for file_path in directory.rglob('*'):
             archive.write(file_path, arcname=file_path.relative_to(directory))
     yield f'Finished export of {batch_selected_name}'
+
+    batch.last_export = datetime.datetime.now()
+    batch.save()
