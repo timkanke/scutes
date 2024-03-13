@@ -42,8 +42,8 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
 CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS', cast=[str])
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
-runserver.default_port = env('RUNSERVER_DEFAULT_PORT')
-runserver.default_addr = env('RUNSERVER_DEFAULT_ADDR')
+runserver.default_port = env('SERVER_PORT')
+runserver.default_addr = env('SERVER_HOST')
 
 # Needed for Django Debug Toolbar
 INTERNAL_IPS = [
