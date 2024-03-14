@@ -1,10 +1,11 @@
-import datetime
 import logging
 import zipfile
 
 from bs4 import BeautifulSoup
 from csv import DictWriter
 from pathlib import Path
+
+from django.utils import timezone
 
 from processing.models import Batch, File, Item
 
@@ -100,7 +101,7 @@ def export(batch_selected, export_path):
             # Write CSV row
             csv_writer.writerow(
                 {
-                    'Identifier': item.id,
+                    'Identifier': batch_selected_name.replace('-', '') + '_' + str(item.id),
                     'Title': item.title,
                     'Date': item.date,
                     'Creator': item.reporter,
@@ -122,5 +123,5 @@ def export(batch_selected, export_path):
             archive.write(file_path, arcname=file_path.relative_to(directory))
     yield f'Finished export of {batch_selected_name}'
 
-    batch.last_export = datetime.datetime.now()
+    batch.last_export = timezone.localtime()
     batch.save()
