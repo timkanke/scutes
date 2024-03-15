@@ -41,8 +41,8 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
 CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS', cast=[str])
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
-runserver.default_port = env('RUNSERVER_DEFAULT_PORT')
-runserver.default_addr = env('RUNSERVER_DEFAULT_ADDR')
+runserver.default_port = env('SERVER_PORT')
+runserver.default_addr = env('SERVER_HOST')
 
 # Needed for Django Debug Toolbar
 INTERNAL_IPS = [
@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'processing',
     'django_tables2',
@@ -307,8 +308,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_URL = env('STATIC_URL')
+STATIC_ROOT = env('STATIC_ROOT')
 MEDIA_URL = env('MEDIA_URL')
 MEDIA_ROOT = env('MEDIA_ROOT')
 
