@@ -1,4 +1,4 @@
-from django_tables2 import Column, tables, TemplateColumn
+from django_tables2 import Column, DateTimeColumn, tables, TemplateColumn
 from .models import Batch, File, Item
 
 
@@ -13,7 +13,7 @@ class BatchList(tables.Table):
     assigned_to = Column(attrs={'th': {'class': 'text-decoration-line-through text-muted'}}, orderable=False)
     id = Column(verbose_name='ID', orderable=False)
     name = Column(verbose_name='Batch Name', orderable=False)
-    last_export = Column(verbose_name='Last Export Date', orderable=False)
+    last_export = DateTimeColumn(short=True, verbose_name='Last Export Date', orderable=False)
     finalize = TemplateColumn(verbose_name='', template_name='tables/finalize.html', orderable=False)
 
 

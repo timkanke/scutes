@@ -7,6 +7,7 @@ from pathlib import Path
 
 from django.utils import timezone
 
+from scutes.settings import KEEP_EXPORT_DIRECTORIES
 from processing.models import Batch, File, Item
 
 
@@ -25,6 +26,15 @@ def convert_body_img_src(body_final):
 
     body_final = str(soup)
     return body_final
+
+
+def rm_tree(pth: Path):
+    for child in pth.iterdir():
+        if child.is_file():
+            child.unlink()
+        else:
+            rm_tree(child)
+    pth.rmdir()
 
 
 def export(batch_selected, export_path):
@@ -81,22 +91,12 @@ def export(batch_selected, export_path):
             files = File.objects.filter(item=item)
             for file in files:
                 file_name = file.file.name
-                if file.disposition == 'attachment':
-                    file_type = 'attachment'
-                elif file.disposition == 'inline':
-                    file_type = 'media'
-                elif file.disposition == 'external':
-                    file_type = 'media'
-                else:
-                    pass
-
-                file_path = Path(output_path / id / file_type / file_name)
-                csv_file_path = id + '/' + file_type + '/' + file_name
-                csv_files_path.append(csv_file_path)
-                file_path.parent.mkdir(parents=True, exist_ok=True)
-                file_to_download = file.file.read()
-                with open(file_path, 'wb') as f:
-                    f.write(file_to_download)
+                file_path = Path(id) / str(file.disposition) / file_name
+                output_file = Path(output_path) / file_path
+                csv_files_path.append(str(file_path))
+                output_file.parent.mkdir(parents=True, exist_ok=True)
+                with open(output_file, 'wb') as f:
+                    f.write(file.file.read())
 
             # Write CSV row
             csv_writer.writerow(
@@ -123,5 +123,8 @@ def export(batch_selected, export_path):
             archive.write(file_path, arcname=file_path.relative_to(directory))
     yield f'Finished export of {batch_selected_name}'
 
-    batch.last_export = timezone.localtime()
+    if KEEP_EXPORT_DIRECTORIES is False:
+        rm_tree(path)
+
+    batch.last_export = timezone.now()
     batch.save()

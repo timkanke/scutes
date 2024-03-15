@@ -20,20 +20,19 @@ from django.core.management.commands.runserver import Command as runserver
 from pathlib import Path
 
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Take environment variables from .env file
 environ.Env.read_env(Path(BASE_DIR) / '.env')
 
 # False if not in os.environ because of casting above
-DEBUG = env('DEBUG')
+DEBUG = env.bool('DEBUG', default=False)
+
+# Export files that are created for testing before zip
+KEEP_EXPORT_DIRECTORIES = env.bool('KEEP_EXPORT_DIRECTORIES', default=DEBUG)
 
 # Raises Django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
 SECRET_KEY = env('SECRET_KEY')
@@ -84,6 +83,7 @@ MIDDLEWARE = [
 ]
 
 AUTH_USER_MODEL = 'processing.User'
+
 
 """ SAML Config """
 
