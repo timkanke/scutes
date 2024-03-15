@@ -1,6 +1,10 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
-from .models import Batch, File, Item, Redact
+from .models import Batch, File, Item, User
+
+
+admin.site.register(User, UserAdmin)
 
 
 @admin.register(Batch)
@@ -16,8 +20,3 @@ class FileAdmin(admin.ModelAdmin):
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
     list_display = ['id', 'date', 'reporter', 'title']
-
-
-@admin.register(Redact)
-class RedactAdmin(admin.ModelAdmin):
-    list_display = ['id', 'string']

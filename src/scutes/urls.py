@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -44,12 +44,8 @@ urlpatterns = [
     path('batch_export/', batch_export, name='batch_export'),
     path('itemview/<int:pk>/', ItemUpdateView.as_view(), name='itemupdateview'),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path(
-        'password_reset//',
-        auth_views.PasswordChangeView.as_view(template_name='registration/password_reset_form.html', success_url='/'),
-        name='change_password',
-    ),
+    # path('accounts/', include('django.contrib.auth.urls')),
+    re_path(r'saml2/', include('djangosaml2.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 htmx_urlpatterns = []

@@ -20,13 +20,11 @@
                 <div>
                 </div>
                 {% else %}
-                <div class="border d-flex align-items-center justify-content-center mx-4" style="height: 200px;">
-                    <div class="mx-3">
-                        <h1>Welcome</h1>
-                    </div>
+                <div class="d-flex align-items-center justify-content-center mx-6" style="height: 200px;">
                     <div>
-                        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary btn-lg"
-                            role="button">Login</a>
+                        <a href="{% url 'saml2_login' %}?next={{ request.path }}" class="btn btn-primary btn-lg"
+                            role="button">Login
+                            with UMD account</a>
                     </div>
                 </div>
                 {% endif %}
@@ -41,6 +39,17 @@
 
             <h1>Release Notes</h1>
             <hr class="border border-secondary border-3 opacity-75">
+
+            <h2>MVP Testing Milestone 4</h2>
+            <h4>Improvements</h4>
+            <ul>
+                <li>Added Single Sign On</li>
+                <li>Added "pool_report" and "off-the-record" filters to Item List</li>
+                <li>Added finalize redactions and export functions</li>
+            </ul>
+
+            <hr>
+
             <h2>MVP Testing Milestone 3</h2>
             <h4>Improvements</h4>
             <ul>

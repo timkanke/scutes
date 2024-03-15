@@ -6,10 +6,16 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
+
+Production checklist
+https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 """
 
 import environ
-import os
+import saml2
+import saml2.saml
+
+from django.core.management.commands.runserver import Command as runserver
 
 from pathlib import Path
 
@@ -23,11 +29,8 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
 # Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(Path(BASE_DIR) / '.env')
 
 # False if not in os.environ because of casting above
 DEBUG = env('DEBUG')
@@ -37,6 +40,10 @@ SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
 CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS', cast=[str])
+
+ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=[str])
+runserver.default_port = env('SERVER_PORT')
+runserver.default_addr = env('SERVER_HOST')
 
 # Needed for Django Debug Toolbar
 INTERNAL_IPS = [
@@ -51,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'processing',
     'django_tables2',
@@ -61,10 +69,12 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'debug_toolbar',
+    'djangosaml2',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -76,12 +86,153 @@ MIDDLEWARE = [
     'django.contrib.admindocs.middleware.XViewMiddleware',
 ]
 
+AUTH_USER_MODEL = 'processing.User'
+
+""" SAML Config """
+
+MIDDLEWARE.append('djangosaml2.middleware.SamlSessionMiddleware')
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'scutes.authentication.ModifiedSaml2Backend',
+)
+
+# SameSite Cookies
+# The storage linked to it is accessible by default at request.saml_session.
+SAML_SESSION_COOKIE_NAME = 'saml_session'
+# By default, djangosaml2 will set “SameSite=None” for the SAML session cookie.
+SAML_SESSION_COOKIE_SAMESITE = env('SAML_SESSION_COOKIE_SAMESITE')
+# Remember that in your browser “SameSite=None” attribute MUST also have the “Secure” attribute,
+# which is required in order to use “SameSite=None”, otherwise the cookie will be blocked.
+SESSION_COOKIE_SECURE = env('SESSION_COOKIE_SECURE', cast=bool)
+
+# Default login path
+LOGIN_URL = '/saml2/login/'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Handling Post-Login Redirects
+SAML_ALLOWED_HOSTS = env('SAML_ALLOWED_HOSTS', cast=[str])
+
+SAML_DEFAULT_BINDING = saml2.BINDING_HTTP_POST
+SAML_LOGOUT_REQUEST_PREFERRED_BINDING = saml2.BINDING_HTTP_POST
+SAML_IGNORE_LOGOUT_ERRORS = True
+
+# Users, attributes and account linking
+SAML_CREATE_UNKNOWN_USER = True
+SAML_ATTRIBUTE_MAPPING = {
+    'uid': ('username',),
+    'mail': ('email',),
+    'givenName': ('first_name',),
+    'urn:mace:umd.edu:sn': ('last_name',),
+    'eduPersonEntitlement': ('process_entitlement',),
+}
+
+SAML_CONFIG = {
+    # full path to the xmlsec1 binary programm
+    'xmlsec_binary': env('XMLSEC_BINARY'),
+    # your entity id, usually your subdomain plus the url to the metadata view
+    'entityid': env('ENTITYID'),
+    # directory with attribute mapping
+    'attribute_map_dir': str(Path(BASE_DIR) / 'scutes' / 'attribute-maps'),
+    # Permits to have attributes not configured in attribute-mappings
+    # otherwise...without OID will be rejected
+    'allow_unknown_attributes': True,
+    # this block states what services we provide
+    'service': {
+        'sp': {
+            'name': 'Scutes',
+            'name_id_format': saml2.saml.NAMEID_FORMAT_TRANSIENT,
+            # Define the authentication context
+            'requested_authn_context': {
+                'authn_context_class_ref': [
+                    'urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport',
+                    'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient',
+                ],
+                'comparison': 'minimum',
+            },
+            'endpoints': {
+                # url and binding to the assetion consumer service view
+                # do not change the binding or service name
+                'assertion_consumer_service': [
+                    (env('ENDPOINT_ADDRESS') + '/saml2/acs/', saml2.BINDING_HTTP_POST),
+                ],
+                # url and binding to the single logout service view
+                # do not change the binding or service name
+                'single_logout_service': [
+                    # Disable next two lines for HTTP_REDIRECT for IDP's that only support HTTP_POST. Ex. Okta:
+                    (env('ENDPOINT_ADDRESS') + '/saml2/ls/', saml2.BINDING_HTTP_REDIRECT),
+                    (env('ENDPOINT_ADDRESS') + '/saml2/ls/post', saml2.BINDING_HTTP_POST),
+                ],
+            },
+            'signing_algorithm': saml2.xmldsig.SIG_RSA_SHA256,
+            'digest_algorithm': saml2.xmldsig.DIGEST_SHA256,
+            # Mandates that the identity provider MUST authenticate the
+            # presenter directly rather than rely on a previous security context.
+            'force_authn': False,
+            # Enable AllowCreate in NameIDPolicy.
+            'name_id_format_allow_create': False,
+            # attributes that this project need to identify a user
+            'required_attributes': ['givenName', 'sn', 'mail', 'eduPersonEntitlement'],
+            # attributes that may be useful to have but not required
+            'optional_attributes': ['eduPersonAffiliation'],
+            'want_response_signed': False,
+            'authn_requests_signed': True,
+            'logout_requests_signed': True,
+            # Indicates that Authentication Responses to this SP must
+            # be signed. If set to True, the SP will not consume
+            # any SAML Responses that are not signed.
+            'want_assertions_signed': False,
+            'only_use_keys_in_metadata': True,
+            # When set to true, the SP will consume unsolicited SAML
+            # Responses, i.e. SAML Responses for which it has not sent
+            # a respective SAML Authentication Request.
+            'allow_unsolicited': True,
+            # in this section the list of IdPs we talk to are defined
+            # This is not mandatory! All the IdP available in the metadata will be considered instead.
+            'idp': {
+                # we do not need a WAYF service since there is
+                # only an IdP defined here. This IdP should be
+                # present in our metadata
+                # the keys of this dictionary are entity ids
+                'https://shib.idm.umd.edu/shibboleth-idp/shibboleth': {
+                    'single_sign_on_service': {
+                        saml2.BINDING_HTTP_POST: 'https://shib.idm.umd.edu/shibboleth-idp/profile/SAML2/POST/SSO',
+                    },
+                    'single_logout_service': {
+                        saml2.BINDING_HTTP_REDIRECT: 'https://shib.idm.umd.edu/shibboleth-idp/profile/Logout',
+                    },
+                },
+            },
+        },
+    },
+    # where the remote metadata is stored, local, remote or mdq server.
+    'metadata': {
+        'remote': [
+            {'url': 'https://shib.idm.umd.edu/shibboleth-idp/shibboleth'},
+        ],
+    },
+    # set to 1 to output debugging information
+    'debug': 1,
+    # Signing
+    'key_file': env('KEY_FILE'),  # private part
+    'cert_file': env('CERT_FILE'),  # public part
+    # Encryption
+    'encryption_keypairs': [
+        {
+            'key_file': env('KEY_FILE'),  # private part
+            'cert_file': env('CERT_FILE'),  # public part
+        }
+    ],
+}
+
+""" END SAML CONFIG """
+
 ROOT_URLCONF = 'scutes.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [Path(BASE_DIR) / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -159,8 +310,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_URL = env('STATIC_URL')
+STATIC_ROOT = env('STATIC_ROOT')
 MEDIA_URL = env('MEDIA_URL')
 MEDIA_ROOT = env('MEDIA_ROOT')
 
