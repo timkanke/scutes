@@ -10,8 +10,10 @@ class ModifiedSaml2Backend(Saml2Backend):
         assertion_info: dict,
         **kwargs,
     ) -> bool:
-        groups = [g.lower() for g in attributes['eduPersonEntitlement']]
-        return 'scutes-user' in groups
+        groups = {}
+        if 'eduPersonEntitlement' in attributes:
+            groups = [g.lower() for g in attributes['eduPersonEntitlement']]
+            return 'scutes-user' in groups
 
     def _update_user(self, user, attributes: dict, attribute_mapping: dict, force_save: bool = False):
         if 'eduPersonEntitlement' in attributes:
