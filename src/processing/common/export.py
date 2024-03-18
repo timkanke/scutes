@@ -16,18 +16,6 @@ logger = logging.getLogger(__name__)
 HEADER = ['Identifier', 'Title', 'Date', 'Creator', 'Format', 'Rights Statement', 'FILES', 'Object Type']
 
 
-def convert_body_img_src(body_final):
-    soup = BeautifulSoup(body_final, 'lxml')
-    imgs = soup.find_all('img')
-    for img in imgs:
-        img_url = img['src']
-        new_url = img_url.strip('/')
-        img['src'] = new_url
-
-    body_final = str(soup)
-    return body_final
-
-
 def rm_tree(pth: Path):
     for child in pth.iterdir():
         if child.is_file():
@@ -76,15 +64,14 @@ def export(batch_selected, export_path):
             logger.info(f'Exporting: {item.id}, {item.title}')
             yield f'Exporting: {item.id}, {item.title}<br>'
 
-            # Create HTML file
+            # Create directory
             id = str(item.id)
             body_name = 'body-' + id + '.html'
             body = Path(output_path / id / body_name)
             body.parent.mkdir(parents=True, exist_ok=True)
+
             body_final = item.body_final
-            body_final = convert_body_img_src(body_final)
-            with open(body, 'w') as body:
-                body.write(body_final)
+            soup = BeautifulSoup(body_final, 'lxml')
 
             # Create media file(s)
             csv_files_path = []
@@ -97,6 +84,18 @@ def export(batch_selected, export_path):
                 output_file.parent.mkdir(parents=True, exist_ok=True)
                 with open(output_file, 'wb') as f:
                     f.write(file.file.read())
+
+                # Convert img src
+                if file.disposition != 'attachment':
+                    imgs = soup.select('img', src=file_name)
+                    for img in imgs:
+                        new_src = str(file.disposition) + '/' + file_name
+                        img['src'] = new_src
+
+            # Create HTML file
+            body_final = str(soup)
+            with open(body, 'w') as body:
+                body.write(body_final)
 
             # Write CSV row
             csv_writer.writerow(
