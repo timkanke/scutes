@@ -51,6 +51,12 @@ def export(batch_selected, export_path):
 
     # Create output path if not exists
     path = Path(export_path, batch_selected_name)
+    if path.is_dir():
+        logger.debug('path exists')
+        rm_tree(path)
+    else:
+        logger.debug('path does not exist')
+
     path.mkdir(parents=True, exist_ok=True)
     output_path = path
 
