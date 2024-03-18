@@ -48,12 +48,8 @@ class BatchList(LoginRequiredMixin, UserPassesTestMixin, SingleTableView):
     def test_func(self):
         return self.request.user.is_staff
 
-<<<<<<< HEAD
-class ItemListView(LoginRequiredMixin, ListView):
-=======
 
-class ItemListView(LoginRequiredMixin, UserPassesTestMixin, SingleTableMixin, ListView):
->>>>>>> main
+class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Item
     context_object_name = 'item_list'
     template_name = 'item_list.html'
@@ -68,10 +64,6 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, SingleTableMixin, Li
         return self.request.user.is_staff
 
     def get_queryset(self):
-<<<<<<< HEAD
-        # queryset = super().get_queryset()
-=======
->>>>>>> main
         queryset = Item.objects.filter(batch=self.request.resolver_match.kwargs['batch']).order_by('id')
         self.filterset = ItemFilter(self.request.GET, queryset=queryset)
 
