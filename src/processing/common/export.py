@@ -65,20 +65,22 @@ def export(batch_selected, export_path):
             yield f'Exporting: {item.id}, {item.title}<br>'
 
             # Create directory
-            id = str(item.id)
-            body_name = 'body-' + id + '.html'
-            body = Path(output_path / id / body_name)
+            item_id = str(item.id)
+            body_name = 'body-' + item_id + '.html'
+            body = Path(output_path / item_id / body_name)
             body.parent.mkdir(parents=True, exist_ok=True)
 
+            csv_files_path = []
+            body_path = item_id + '/' + body_name
+            csv_files_path.append(body_path)
             body_final = item.body_final
             soup = BeautifulSoup(body_final, 'lxml')
 
             # Create media file(s)
-            csv_files_path = []
             files = File.objects.filter(item=item)
             for file in files:
-                file_name = file.file.name
-                file_path = Path(id) / str(file.disposition) / file_name
+                file_name = file.file.name[6:]
+                file_path = Path(item_id) / str(file.disposition) / file_name
                 output_file = Path(output_path) / file_path
                 csv_files_path.append(str(file_path))
                 output_file.parent.mkdir(parents=True, exist_ok=True)
