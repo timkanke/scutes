@@ -21,6 +21,7 @@ from .models import Batch, Item
 from .tables import BatchList, ItemList
 from processing.common.export import export
 from processing.common.finalize_redactions import convert_redaction
+from processing.common.convert_and_export import convert_and_export
 
 
 logger = logging.getLogger(__name__)
@@ -236,6 +237,15 @@ def batch_export(request):
     batch_selected = request.POST['id']
     export_path = os.path.join(settings.MEDIA_ROOT, 'export')
     stream = export(batch_selected, export_path)
+    response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    return response
+
+
+def batch_convert_and_export(request):
+    batch_selected = request.POST['id']
+    # export_path = os.path.join(settings.MEDIA_ROOT, 'export')
+    stream = convert_and_export(batch_selected)
     response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
     response['Cache-Control'] = 'no-cache'
     return response

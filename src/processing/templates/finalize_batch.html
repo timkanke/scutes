@@ -62,15 +62,9 @@
                 <div class="col">
                     <div class="d-grid gap-2 d-md-block">
                         <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                            hx-post="/batch_redaction/" hx-target="#DataLocation" hx-include="[name='id']"
+                            hx-post="/batch_convert_and_export/" hx-target="#DataLocation" hx-include="[name='id']"
                             hx-swap="innerHTML show:bottom" value="{{ object.pk }}" name="id">
-                            Convert Redactions
-                        </button>
-
-                        <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                            hx-post="/batch_export/" hx-target="#DataLocation" hx-include="[name='id']"
-                            hx-swap="innerHTML show:bottom" value="{{ object.pk }}" name="id">
-                            Export
+                            Convert & Export
                         </button>
                     </div>
 
