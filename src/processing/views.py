@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
@@ -10,7 +9,6 @@ from django.views.generic.base import TemplateView
 from django_tables2 import SingleTableMixin, SingleTableView
 
 import logging
-import os
 import pickle
 
 from base64 import b64encode, b64decode
@@ -19,8 +17,6 @@ from .filters import ItemFilter
 from .forms import ItemUpdateForm
 from .models import Batch, Item
 from .tables import BatchList, ItemList
-from processing.common.export import export
-from processing.common.finalize_redactions import convert_redaction
 from processing.common.convert_and_export import convert_and_export
 
 
@@ -225,26 +221,8 @@ class FinalizeBatchView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return context
 
 
-def batch_redaction(request):
-    batch_selected = request.POST['id']
-    stream = convert_redaction(batch_selected)
-    response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    return response
-
-
-def batch_export(request):
-    batch_selected = request.POST['id']
-    export_path = os.path.join(settings.MEDIA_ROOT, 'export')
-    stream = export(batch_selected, export_path)
-    response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    return response
-
-
 def batch_convert_and_export(request):
     batch_selected = request.POST['id']
-    # export_path = os.path.join(settings.MEDIA_ROOT, 'export')
     stream = convert_and_export(batch_selected)
     response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
     response['Cache-Control'] = 'no-cache'
