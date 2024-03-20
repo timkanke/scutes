@@ -312,6 +312,7 @@ STATIC_URL = env('STATIC_URL')
 STATIC_ROOT = env('STATIC_ROOT')
 MEDIA_URL = env('MEDIA_URL')
 MEDIA_ROOT = env('MEDIA_ROOT')
+EXPORT_PATH = Path(MEDIA_ROOT, 'export')
 
 
 # Logging

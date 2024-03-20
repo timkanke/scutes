@@ -1,23 +1,19 @@
 import logging
-import os
 import zipfile
 
 from bs4 import BeautifulSoup
 from csv import DictWriter
 from pathlib import Path
 
-from django.conf import settings
 from django.utils import timezone
 
-from scutes.settings import KEEP_EXPORT_DIRECTORIES
+from scutes.settings import KEEP_EXPORT_DIRECTORIES, EXPORT_PATH
 from processing.models import Batch, File, Item
 
 
 logger = logging.getLogger(__name__)
 
 HEADER = ['Identifier', 'Title', 'Date', 'Creator', 'Format', 'Rights Statement', 'FILES', 'Object Type']
-
-EXPORT_PATH = os.path.join(settings.MEDIA_ROOT, 'export')
 
 
 def redact_final(html):
@@ -42,8 +38,6 @@ def rm_tree(pth: Path):
 
 
 def convert_and_export(batch_selected):
-    export_path = EXPORT_PATH
-
     # Convert marked redactions
     items = Item.objects.filter(batch=batch_selected)
     item = Item.objects.all()
@@ -68,7 +62,7 @@ def convert_and_export(batch_selected):
     items = Item.objects.filter(batch=batch_selected, publish=True)
 
     # Create output path if not exists
-    path = Path(export_path, batch_selected_name)
+    path = Path(EXPORT_PATH, batch_selected_name)
     if path.is_dir():
         rm_tree(path)
 
