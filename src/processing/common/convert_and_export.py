@@ -72,9 +72,7 @@ def convert_and_export(batch_selected):
     # Open the output CSV for writing
     with open(output_path / 'whpool.csv', 'w') as csv_file:
         csv_writer = DictWriter(csv_file, fieldnames=HEADER, extrasaction='ignore', escapechar='\\')
-        # Add the headers
         csv_writer.writeheader()
-        # Iterate over items in database
         for item in items:
             logger.info(f'Exporting: {item.id}, {item.title}')
             yield f'Exporting: {item.id}, {item.title}<br>'
