@@ -15,15 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 
 from processing.views import (
     BatchList,
-    batch_export,
-    batch_redaction,
+    batch_convert_and_export,
     Dashboard,
     FinalizeBatchView,
     Index,
@@ -40,11 +38,9 @@ urlpatterns = [
     path('', Index.as_view(), name='index'),
     path('itemlist/<int:batch>/', ItemListView.as_view(), name='itemlistview'),
     path('finalizebatch/<int:pk>/', FinalizeBatchView.as_view(), name='finalizebatchview'),
-    path('batch_redaction/', batch_redaction, name='batch_redaction'),
-    path('batch_export/', batch_export, name='batch_export'),
+    path('batch_convert_and_export/', batch_convert_and_export, name='batch_convert_and_export'),
     path('itemview/<int:pk>/', ItemUpdateView.as_view(), name='itemupdateview'),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
-    # path('accounts/', include('django.contrib.auth.urls')),
     re_path(r'saml2/', include('djangosaml2.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
