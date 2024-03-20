@@ -48,35 +48,21 @@ def convert_and_export(batch_selected):
     items = Item.objects.filter(batch=batch_selected)
     item = Item.objects.all()
     logger.info(f'Converting Batch {batch_selected}')
+    yield f'<div class="text-bg-info p-3">Converting Batch {batch_selected}</div>'
     for item in items:
-        logger.info(f'Marking: {item.id}, {item.title}')
+        logger.info(f'Converting: {item.id}, {item.title}')
         yield f'Converting: {item.id}, {item.title}<br>'
         html = item.body_redact
         html = redact_final(html)
         item.body_final = html
         item.save(update_fields=['body_final'])
-    yield f'Completed Converting Batch {batch_selected}'
+    yield f'<div class="text-bg-success p-3">Completed Converting Batch {batch_selected}</div>'
 
     # export
     batch = Batch.objects.get(id=batch_selected)
     batch_selected_name = batch.name
 
-    # Check if all items are reviewed
-    total_items_count = Item.objects.filter(batch=batch_selected).count()
-    items_completed = Item.objects.filter(batch=batch_selected, review_status=2)
-    items_in_progress = Item.objects.filter(batch=batch_selected, review_status=1)
-    items_not_started = Item.objects.filter(batch=batch_selected, review_status=0)
-
-    items_reviewed_count = items_completed.count()
-    not_reviewed_count = items_in_progress.count() + items_not_started.count()
-
-    if items_reviewed_count != 0:
-        logger.info('Not all items in this batch have been reviewed.')
-        logger.info(f'Number of items not reviewed: {not_reviewed_count} out of {total_items_count}')
-        yield '<div class="text-bg-danger p-3">Warning! Not all items in this batch have been reviewed.</div>'
-        yield f'<div class="text-bg-warning p-3">Number of items not reviewed: {not_reviewed_count} out of {total_items_count} items.<br>'
-        yield f'Number of items in progress: {items_in_progress.count()}<br>'
-        yield f'Number of items not started: {items_not_started.count()}</div>'
+    yield f'<div class="text-bg-info p-3">Exporting Batch {batch_selected}</div>'
 
     # Select items only in selected batch and marked publish
     items = Item.objects.filter(batch=batch_selected, publish=True)
@@ -157,10 +143,21 @@ def convert_and_export(batch_selected):
     with zipfile.ZipFile(zip_file, mode='w') as archive:
         for file_path in directory.rglob('*'):
             archive.write(file_path, arcname=file_path.relative_to(directory))
-    yield f'Finished export of {batch_selected_name}'
+    yield f'<div class="text-bg-success p-3">Finished export of {batch_selected_name}</div>'
 
     if KEEP_EXPORT_DIRECTORIES is False:
         rm_tree(path)
 
     batch.last_export = timezone.now()
     batch.save()
+
+    # Notify if all items are reviewed
+    total_items_count = Item.objects.filter(batch=batch_selected).count()
+    items_completed_count = Item.objects.filter(batch=batch_selected, review_status=2).count()
+    not_reviewed_count = total_items_count - items_completed_count
+
+    if not_reviewed_count != 0:
+        logger.info('Not all items in this batch have been reviewed.')
+        logger.info(f'Number of items not reviewed: {not_reviewed_count} out of {total_items_count}')
+        yield '<div class="text-bg-danger p-3">Warning! Not all items in this batch have been reviewed.</div>'
+        yield f'<div class="text-bg-warning p-3">Number of items not reviewed: {not_reviewed_count} out of {total_items_count} items.<br></div>'

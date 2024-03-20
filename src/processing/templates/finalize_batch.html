@@ -22,7 +22,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning btn-md">
                         <a class="nav-link" href="{% url 'itemlistview' batch.id %}?review_status=0&review_status=1">
-                            Go to List View with Item Review Not Completed
+                            Go to Item Review Not Completed List
                         </a>
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Proceed Anyway</button>
@@ -57,6 +57,22 @@
                             </tr>
                         </tbody>
                     </table>
+                    {% if item_review_not_complete %}
+                    <div class="card p-3 mt-1">
+                        <p><b>Item Review is not finished.</b></p>
+                        <p>
+                            {{ item_review_not_complete }} out of {{ object.item_set.count }}
+                            items have not been completely reviewed.
+                        </p>
+                        <button type="button" class="btn btn-warning btn-md">
+                            <a class="nav-link"
+                                href="{% url 'itemlistview' batch.id %}?review_status=0&review_status=1">
+                                Go to Item Review Not Completed List
+                            </a>
+                        </button>
+                    </div>
+
+                    {%endif%}
                 </div>
 
                 <div class="col">
