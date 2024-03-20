@@ -22,10 +22,10 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning btn-md">
                         <a class="nav-link" href="{% url 'itemlistview' batch.id %}?review_status=0&review_status=1">
-                            Go to List View with Item Review Not Completed
+                            Go to Item Review Not Completed List
                         </a>
                     </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Proceed Anyway</button>
                 </div>
             </div>
         </div>
@@ -37,38 +37,62 @@
 
         <div class="card p-3 mt-1">
             <div class="row p-1">
-                <h4>ID: {{ object.pk }}</h4>
-                <h5>Name: {{ batch.name }}</h5>
-                <h5>Number of items: {{ object.item_set.count }}</h5>
-                <h5>Number of items to be published: {{ item_publish }}</h5>
-            </div>
-            <div class="row p-1">
-                <div class="col">
-                    <div class="card p-3 mt-1" style="height:700px;">
-                        <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                            hx-post="/batch_redaction/" hx-target="#redactDataLocation" hx-include="[name='id']"
-                            hx-swap="innerHTML show:bottom" value="{{ object.pk }}" name="id">
-                            Convert Redactions
-                        </button>
-                        <p class="card-text">
-                        <div class="overflow-scroll">
-                            <div id="redactDataLocation"></div>
-                        </div>
+                <div class="col-md-2">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Batch ID</td>
+                                <td>{{ object.pk }}</td>
+                            </tr>
+                            <tr>
+                                <td>Batch Name</td>
+                                <td>{{ batch.name }}</td>
+                            <tr>
+                                <td>Total Items</td>
+                                <td>{{ object.item_set.count }}</td>
+                            </tr>
+                            <tr>
+                                <td>Items To Be Published</td>
+                                <td>{{ item_publish }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% if item_review_not_complete %}
+                    <div class="card p-3 mt-1">
+                        <p><b>Item Review is not finished.</b></p>
+                        <p>
+                            {{ item_review_not_complete }} out of {{ object.item_set.count }}
+                            items have not been completely reviewed.
                         </p>
+                        <button type="button" class="btn btn-warning btn-md">
+                            <a class="nav-link"
+                                href="{% url 'itemlistview' batch.id %}?review_status=0&review_status=1">
+                                Go to Item Review Not Completed List
+                            </a>
+                        </button>
                     </div>
+
+                    {%endif%}
                 </div>
+
                 <div class="col">
-                    <div class="card p-3 mt-1" style="height:700px;">
+                    <div class="d-grid gap-2 d-md-block">
                         <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                            hx-post="/batch_export/" hx-target="#exportDataLocation" hx-include="[name='id']"
+                            hx-post="/batch_convert_and_export/" hx-target="#DataLocation" hx-include="[name='id']"
                             hx-swap="innerHTML show:bottom" value="{{ object.pk }}" name="id">
-                            Export
+                            Convert & Export
                         </button>
-                        <p class="card-text">
-                        <div class="overflow-auto">
-                            <div id="exportDataLocation"></div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card p-3 mt-1" style="height:700px;">
+                            <p class="card-text">
+                            <div class="overflow-auto">
+                                <div id="DataLocation"></div>
+                            </div>
+                            </p>
+
                         </div>
-                        </p>
                     </div>
                 </div>
             </div>
