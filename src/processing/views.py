@@ -1,13 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
-from django.core.paginator import Paginator
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, UpdateView
 from django.views.generic.base import TemplateView
-from django_tables2 import SingleTableMixin, SingleTableView
+from django_tables2 import SingleTableView
 
 import logging
 import pickle
@@ -52,19 +51,10 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'item_list.html'
     paginate_by = 20
 
-    # page_number = request.GET.get('page', default=1)
-    # paginator = Paginator(object.products.all(), paginate_by)
-    # page_obj = paginator.get_page(page_number)
-
     def get_template_names(self, *args, **kwargs):
         if self.request.htmx:
             return 'partials/item_list_results.html'
         return self.template_name
-
-    # def get_redirect_field_name(self):
-    #     if self.request.htmx:
-    #         return 'partials/item_list_results.html'
-    #     return 'item_list.html'
 
     def test_func(self):
         return self.request.user.is_staff
