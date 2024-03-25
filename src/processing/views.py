@@ -17,7 +17,7 @@ from base64 import b64encode, b64decode
 from .filters import ItemFilter
 from .forms import ItemUpdateForm
 from .models import Batch, Item
-from .tables import BatchList, ItemList
+from .tables import BatchList
 from processing.common.convert_and_export import convert_and_export
 
 
@@ -52,10 +52,19 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'item_list.html'
     paginate_by = 20
 
-    def get_redirect_field_name(self):
+    # page_number = request.GET.get('page', default=1)
+    # paginator = Paginator(object.products.all(), paginate_by)
+    # page_obj = paginator.get_page(page_number)
+
+    def get_template_names(self, *args, **kwargs):
         if self.request.htmx:
             return 'partials/item_list_results.html'
-        return 'item_list.html'
+        return self.template_name
+
+    # def get_redirect_field_name(self):
+    #     if self.request.htmx:
+    #         return 'partials/item_list_results.html'
+    #     return 'item_list.html'
 
     def test_func(self):
         return self.request.user.is_staff
@@ -242,12 +251,12 @@ def batch_convert_and_export(request):
     return response
 
 
-def item_list_results(request):
-    if request.method == 'GET':
-        queryset = Item.objects.order_by('id')
-        item_filter = ItemFilter(request.GET, queryset=queryset)
-        items = item_filter.qs
-        return render(request, 'partials/item_list_results.html', {'items': items})
-    else:
-        queryset = Item.objects.order_by('id')
-        return render(request, 'partials/item_list_results.html', {'queryset': queryset})
+# def item_list_results(request):
+#     if request.method == 'GET':
+#         queryset = Item.objects.order_by('id')
+#         item_filter = ItemFilter(request.GET, queryset=queryset)
+#         items = item_filter.qs
+#         return render(request, 'partials/item_list_results.html', {'items': items})
+#     else:
+#         queryset = Item.objects.order_by('id')
+#         return render(request, 'partials/item_list_results.html', {'queryset': queryset})

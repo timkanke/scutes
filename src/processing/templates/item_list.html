@@ -10,6 +10,7 @@
 {% load static %}
 
 {% block content %}
+
 <div class="container-fluid">
     <div class="row p-1">
         <h1>Item List</h1>
@@ -35,20 +36,21 @@
                 <div class="overflow-scroll">
                     {% csrf_token %}
                     <table class="table table-sm">
-                        <thead>
+                        <thead class="table-secondary">
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Reporter</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Publish</th>
-                                <th scope="col">Pool Report</th>
-                                <th scope="col">Off the Record</th>
-                                <th scope="col">Editorial Review</th>
-                                <th scope="col"></th>
+                                <th class="header" scope="col">ID</th>
+                                <th class="header" scope="col">Batch ID</th>
+                                <th class="header" scope="col">Date</th>
+                                <th class="header" scope="col">Reporter</th>
+                                <th class="header" scope="col">Title</th>
+                                <th class="header" scope="col">Publish</th>
+                                <th class="header" scope="col">Pool Report</th>
+                                <th class="header" scope="col">Off the Record</th>
+                                <th class="header" scope="col">Editorial Review</th>
+                                <th class="header" scope="col"></th>
                             </tr>
                         </thead>
-                        <tbody id="results">
+                        <tbody id="results" hx-indicator=".htmx-indicator">
                             {% include 'partials/item_list_results.html' %}
                         </tbody>
                     </table>
