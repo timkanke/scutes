@@ -254,12 +254,13 @@ def load_data(file_path, batch_id):
                 file.save()
 
                 # Replace url and save body with internal link
-                tag = soup.find('img')
+                tag = soup.find('img', src)
                 if tag is not None:
-                    new_external_image_src = file.file.url
-                    tag['src'] = new_external_image_src
-                    item.body_original = str(soup)
-                    item.save(update_fields=['body_original'])
+                    if filename in tag:
+                        new_external_image_src = file.file.url
+                        tag['src'] = new_external_image_src
+                        item.body_original = str(soup)
+                        item.save(update_fields=['body_original'])
             else:
                 logger.warning(f"FAILED to retrieve '{src}'. response={response}")
 
