@@ -1,4 +1,5 @@
 import logging
+import re
 import zipfile
 
 from bs4 import BeautifulSoup
@@ -6,9 +7,8 @@ from csv import DictWriter
 from pathlib import Path
 
 from django.utils import timezone
-
-from scutes.settings import KEEP_EXPORT_DIRECTORIES, EXPORT_PATH
 from processing.models import Batch, File, Item
+from scutes.settings import KEEP_EXPORT_DIRECTORIES, EXPORT_PATH
 
 
 logger = logging.getLogger(__name__)
@@ -102,22 +102,28 @@ def convert_and_export(batch_selected):
 
                 # Convert img src
                 if file.disposition != 'attachment':
-                    imgs = soup.select('img', src=file_name)
-                    for img in imgs:
-                        new_src = str(file.disposition) + '/' + file_name
-                        img['src'] = new_src
+                    img_file = '/media/' + file.file.name
+                    img = soup.find('img', src=img_file)
+                    new_src = str(file.disposition) + '/' + file_name
+                    img['src'] = new_src
 
             # Create HTML file
             body_final = str(soup)
             with open(body, 'w') as body:
                 body.write(body_final)
 
+            # Convert timedate to EDTF
+            timestamp = item.date.isoformat()
+            # work around a parse_edtf bug where it does not accept "+00:00" or "-00:00"
+            # as a valid timezone offset, by changing those to "Z"
+            timestamp = re.sub('[+-]00:00$', 'Z', timestamp)
+
             # Write CSV row
             csv_writer.writerow(
                 {
                     'Identifier': batch_selected_name.replace('-', '') + '_' + str(item.id),
                     'Title': item.title,
-                    'Date': item.date,
+                    'Date': timestamp,
                     'Creator': item.reporter,
                     'Format': 'http://vocab.lib.umd.edu/form#pool_reports',
                     'Rights Statement': 'http://vocab.lib.umd.edu/rightsStatement#InC-NC',
