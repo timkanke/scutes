@@ -17,7 +17,7 @@ HEADER = ['Identifier', 'Title', 'Date', 'Creator', 'Format', 'Rights Statement'
 
 
 def redact_final(html):
-    soup = BeautifulSoup(html, 'lxml')
+    soup = BeautifulSoup(html, 'html.parser')
     tags = soup.find_all('del', {'class': 'redacted'})
 
     for tag in tags:
@@ -87,7 +87,7 @@ def convert_and_export(batch_selected):
             body_path = item_id + '/' + body_name
             csv_files_path.append(body_path)
             body_final = item.body_final
-            soup = BeautifulSoup(body_final, 'lxml')
+            soup = BeautifulSoup(body_final, 'html.parser')
 
             # Create media file(s)
             files = File.objects.filter(item=item)
