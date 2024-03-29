@@ -1,8 +1,14 @@
 {% for item in item_list %}
 
+{% comment %}
+<!-- {% if page_obj.has_previous and forloop.first %}
+<tr hx-get="{% url 'itemlistview' item_list_batch %}?{{ query_params }}&page={{ page_obj.previous_page_number }}"
+    hx-trigger="intersect once" hx-swap="beforebegin" hx-push-url="true"> -->
+{% endcomment %}
+
 {% if page_obj.has_next and forloop.last %}
-<tr hx-get="{% url 'itemlistview' item_list_batch %}?page={{ page_obj.next_page_number }}" hx-trigger="intersect once"
-    hx-swap="afterend" hx-push-url="true">
+<tr hx-get="{% url 'itemlistview' item_list_batch %}?{{ query_params }}&page={{ page_obj.next_page_number }}"
+    hx-trigger="intersect once" hx-swap="afterend" hx-push-url="true">
     {% else %}
 <tr>
     {% endif %}

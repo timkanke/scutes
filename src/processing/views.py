@@ -81,11 +81,15 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(ItemListView, self).get_context_data(**kwargs)
         item_filter = ItemFilter(self.request.GET, queryset=self.queryset)
+        query_params = self.request.GET.copy()
+        if 'page' in query_params:
+            del query_params['page']
 
+        context['query_params'] = query_params.urlencode()
         context['form'] = self.filterset.form
         context['items'] = item_filter.qs
         context['item_list_batch'] = self.item_list_batch
-        # context['item_list_filter'] = self.item_list_filter
+
         return context
 
 
