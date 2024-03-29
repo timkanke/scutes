@@ -85,11 +85,14 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         if 'page' in query_params:
             del query_params['page']
 
-        context['query_params'] = query_params.urlencode()
-        context['form'] = self.filterset.form
-        context['items'] = item_filter.qs
-        context['item_list_batch'] = self.item_list_batch
-
+        context.update(
+            {
+                'query_params': query_params.urlencode(),
+                'form': self.filterset.form,
+                'items': item_filter.qs,
+                'item_list_batch': self.item_list_batch,
+            }
+        )
         return context
 
 
@@ -243,14 +246,3 @@ def batch_convert_and_export(request):
     response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
     response['Cache-Control'] = 'no-cache'
     return response
-
-
-# def item_list_results(request):
-#     if request.method == 'GET':
-#         queryset = Item.objects.order_by('id')
-#         item_filter = ItemFilter(request.GET, queryset=queryset)
-#         items = item_filter.qs
-#         return render(request, 'partials/item_list_results.html', {'items': items})
-#     else:
-#         queryset = Item.objects.order_by('id')
-#         return render(request, 'partials/item_list_results.html', {'queryset': queryset})
