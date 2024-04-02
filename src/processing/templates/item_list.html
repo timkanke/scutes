@@ -13,13 +13,23 @@
 
 <div class="container-fluid">
     <div class="row p-1">
-        <h1>Item List</h1>
+        <div class="col">
+            <h1>Item List</h1>
+        </div>
+        <div class="col pt-3">
+            {% if page_obj.has_previous %}
+            <h5>List has previous items not shown</h5>
+            <a href="{% url 'itemlistview' item_list_batch %}?{{ query_params }}"><button
+                    class="btn btn-info btn-sm">Load
+                    results from start of list keeping filters</button></a>
+            {% endif %}
+        </div>
     </div>
+
     <div class="row p-1">
         <div class="col-md-2">
             <div class="card p-3 mt-1">
                 <h3>Filters</h3>
-
                 <form action="" method="get" class="form form-inline">
                     {{ form|crispy}}
                     {% bootstrap_button 'Filter' button_type="submit" button_class="btn-primary btn-sm" %}
@@ -28,7 +38,6 @@
                 <div class="row pt-3">
                     <a href="{% clean_url %}"><button class="btn btn-warning btn-sm">Clear All Filters</button></a>
                 </div>
-
             </div>
         </div>
 
