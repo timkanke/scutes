@@ -91,6 +91,7 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
                 'form': self.filterset.form,
                 'items': item_filter.qs,
                 'item_list_batch': self.item_list_batch,
+                'paginate_by': self.paginate_by,
             }
         )
         return context

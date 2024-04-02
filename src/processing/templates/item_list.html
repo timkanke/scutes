@@ -19,9 +19,9 @@
         <div class="col pt-3">
             {% if page_obj.has_previous %}
             <h5>List has previous items not shown</h5>
-            <a href="{% url 'itemlistview' item_list_batch %}?{{ query_params }}"><button
-                    class="btn btn-info btn-sm">Load
-                    results from start of list keeping filters</button></a>
+            <a
+                href="{% url 'itemlistview' item_list_batch %}?{{ query_params }}&page={{ page_obj.previous_page_number }}"><button
+                    class="btn btn-info btn-sm">Load previous {{ paginate_by }} items</button></a>
             {% endif %}
         </div>
     </div>
