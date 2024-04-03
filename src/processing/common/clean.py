@@ -2,7 +2,7 @@ import emoji
 import logging
 
 from bs4 import BeautifulSoup
-from html_sanitizer import Sanitizer  # type: ignore
+from html_sanitizer.sanitizer import Sanitizer  # type: ignore
 
 from processing.models import Item
 
