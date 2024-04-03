@@ -55,7 +55,8 @@
                     <a class="nav-link" href="{% url 'itemlistview' item.batch.id %}">List View with Fresh Start</a>
                 </button>
                 <button type="button" class="btn btn-success btn-sm">
-                    <a class="nav-link" href="{% url 'itemlistview' item.batch.id %}?{{ query_params }}">
+                    <a class="nav-link"
+                        href="{% url 'itemlistview' item.batch.id %}?{{ query_params_without_page }}&page={{ current_list_page }}">
                         List View with Current Filters
                     </a>
                 </button>

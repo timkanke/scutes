@@ -22,6 +22,8 @@ from processing.common.convert_and_export import convert_and_export
 
 logger = logging.getLogger(__name__)
 
+ITEM_LIST_PAGINATE_BY = 20
+
 
 class Index(TemplateView):
     template_name = 'index.html'
@@ -49,7 +51,7 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Item
     context_object_name = 'item_list'
     template_name = 'item_list.html'
-    paginate_by = 20
+    paginate_by = ITEM_LIST_PAGINATE_BY
 
     def get_template_names(self, *args, **kwargs):
         if self.request.htmx:
@@ -166,6 +168,27 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         else:
             return None
 
+    # Get applied filter(s) to return to list view
+    def get_query_params_without_page(self):
+        key_url = 'key_url'
+        query_params_without_page = self.request.session[key_url].copy()
+
+        try:
+            del query_params_without_page['page']
+        except KeyError:
+            pass
+
+        return query_params_without_page
+
+    # Get list view page that current item would be located
+    def get_current_list_page(self, current_object_id):
+        page_size = ITEM_LIST_PAGINATE_BY
+        object_list = self.get_object_list()
+        num_preceeding_results = object_list.filter(id__lt=current_object_id).count()
+        current_list_page = num_preceeding_results // page_size + 1
+
+        return current_list_page
+
     # Get queryset from list view
     def get_object_list(self, **kwargs):
         # Session keys
@@ -182,13 +205,9 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Get query URL to return to list view
-        key_url = 'key_url'
-        query_params = self.request.session[key_url]
-
         context.update(
             {
-                'query_params': urlencode(query_params),
+                'query_params_without_page': urlencode(self.get_query_params_without_page()),
                 'current_object_id': self.object.id,
                 'next_object_id': self.get_next_id(self.object.id),
                 'previous_object_id': self.get_previous_id(self.object.id),
@@ -196,6 +215,7 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 'start_review_progress': self.start_review_progress(),
                 'attachment_count': self.object.attachment_count,
                 'inline_count': self.object.inline_count,
+                'current_list_page': self.get_current_list_page(self.object.id),
             }
         )
 
