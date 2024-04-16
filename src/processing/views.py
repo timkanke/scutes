@@ -151,27 +151,27 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         # Session keys
         key = 'my_qs'
 
-        try:
-            # Django wants datatypes to be JSON serializable. Byte objects need to be encoded/decoded
-            query = pickle.loads(b64decode(self.request.session[key]))
-            qs = Item.objects.all()
-            qs.query = query
-            object_list = qs.order_by('id')
-            return object_list
-        except Exception:
-            pass
+        # Django wants datatypes to be JSON serializable. Byte objects need to be encoded/decoded
+        query = pickle.loads(b64decode(self.request.session[key]))
+        qs = Item.objects.all()
+        qs.query = query
+        object_list = qs.order_by('id')
+        return object_list
+
+    # Get query URL to return to list view
+    def get_query_params(self, **kwargs):
+        key_url = 'key_url'
+        query_params = self.request.session[key_url]
+        query_params = urlencode(query_params)
+        return query_params
 
     # Create context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Get query URL to return to list view
-        key_url = 'key_url'
-        query_params = self.request.session[key_url]
-
         context.update(
             {
-                'query_params': urlencode(query_params),
+                'query_params': self.get_query_params(),
                 'current_object_id': self.object.id,
                 'next_object_id': self.get_next_id(self.object.id),
                 'previous_object_id': self.get_previous_id(self.object.id),
