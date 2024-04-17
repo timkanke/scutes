@@ -146,6 +146,13 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         else:
             return None
 
+    # Get query URL to return to list view
+    def get_query_params(self, **kwargs):
+        key_url = 'key_url'
+        query_params = self.request.session[key_url]
+        query_params = urlencode(query_params)
+        return query_params
+
     # Get queryset from list view
     def get_object_list(self, **kwargs):
         # Session keys
@@ -156,14 +163,8 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         qs = Item.objects.all()
         qs.query = query
         object_list = qs.order_by('id')
-        return object_list
 
-    # Get query URL to return to list view
-    def get_query_params(self, **kwargs):
-        key_url = 'key_url'
-        query_params = self.request.session[key_url]
-        query_params = urlencode(query_params)
-        return query_params
+        return object_list
 
     # Create context
     def get_context_data(self, **kwargs):
