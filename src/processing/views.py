@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, UpdateView
@@ -231,3 +231,8 @@ def batch_convert_and_export(request):
     response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
     response['Cache-Control'] = 'no-cache'
     return response
+
+
+def error_500(request):
+    data = {}
+    return render(request, '500.html', data)

@@ -29,6 +29,8 @@ from processing.views import (
     ItemUpdateView,
 )
 
+handler500 = 'processing.views.error_500'
+
 urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('admin/doc/', include('django.contrib.admindocs.urls')),
