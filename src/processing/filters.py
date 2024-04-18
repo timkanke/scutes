@@ -1,7 +1,7 @@
 from django import forms
 from django_filters import FilterSet, CharFilter, ChoiceFilter, MultipleChoiceFilter
 
-from .models import Item
+from .models import Batch, Item
 
 PUBLISH_CHOICES = (
     (0, 'False'),
@@ -46,3 +46,11 @@ class ItemFilter(FilterSet):
             'off_the_record',
             'review_status',
         )
+
+
+class BatchFilter(FilterSet):
+    name = CharFilter(field_name='name', label='Batch Name Contains', lookup_expr='icontains')
+
+    class Meta:
+        model = Batch
+        fields = ('name',)

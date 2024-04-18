@@ -1,18 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
 {% load django_bootstrap5 %}
-{% load django_tables2 %}
+{% load crispy_forms_tags %}
+{% load common_extras %}
 {% load static %}
 
 <div class="container-fluid">
     <div class="row p-1">
-        <h1>Batch List</h1>
-    </div>
-    <div class="row p-1">
-        <div class="col-md-8">
-            {% render_table table %}
+        <div class="col">
+            <h1>Batch List</h1>
+        </div>
+        <div class="col pt-3">
+            {% if page_obj.has_previous %}
+            <p>List has previous items</p>
+            <a href="{% url 'batchlist' %}?{{ query_params }}&page={{ page_obj.previous_page_number }}"><button
+                    class="btn btn-info btn-sm">Load previous {{ paginate_by }} items</button></a>
+            {% endif %}
         </div>
     </div>
-</div>
+    <div class="row p-1">
 
-{% endblock %}
+        <div class="col-md-2">
+            <div class="card p-3 mt-1">
+                <h3>Filters</h3>
+
+                <form action="" method="get" class="form form-inline">
+                    {{ form|crispy}}
+                    {% bootstrap_button 'Filter' button_type="submit" button_class="btn-primary btn-sm" %}
+                </form>
+                <div class="row pt-3">
+                    <a href="{% clean_url %}"><button class="btn btn-warning btn-sm">Clear All Filters</button></a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <div class="card p-3 mt-1" style="height:800px;">
+                <div class="overflow-scroll">
+                    {% csrf_token %}
+                    <table class="table table-sm">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th class="header" scope="col">ID</th>
+                                <th class="header" scope="col">Batch Name</th>
+                                <th class="header text-decoration-line-through text-body-secondary" scope="col">Assigned
+                                    to
+                                </th>
+                                <th class="header" scope="col">Last Export Date</th>
+                                <th class="header" scope="col"></th>
+                                <th class="header" scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="batch_results" hx-indicator=".htmx-indicator">
+                            {% include 'partials/batch_list_results.html' %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
