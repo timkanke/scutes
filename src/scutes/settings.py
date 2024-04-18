@@ -81,9 +81,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.admindocs.middleware.XViewMiddleware',
+    'django_auto_logout.middleware.auto_logout',
 ]
 
 AUTH_USER_MODEL = 'processing.User'
+
+AUTO_LOGOUT = {
+    'IDLE_TIME': env('IDLE_TIME', cast=int),
+    'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
+}
 
 
 """ SAML Config """
@@ -238,6 +244,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_auto_logout.context_processors.auto_logout_client',
             ],
             'libraries': {
                 'common_extras': 'scutes.templatetags.common_extras',

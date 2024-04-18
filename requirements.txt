@@ -8,6 +8,7 @@ crispy-bootstrap5==0.7
 cryptography==42.0.2
 defusedxml==0.7.1
 Django==4.2.3
+django-auto-logout==0.5.1
 django-bootstrap3==23.6
 django-bootstrap5==23.3
 django-crispy-forms==2.0
