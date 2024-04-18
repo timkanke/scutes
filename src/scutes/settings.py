@@ -87,8 +87,7 @@ MIDDLEWARE = [
 AUTH_USER_MODEL = 'processing.User'
 
 AUTO_LOGOUT = {
-    'SESSION_TIME': 60,
-    'MESSAGE': 'The session has expired. Please login again to continue.',
+    'IDLE_TIME': env('IDLE_TIME', cast=int),
     'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
 }
 
