@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, UpdateView
@@ -189,6 +189,13 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
         return current_list_page
 
+    # Get query URL to return to list view
+    def get_query_params(self, **kwargs):
+        key_url = 'key_url'
+        query_params = self.request.session[key_url]
+        query_params = urlencode(query_params)
+        return query_params
+
     # Get queryset from list view
     def get_object_list(self, **kwargs):
         # Session keys
@@ -199,6 +206,7 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         qs = Item.objects.all()
         qs.query = query
         object_list = qs.order_by('id')
+
         return object_list
 
     # Create context
@@ -207,7 +215,7 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
         context.update(
             {
-                'query_params_without_page': urlencode(self.get_query_params_without_page()),
+                'query_params_without_page': self.get_self.get_query_params_without_page()(),
                 'current_object_id': self.object.id,
                 'next_object_id': self.get_next_id(self.object.id),
                 'previous_object_id': self.get_previous_id(self.object.id),
@@ -267,3 +275,8 @@ def batch_convert_and_export(request):
     response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
     response['Cache-Control'] = 'no-cache'
     return response
+
+
+def error_500(request):
+    data = {}
+    return render(request, '500.html', data)
