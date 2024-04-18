@@ -45,3 +45,7 @@ urlpatterns = [
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     re_path(r'saml2/', include('djangosaml2.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+htmx_urlpatterns = []
+
+urlpatterns += htmx_urlpatterns

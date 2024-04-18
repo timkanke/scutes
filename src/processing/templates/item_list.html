@@ -10,29 +10,61 @@
 {% load static %}
 
 {% block content %}
+
 <div class="container-fluid">
     <div class="row p-1">
-        <h1>Item List</h1>
+        <div class="col">
+            <h1>Item List</h1>
+        </div>
+        <div class="col pt-3">
+            {% if page_obj.has_previous %}
+            <p>List has previous items</p>
+            <a
+                href="{% url 'itemlistview' item_list_batch %}?{{ query_params }}&page={{ page_obj.previous_page_number }}"><button
+                    class="btn btn-info btn-sm">Load previous {{ paginate_by }} items</button></a>
+            {% endif %}
+        </div>
     </div>
+
     <div class="row p-1">
         <div class="col-md-2">
             <div class="card p-3 mt-1">
                 <h3>Filters</h3>
-
                 <form action="" method="get" class="form form-inline">
                     {{ form|crispy}}
                     {% bootstrap_button 'Filter' button_type="submit" button_class="btn-primary btn-sm" %}
-                    {% bootstrap_button 'Reset' button_type="reset" button_class="btn-outline-primary btn-sm" %}
                 </form>
 
                 <div class="row pt-3">
-                    <a href="{% clean_url %}"><button class="btn btn-warning btn-sm">Clear Filters</button></a>
+                    <a href="{% clean_url %}"><button class="btn btn-warning btn-sm">Clear All Filters</button></a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-10">
-            {% render_table table %}
+            <div class="card p-3 mt-1" style="height:800px;">
+                <div class="overflow-scroll">
+                    {% csrf_token %}
+                    <table class="table table-sm">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th class="header" scope="col">ID</th>
+                                <th class="header" scope="col">Date</th>
+                                <th class="header" scope="col">Reporter</th>
+                                <th class="header" scope="col">Title</th>
+                                <th class="header" scope="col">Publish</th>
+                                <th class="header" scope="col">Pool Report</th>
+                                <th class="header" scope="col">Off the Record</th>
+                                <th class="header" scope="col">Editorial Review</th>
+                                <th class="header" scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="results" hx-indicator=".htmx-indicator">
+                            {% include 'partials/item_list_results.html' %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
