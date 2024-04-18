@@ -215,7 +215,7 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
         context.update(
             {
-                'query_params_without_page': self.get_self.get_query_params_without_page()(),
+                'query_params_without_page': urlencode(self.get_query_params_without_page()),
                 'current_object_id': self.object.id,
                 'next_object_id': self.get_next_id(self.object.id),
                 'previous_object_id': self.get_previous_id(self.object.id),
