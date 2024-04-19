@@ -6,23 +6,21 @@ from django.urls import reverse
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, UpdateView
 from django.views.generic.base import TemplateView
-from django_tables2 import SingleTableView
 
 import logging
 import pickle
 
 from base64 import b64encode, b64decode
 
-from .filters import ItemFilter
+from .filters import BatchFilter, ItemFilter
 from .forms import ItemUpdateForm
 from .models import Batch, Item
-from .tables import BatchList
 from processing.common.convert_and_export import convert_and_export
 
 
 logger = logging.getLogger(__name__)
 
-ITEM_LIST_PAGINATE_BY = 20
+LIST_PAGINATE_BY = 20
 
 
 class Index(TemplateView):
@@ -36,22 +34,44 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         return self.request.user.is_staff
 
 
-class BatchList(LoginRequiredMixin, UserPassesTestMixin, SingleTableView):
+class BatchList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Batch
-    table_class = BatchList
+    context_object_name = 'batch_list'
     template_name = 'batch_list.html'
-    paginate_by = 10
-    context_object_name = 'batch'
+    paginate_by = LIST_PAGINATE_BY
+
+    queryset = Batch.objects.all()
+
+    def get_template_names(self, *args, **kwargs):
+        if self.request.htmx:
+            return 'partials/batch_list_results.html'
+        return self.template_name
 
     def test_func(self):
         return self.request.user.is_staff
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = BatchFilter(self.request.GET, queryset=queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super(BatchList, self).get_context_data(**kwargs)
+
+        context.update(
+            {
+                'form': self.filterset.form,
+                'paginate_by': self.paginate_by,
+            }
+        )
+        return context
 
 
 class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Item
     context_object_name = 'item_list'
     template_name = 'item_list.html'
-    paginate_by = ITEM_LIST_PAGINATE_BY
+    paginate_by = LIST_PAGINATE_BY
 
     def get_template_names(self, *args, **kwargs):
         if self.request.htmx:
@@ -182,7 +202,7 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     # Get list view page that current item would be located
     def get_current_list_page(self, current_object_id):
-        page_size = ITEM_LIST_PAGINATE_BY
+        page_size = LIST_PAGINATE_BY
         object_list = self.get_object_list()
         num_preceeding_results = object_list.filter(id__lt=current_object_id).count()
         current_list_page = num_preceeding_results // page_size + 1
