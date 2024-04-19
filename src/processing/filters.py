@@ -1,5 +1,14 @@
 from django import forms
-from django_filters import FilterSet, CharFilter, ChoiceFilter, MultipleChoiceFilter
+from django_filters import (
+    BooleanFilter,
+    CharFilter,
+    ChoiceFilter,
+    DateFilter,
+    FilterSet,
+    MultipleChoiceFilter,
+)
+from django_filters.widgets import BooleanWidget
+from django.utils.translation import gettext as _
 
 from .models import Batch, Item
 
@@ -23,6 +32,12 @@ STATUS_CHOICES = (
     (1, 'In Progress'),
     (2, 'Complete'),
 )
+
+
+class CustomBooleanWidget(BooleanWidget):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.choices = (('', _('---------')), ('true', _('No')), ('false', _('Yes')))
 
 
 class ItemFilter(FilterSet):
@@ -50,7 +65,27 @@ class ItemFilter(FilterSet):
 
 class BatchFilter(FilterSet):
     name = CharFilter(field_name='name', label='Batch Name Contains', lookup_expr='icontains')
+    last_export = BooleanFilter(
+        'last_export', label='Has Been Exported', lookup_expr='isnull', widget=CustomBooleanWidget
+    )
+    start_date = DateFilter(
+        field_name='last_export',
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        lookup_expr='gt',
+        label='Last Export Date From',
+    )
+    end_date = DateFilter(
+        field_name='last_export',
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        lookup_expr='lt',
+        label='Last Export Date To',
+    )
 
     class Meta:
         model = Batch
-        fields = ('name',)
+        fields = (
+            'name',
+            'last_export',
+            'start_date',
+            'end_date',
+        )
