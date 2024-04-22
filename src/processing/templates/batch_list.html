@@ -12,9 +12,9 @@
         </div>
         <div class="col pt-3">
             {% if page_obj.has_previous %}
-            <p>List has previous items</p>
             <a href="{% url 'batchlist' %}?{{ query_params }}&page={{ page_obj.previous_page_number }}"><button
-                    class="btn btn-info btn-sm">Load previous {{ paginate_by }} items</button></a>
+                    class="btn btn-info btn-sm">Load previous {{ paginate_by }}
+                    items</button></a>
             {% endif %}
         </div>
     </div>
@@ -36,20 +36,21 @@
         </div>
 
         <div class="col-md-10">
-            <div class="card p-3 mt-1" style="height:800px;">
+            <div class="card p-3 mt-1" style="height:700px;">
                 <div class="overflow-scroll">
                     {% csrf_token %}
                     <table class="table table-sm">
-                        <thead class="table-secondary">
+                        <thead class="table-primary">
                             <tr>
-                                <th class="header" scope="col">ID</th>
-                                <th class="header" scope="col">Batch Name</th>
-                                <th class="header text-decoration-line-through text-body-secondary" scope="col">Assigned
+                                <th class="theader" scope="col">ID</th>
+                                <th class="theader" scope="col">Batch Name</th>
+                                <th class="theader text-decoration-line-through text-body-secondary" scope="col">
+                                    Assigned
                                     to
                                 </th>
-                                <th class="header" scope="col">Last Export Date</th>
-                                <th class="header" scope="col"></th>
-                                <th class="header" scope="col"></th>
+                                <th class="theader" scope="col">Last Export Date</th>
+                                <th class="theader" scope="col"></th>
+                                <th class="theader" scope="col"></th>
                             </tr>
                         </thead>
                         <tbody id="batch_results" hx-indicator=".htmx-indicator">
@@ -60,4 +61,5 @@
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

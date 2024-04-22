@@ -17,6 +17,7 @@ django-environ==0.10.0
 django-filter==23.2
 django-htmx==1.17.2
 django-tables2==2.7.0
+django-umd-lib-style @ git+https://github.com/umd-lib/django-umd-lib-style.git@d6b9094577c2b6634ba75ea891790d7c8501d7c4
 djangosaml2==1.9.1
 elementpath==4.2.0
 emoji==2.7.0

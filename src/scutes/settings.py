@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'debug_toolbar',
     'djangosaml2',
+    'umd_lib_style',
 ]
 
 MIDDLEWARE = [
@@ -247,6 +248,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django_auto_logout.context_processors.auto_logout_client',
+                'umd_lib_style.context_processors.app_info',
             ],
             'libraries': {
                 'common_extras': 'scutes.templatetags.common_extras',
@@ -323,6 +325,11 @@ MEDIA_URL = env('MEDIA_URL')
 MEDIA_ROOT = env('MEDIA_ROOT')
 EXPORT_PATH = Path(MEDIA_ROOT, 'export')
 
+# django-umd-lib-style
+PROJECT_PACKAGE_NAME = 'scutes'
+APPLICATION_NAME = 'Scutes'
+NAVIGATION_LINKS = 'scutes.urls.get_navigation_links'
+ENVIRONMENT = env.str('ENVIRONMENT', 'development')
 
 # Logging
 LOGGING = {

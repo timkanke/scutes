@@ -5,8 +5,13 @@ FROM python:3.11.4-slim
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+
 # Production should have DEBUG=off
 # ENV DEBUG=''
+
+# django-umd-lib-style trigger standard environment banner at the top of every page
+# ENVIRONMENT=''
+
 ENV ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
 
 # Django runserver - Production use waitress instead
