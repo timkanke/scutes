@@ -1,6 +1,5 @@
 {% extends 'umd_lib_style/base.html' %}
 {% load django_htmx %}
-
 {% load static %}
 
 {% block head %}
@@ -22,8 +21,7 @@
 {% endblock %}
 
 {% block main %}
-<div class="min-vh-100 d-flex flex-column 
-    justify-content-between">
+<div class="min-vh-100 d-flex flex-column justify-content-between">
     <div>
         {{ redirect_to_login_immediately }}
 

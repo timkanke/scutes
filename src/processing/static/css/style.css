@@ -1,4 +1,8 @@
-.header {
+.nav {
+    justify-content: flex-end;
+}
+
+.theader {
     position: sticky;
     top: 0;
 }
