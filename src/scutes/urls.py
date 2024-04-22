@@ -15,9 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import HttpRequest
+from django.urls import path, include, re_path
 
 from processing.views import (
     BatchList,
@@ -49,3 +50,23 @@ urlpatterns = [
 htmx_urlpatterns = []
 
 urlpatterns += htmx_urlpatterns
+
+
+def get_navigation_links(request: HttpRequest):
+    if request.user.is_authenticated:
+        authenticated_links = {
+            'dashboard': 'Dashboard',
+            'batchlist': 'Batch List',
+            '': f'Logged in as {request.user.username}',
+            'saml2_logout': 'Log Out',
+        }
+        if request.user.is_superuser:
+            superuser_links = {
+                'admin:index': 'Admin',
+            }
+        else:
+            superuser_links = {}
+        links = {**superuser_links, **authenticated_links}
+        return links
+    else:
+        return {'saml2_login': 'Log In'}

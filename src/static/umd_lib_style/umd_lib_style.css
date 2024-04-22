@@ -1,0 +1,315 @@
+:root {
+    /* From the "Maryland Brand: Colors" style guide at https://brand.umd.edu/colors */
+    --maryland-red: #e21833;
+    --maryland-gold: #ffd200;
+    --dark-gray: #454545;
+    --medium-gray: #7f7f7f;
+    --light-gray: #e6e6e6;
+    --bronze-testudo: #ad7231;
+
+    /* Body font definition from https://brand.umd.edu/typography */
+    --body-font-family: "Source Sans 3", sans-serif;
+
+    /* Margins and sizes */
+    --header-horizontal-spacing: 5em;
+    --main-horizontal-spacing: 5em;
+    --footer-horizontal-spacing: 5em;
+
+    /* Colors (borrowed from Bootstrap) */
+    --success: #198754;
+    --success-subtle: #d1e7dd;
+    --danger: #dc3545;
+    --danger-subtle: #f8d7da;
+    --warning: #ffc107;
+    --warning-subtle: #fff3cd;
+    --info: #0dcaf0;
+    --info-subtle: #cff4fc;
+
+    /* Shaded color variants */
+    --shading-percentage: 25%;
+    --success-shaded: color-mix(in srgb, var(--success), black var(--shading-percentage));
+    --info-shaded: color-mix(in srgb, var(--info), black var(--shading-percentage));
+    --danger-shaded: color-mix(in srgb, var(--danger), black var(--shading-percentage));
+    --warning-shaded: color-mix(in srgb, var(--warning), black var(--shading-percentage));
+    --light-gray-shaded: color-mix(in srgb, var(--light-gray), black var(--shading-percentage));
+    --medium-gray-shaded: color-mix(in srgb, var(--medium-gray), black var(--shading-percentage));
+
+    --table-background-color: #fcfcfc;
+    --table-border-color: var(--medium-gray);
+}
+
+/* Body layout is:
+
+    [  header  ]
+    +----------+
+    |          |
+    |   main   |
+    |          |
+    +----------+
+    [  footer  ]
+
+The header and footer elements are sized to fit their content,
+while the main element expands to fill the available space.
+This way, if the content in main is shorter than the current
+viewport height, the footer is still pushed to the bottom of
+viewport.
+*/
+body {
+    /* Body layout (adapted from https://matthewjamestaylor.com/bottom-footer#grid) */
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 100%;
+    /* fallback height */
+    min-height: 100vh;
+    /* new small viewport height for modern browsers */
+    min-height: 100svh;
+
+    /* Body font definition from https://brand.umd.edu/typography */
+    font-family: var(--body-font-family);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Banner layout is:
+
+    [logo][app name][            navigation]
+
+The .banner element should only have three direct children.
+The first two are sized to fit their content, and the third
+expands to fill the remaining space.
+*/
+.banner {
+    background-color: var(--maryland-red);
+    color: white;
+    padding: .75em var(--header-horizontal-spacing);
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+}
+.banner>* {
+    vertical-align: middle;
+}
+.banner img {
+    max-height: 50px;
+}
+.application-name {
+    display: inline-block;
+    padding: 0 2em;
+    font-size: 1.5em;
+}
+.application-name:link,
+.application-name:visited {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Navigation links in the header:
+
+    header
+      .logo
+      .application-name
+      nav
+        ul
+          li
+*/
+nav {
+    display: inline-block;
+    text-align: right;
+}
+nav a:link,
+nav a:visited {
+    color: white;
+    text-decoration: none;
+}
+nav>ul {
+    padding: 0;
+}
+nav>ul>li {
+    display: inline;
+    padding: 0 1em;
+}
+
+/* Main content area */
+main {
+    padding: 1em var(--main-horizontal-spacing);
+}
+
+/* Footer content area */
+footer {
+    padding: 1em var(--footer-horizontal-spacing);
+    background-color: var(--light-gray);
+    border-top: 1px solid var(--medium-gray);
+    text-align: right;
+    color: var(--dark-gray);
+}
+
+/* Tables */
+table {
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid var(--table-border-color);
+    padding: .5em;
+}
+th {
+    background-color: color-mix(in srgb, var(--table-background-color), 25% black);
+    color: black;
+}
+td {
+    background-color: var(--table-background-color);
+    color: black;
+}
+tbody tr:nth-child(2n) td {
+    background-color: color-mix(in srgb, var(--table-background-color), 10% black);
+    color: black;
+}
+
+/* Environment Banner
+
+The environment banner, if present, appears above the regular
+banner in the header:
+
+    body
+      header
+        .environment-banner
+        .banner
+
+Full header layout, with environment banner:
+
+    [ environment banner         ]
+    [logo][app name][         nav]
+*/
+.environment-banner {
+    padding: .125em 2em;
+}
+.development.environment-banner {
+    background-color: green;
+    color: white;
+}
+.test.environment-banner {
+    background-color: #fff100;
+    color: black;
+}
+.qa.environment-banner {
+    background-color: blue;
+    color: white;
+}
+
+
+/* Messages */
+.messages {
+    padding: 0;
+}
+.message {
+    border: 2px solid;
+    padding: .5rem;
+    list-style-type: none;
+}
+.info.message {
+    border-color: var(--info);
+    background: var(--info-subtle);
+}
+.success.message {
+    border-color: var(--success);
+    background: var(--success-subtle);
+}
+.success.message:before {
+    content: '✔️ ';
+}
+.warning.message {
+    border-color: var(--warning);
+    background: var(--warning-subtle);
+}
+.error.message {
+    border-color: var(--danger);
+    background: var(--danger-subtle);
+}
+.error.message:before {
+    content: '❗ ';
+}
+
+/* Details/summary elements */
+details>summary {
+    list-style-position: outside;
+    cursor: pointer;
+    margin: 1em 0;
+}
+summary>* {
+    display: inline;
+    margin: 0;
+}
+
+/* Form controls
+
+Includes standardized button class names of "create", "edit", "update", and "delete".
+
+*/
+button, select, input, textarea {
+    padding: .25em .5em;
+    font-family: var(--body-font-family);
+    font-size: 1em;
+    border: 1px solid;
+    border-radius: 5px;
+}
+input, select, textarea {
+    border-color: var(--dark-gray);
+}
+
+/* Buttons */
+button {
+    background-color: var(--medium-gray);
+    border-color: var(--medium-gray);
+    color: white;
+}
+button.create,
+button.update {
+    background-color: var(--success);
+    border-color: var(--success);
+    color: white;
+}
+button.edit {
+    background-color: var(--info);
+    border-color: var(--info);
+    color: black;
+}
+button.delete {
+    background-color: var(--danger);
+    border-color: var(--danger);
+    color: white;
+}
+button:hover {
+    background-color: var(--medium-gray-shaded);
+    border-color: var(--medium-gray-shaded);
+    cursor: pointer;
+}
+button.create:hover,
+button.update:hover {
+    background-color: var(--success-shaded);
+    border-color: var(--success-shaded);
+}
+button.edit:hover {
+    background-color: var(--info-shaded);
+    border-color: var(--info-shaded);
+}
+button.delete:hover {
+    background-color: var(--danger-shaded);
+    border-color: var(--danger-shaded);
+}
+
+/* Form errors */
+.errorlist {
+    padding: 0;
+    margin-top: .25em;
+    color: var(--danger);
+}
+.errorlist li {
+    padding: 0;
+    list-style-type: none;
+}
+.errorlist li:before {
+    content: '❗ ';
+}
