@@ -40,7 +40,7 @@ class BatchList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'batch_list.html'
     paginate_by = LIST_PAGINATE_BY
 
-    queryset = Batch.objects.all()
+    queryset = Batch.objects.all().order_by('id')
 
     def get_template_names(self, *args, **kwargs):
         if self.request.htmx:

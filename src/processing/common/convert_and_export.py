@@ -104,8 +104,11 @@ def convert_and_export(batch_selected):
                 if file.disposition != 'attachment':
                     img_file = '/media/' + file.file.name
                     img = soup.find('img', src=img_file)
-                    new_src = str(file.disposition) + '/' + file_name
-                    img['src'] = new_src
+                    if img is not None:
+                        new_src = str(file.disposition) + '/' + file_name
+                        img['src'] = new_src
+                    else:
+                        pass
 
             # Create HTML file
             body_final = str(soup)
