@@ -12,7 +12,12 @@
     <td></td>
     <td>{{ batch.last_export|date:"M d, Y H:i e" }}</td>
     <td><a class="btn btn-info btn-sm" href="{% url 'itemlistview' batch.id %}">Open</a></td>
-    <td><a class="btn btn-info btn-sm" href="{% url 'finalizebatchview' batch.id %}">Convert & Export</a></td>
+    <td><a class="btn btn-info btn-sm" href="{% url 'finalizebatchview' batch.id %}">Convert for Export</a></td>
+    <td>
+        {% if batch.export_zip %}
+        <a class="btn btn-info btn-sm" href="{{ batch.export_zip.url }}">Download Batch</a>
+        {% endif %}
+    </td>
 </tr>
 
 {% endfor %}

@@ -33,8 +33,7 @@
     {%endif%}
 
     <div class="row p-1">
-        <h1>Convert & Export Batch</h1>
-
+        <h1>Batch Convert for Export</h1>
         <div class="card p-3 mt-1">
             <div class="row p-1">
                 <div class="col-md-2">
@@ -80,7 +79,7 @@
                         <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                             hx-post="/batch_convert_and_export/" hx-target="#DataLocation" hx-include="[name='id']"
                             hx-swap="innerHTML show:bottom" value="{{ object.pk }}" name="id">
-                            Convert & Export
+                            Convert for Export
                         </button>
                     </div>
 

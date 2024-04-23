@@ -146,6 +146,7 @@ def convert_and_export(batch_selected):
     if KEEP_EXPORT_DIRECTORIES is False:
         rm_tree(path)
 
+    batch.export_zip = 'export/' + zip_file_name
     batch.last_export = timezone.now()
     batch.save()
 
