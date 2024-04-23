@@ -15,6 +15,7 @@ class Batch(models.Model):
     notes = models.TextField(max_length=1000, blank=True, null=True)
     datetime_added = models.DateTimeField(auto_now=True, null=True)
     last_export = models.DateTimeField(null=True)
+    export_zip = models.FileField(upload_to='export', null=True)
 
 
 class File(models.Model):
