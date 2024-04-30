@@ -14,11 +14,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.urls import path, include, re_path
+from django.views.static import serve
 
 from processing.views import (
     BatchList,
@@ -29,6 +31,12 @@ from processing.views import (
     ItemListView,
     ItemUpdateView,
 )
+
+
+@login_required
+def protected_serve(request, path, document_root=None, show_indexes=False):
+    return serve(request, path, document_root, show_indexes)
+
 
 handler500 = 'processing.views.error_500'
 
@@ -45,7 +53,7 @@ urlpatterns = [
     path('itemview/<int:pk>/', ItemUpdateView.as_view(), name='itemupdateview'),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     re_path(r'saml2/', include('djangosaml2.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, protected_serve, document_root=settings.MEDIA_ROOT)
 
 htmx_urlpatterns = []
 
