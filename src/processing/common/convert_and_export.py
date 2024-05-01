@@ -84,8 +84,10 @@ def convert_and_export(batch_selected):
             body = Path(output_path / item_id / body_name)
             body.parent.mkdir(parents=True, exist_ok=True)
 
+            files_path = []
             csv_files_path = []
             body_path = item_id + '/' + body_name
+            files_path.append(str(body_path))
             csv_body_path = 'Body:' + body_path
             csv_files_path.append(csv_body_path)
             body_final = item.body_final
@@ -96,6 +98,7 @@ def convert_and_export(batch_selected):
             for count, file in enumerate(files, 1):
                 file_name = file.file.name[6:]
                 file_path = Path(item_id) / str(file.disposition) / file_name
+                files_path.append(str(file_path))
                 output_file = Path(output_path) / file_path
                 csv_files_path.append('Attachment ' + str(count) + ':' + str(file_path))
                 output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -143,17 +146,18 @@ def convert_and_export(batch_selected):
     yield f'Creating zip file for {batch_selected_name}<br>'
     zip_file_name = batch_selected_name + '.zip'
     zip_file = Path(directory.parent / zip_file_name)
+
     with zipfile.ZipFile(zip_file, mode='w') as archive:
         for file_path in directory.rglob('*'):
             archive.write(file_path, arcname=file_path.relative_to(directory))
-    yield f'<div class="text-bg-success p-3">Finished export of {batch_selected_name}</div>'
-
-    if KEEP_EXPORT_DIRECTORIES is False:
-        rm_tree(path)
+    yield f'<div class="text-bg-success p-3">Finished zipping {batch_selected_name}</div>'
 
     batch.export_zip = 'export/' + zip_file_name
     batch.last_export = timezone.now()
-    batch.save()
+    batch.save(update_fields=['export_zip', 'last_export'])
+
+    if KEEP_EXPORT_DIRECTORIES is False:
+        rm_tree(path)
 
     # Notify if all items are reviewed
     total_items_count = Item.objects.filter(batch=batch_selected).count()
