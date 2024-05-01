@@ -38,7 +38,12 @@ def protected_serve(request, path, document_root=None, show_indexes=False):
     return serve(request, path, document_root, show_indexes)
 
 
+# Custom 400, 403, 404, and 500 pages
+handler400 = 'processing.views.error_400'
+handler403 = 'processing.views.error_403'
+handler404 = 'processing.views.error_404'
 handler500 = 'processing.views.error_500'
+
 
 urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
