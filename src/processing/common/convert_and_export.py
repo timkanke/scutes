@@ -85,17 +85,18 @@ def convert_and_export(batch_selected):
 
             csv_files_path = []
             body_path = item_id + '/' + body_name
-            csv_files_path.append(body_path)
+            csv_body_path = 'Body:' + body_path
+            csv_files_path.append(csv_body_path)
             body_final = item.body_final
             soup = BeautifulSoup(body_final, 'html.parser')
 
             # Create media file(s)
             files = File.objects.filter(item=item)
-            for file in files:
+            for count, file in enumerate(files, 1):
                 file_name = file.file.name[6:]
                 file_path = Path(item_id) / str(file.disposition) / file_name
                 output_file = Path(output_path) / file_path
-                csv_files_path.append(str(file_path))
+                csv_files_path.append('Attachment ' + str(count) + ':' + str(file_path))
                 output_file.parent.mkdir(parents=True, exist_ok=True)
                 with open(output_file, 'wb') as f:
                     f.write(file.file.read())
