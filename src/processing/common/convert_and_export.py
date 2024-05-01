@@ -8,11 +8,12 @@ from pathlib import Path
 
 from django.utils import timezone
 from processing.models import Batch, File, Item
-from scutes.settings import KEEP_EXPORT_DIRECTORIES, EXPORT_PATH
+from scutes.settings import KEEP_EXPORT_DIRECTORIES, MEDIA_ROOT
 
 
 logger = logging.getLogger(__name__)
 
+EXPORT_PATH = Path(MEDIA_ROOT, 'export')
 HEADER = ['Identifier', 'Title', 'Date', 'Creator', 'Format', 'Rights Statement', 'FILES', 'Object Type']
 
 
