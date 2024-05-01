@@ -20,7 +20,9 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.urls import path, include, re_path
+from django.views.generic.base import TemplateView
 from django.views.static import serve
+
 
 from processing.views import (
     BatchList,
@@ -49,6 +51,7 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
+    path('robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     path('batchlist/', BatchList.as_view(), name='batchlist'),
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
     path('', Index.as_view(), name='index'),
