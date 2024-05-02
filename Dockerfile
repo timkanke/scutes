@@ -51,7 +51,7 @@ ENV DB_NAME=scutes
 ENV DB_PORT=5432
 
 # Set work directory
-WORKDIR /scutes
+WORKDIR /opt/scutes
 
 # Install dependencies
 COPY ./requirements.txt .
@@ -62,4 +62,5 @@ RUN pip install -r requirements.txt
 COPY src ./src
 COPY pyproject.toml .
 
-CMD python src/manage.py runserver 0.0.0.0:15000
+RUN python src/manage.py collectstatic
+CMD python src/manage.py migrate && runserver 0.0.0.0:15000

@@ -1,5 +1,5 @@
 .venv
-
+.tmp
 .env
 .coverage
 static/*
