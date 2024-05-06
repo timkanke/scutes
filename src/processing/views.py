@@ -305,6 +305,18 @@ def protected_media(request, directory, filename):
         return response
 
 
+def error_400(request, exception):
+    return render(request, '404.html', status=400)
+
+
+def error_403(request, exception):
+    return render(request, '404.html', status=403)
+
+
+def error_404(request, exception):
+    return render(request, '404.html', status=404)
+
+
 def error_500(request):
     data = {}
     return render(request, '500.html', data)

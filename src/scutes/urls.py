@@ -19,6 +19,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.http import HttpRequest
 from django.urls import path, include, re_path
+from django.views.generic.base import TemplateView
+from django.views.static import serve
+
 
 from processing.views import (
     BatchList,
@@ -28,15 +31,21 @@ from processing.views import (
     Index,
     ItemListView,
     ItemUpdateView,
-    protected_media,
 )
 
+
+# Custom 400, 403, 404, and 500 pages
+handler400 = 'processing.views.error_400'
+handler403 = 'processing.views.error_403'
+handler404 = 'processing.views.error_404'
 handler500 = 'processing.views.error_500'
+
 
 urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
+    path('robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     path('batchlist/', BatchList.as_view(), name='batchlist'),
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
     path('', Index.as_view(), name='index'),
