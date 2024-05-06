@@ -1,5 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import FileResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -295,6 +296,13 @@ def batch_convert_and_export(request):
     response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
     response['Cache-Control'] = 'no-cache'
     return response
+
+
+@login_required
+def protected_media(request, directory, filename):
+    if request.user.is_staff:
+        response = FileResponse(open('media/' + directory + '/' + filename, 'rb'))
+        return response
 
 
 def error_400(request, exception):

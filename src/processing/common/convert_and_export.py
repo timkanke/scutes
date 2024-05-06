@@ -10,6 +10,7 @@ from django.utils import timezone
 from processing.models import Batch, File, Item
 from scutes.settings import KEEP_EXPORT_DIRECTORIES, MEDIA_ROOT
 
+EXPORT_PATH = Path(MEDIA_ROOT, 'export')
 
 logger = logging.getLogger(__name__)
 
