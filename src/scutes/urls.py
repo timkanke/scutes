@@ -20,7 +20,6 @@ from django.contrib import admin
 from django.http import HttpRequest
 from django.urls import path, include, re_path
 from django.views.generic.base import TemplateView
-from django.views.static import serve
 
 
 from processing.views import (
@@ -31,6 +30,7 @@ from processing.views import (
     Index,
     ItemListView,
     ItemUpdateView,
+    protected_media,
 )
 
 
