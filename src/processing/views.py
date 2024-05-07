@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import FileResponse, HttpResponseForbidden, HttpResponseRedirect
@@ -301,7 +302,7 @@ def batch_convert_and_export(request):
 @login_required
 def protected_media(request, directory, filename):
     if request.user.is_staff:
-        response = FileResponse(open('media/' + directory + '/' + filename, 'rb'))
+        response = FileResponse(open(settings.MEDIA_ROOT + '/' + directory + '/' + filename, 'rb'))
         return response
 
 
