@@ -54,7 +54,7 @@ urlpatterns = [
     path('batch_convert_and_export/', batch_convert_and_export, name='batch_convert_and_export'),
     path('itemview/<int:pk>/', ItemUpdateView.as_view(), name='itemupdateview'),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
-    path('media/<directory>/<filename>', protected_media),
+    path('{settings.MEDIA_ROOT}/<str:directory>/<str:filename>', protected_media),
     re_path(r'saml2/', include('djangosaml2.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
