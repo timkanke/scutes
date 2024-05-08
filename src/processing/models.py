@@ -11,8 +11,8 @@ class User(AbstractUser):
 class Batch(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    # assigned_to = models.CharField(max_length=255, blank=True, null=True)
-    assigned_to = models.ForeignKey('user', on_delete=models.SET_NULL, blank=True, null=True)
+    assigned_to = models.CharField(max_length=255, blank=True, null=True)
+    # assigned_to = models.ForeignKey('user', on_delete=models.SET_NULL, blank=True, null=True)
     notes = models.TextField(max_length=1000, blank=True, null=True)
     datetime_added = models.DateTimeField(auto_now=True, null=True)
     last_export = models.DateTimeField(null=True)
