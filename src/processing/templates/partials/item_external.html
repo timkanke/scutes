@@ -1,6 +1,6 @@
 <!-- external -->
 {% if external_count is not 0 %}
-<h6>{{ external_count }} external{{ external_count|pluralize }}</h6>
+<h6>{{ external_count }} External{{ external_count|pluralize }}</h6>
 {% endif %}
 
 {% for file in object.file_set.all %}
