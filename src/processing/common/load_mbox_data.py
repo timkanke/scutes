@@ -1,10 +1,9 @@
+import hashlib
 import logging
 import mailbox
 import os
 import re
 import requests
-import sys
-import time
 
 from bs4 import BeautifulSoup
 from email.header import decode_header
@@ -240,7 +239,9 @@ def load_data(file_path, batch_id):
             else:
                 if response.ok:
                     logger.debug(f"Successfully Retrieved '{src}' {response.headers['content-type']}")
-                    filename = os.path.split(src)[1][:100]
+                    # filename = os.path.split(src)[1][:100]
+                    src_hash = hashlib.md5(src.encode('utf-8')).hexdigest()
+                    filename = str(item.id) + '-' + str(src_hash)
                     logger.debug(f'filename: {filename}')
                     content = response.raw.data
                     content_file = ContentFile(content, name=filename)
@@ -248,6 +249,7 @@ def load_data(file_path, batch_id):
                     file.content_type = response.headers['Content-Type']
                     file.disposition = 'external'
                     file.content_id = src
+                    file.name = filename
                     file.item = item  # fk
                     file.save()
 
