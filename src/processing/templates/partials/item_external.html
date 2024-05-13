@@ -10,6 +10,7 @@
         {{ file.disposition|capfirst }} - {{ file.file_type|capfirst }}
     </div>
     <div class="card-body">
+        <img src="{{ file.file.url }}" alt="image" style="width:100%">
         <p class="fw-medium">{{ file.name }}</p>
         <p class="fw-lighter">{{ file.file.size|filesizeformat }}</p>
         <button type="button" class="btn btn-light">
