@@ -1,10 +1,9 @@
+import hashlib
 import logging
 import mailbox
 import os
 import re
 import requests
-import sys
-import time
 
 from bs4 import BeautifulSoup
 from email.header import decode_header
@@ -216,53 +215,54 @@ def load_data(file_path, batch_id):
                     external_image_list.append(src)
 
         for external_image in external_image_list:
-            trace_timeout = 10
+            headers = {
+                'Accept': '*/*',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Accept-Language': 'en-US,en;q=0.5',
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:125.0) Gecko/20100101 Firefox/125.0',
+                'Referer': 'https://www.google.com/',
+                'DNT': '1',
+            }
 
-            def trace_function(frame, event, arg):
-                if time.time() - start > trace_timeout:
-                    raise Exception('Timed out!')
-                return trace_function
-
-            start = time.time()
-            sys.settrace(trace_function)
             try:
-                response = requests.get(external_image, stream=True, timeout=(3, 6))
-            except requests.ConnectionError as e:
-                logger.warning(f"FAILED to retrieve '{src}'. Connection error: {e}")
-                continue
-            except requests.Timeout as e:
-                logger.warning(f"Timeout '{src}'. Connection error: {e}")
-            except:
-                raise
-            finally:
-                sys.settrace(None)
-
-            if response.ok:
-                logger.debug(f"Successfully Retrieved '{src}'.")
-                # Save file
-                filename = os.path.split(src)[1]
-                logger.debug(f'filename: {filename}')
-                filename = filename[:100]
-                logger.debug(f'filename: {filename}')
-                content = response.raw.data
-                content_file = ContentFile(content, name=filename)
-                file = File(file=content_file)
-                file.content_type = response.headers['Content-Type']
-                file.disposition = 'external'
-                file.content_id = src
-                file.item = item  # fk
-                file.save()
-
-                # Replace url and save body with internal link
-                tag = soup.find('img', src)
-                if tag is not None:
-                    if filename in tag:
-                        new_external_image_src = file.file.url
-                        tag['src'] = new_external_image_src
-                        item.body_original = str(soup)
-                        item.save(update_fields=['body_original'])
+                response = requests.get(external_image, headers=headers, stream=True, timeout=(3.05, 18))
+            except requests.exceptions.ConnectionError as e:
+                logger.warning(f"Failed To Retrieve '{src}'. Connection error: {e}")
+            except requests.exceptions.HTTPError as e:
+                logger.warning(f"HTTP Error '{src}'. Error: {e}")
+            except requests.exceptions.Timeout as e:
+                logger.warning(f"Timeout '{src}'. Error: {e}")
+            except requests.exceptions.TooManyRedirects as e:
+                logger.warning(f"Too Many Redirects '{src}'. Error: {e}")
+            except requests.exceptions.RequestException as e:
+                logger.warning(f"Request Exception '{src}'. Error: {e}")
             else:
-                logger.warning(f"FAILED to retrieve '{src}'. response={response}")
+                if response.ok:
+                    logger.debug(f"Successfully Retrieved '{src}' {response.headers['content-type']}")
+                    # filename = os.path.split(src)[1][:100]
+                    src_hash = hashlib.md5(src.encode('utf-8')).hexdigest()
+                    filename = str(item.id) + '-' + str(src_hash)
+                    logger.debug(f'filename: {filename}')
+                    content = response.raw.data
+                    content_file = ContentFile(content, name=filename)
+                    file = File(file=content_file)
+                    file.content_type = response.headers['Content-Type']
+                    file.disposition = 'external'
+                    file.content_id = src
+                    file.name = filename
+                    file.item = item  # fk
+                    file.save()
+
+                    # Replace url and save body with internal link
+                    tag = soup.find('img', src)
+                    if tag is not None:
+                        if filename in tag:
+                            new_external_image_src = file.file.url
+                            tag['src'] = new_external_image_src
+                            item.body_original = str(soup)
+                            item.save(update_fields=['body_original'])
+                else:
+                    logger.warning(f"FAILED to retrieve '{src}'. response={response}")
 
         # Attachments and Inlines
         for part in message.walk():
