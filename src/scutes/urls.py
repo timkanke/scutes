@@ -26,6 +26,8 @@ from processing.views import (
     BatchList,
     batch_convert_and_export,
     Dashboard,
+    edit_batch,
+    edit_batch_submit,
     FinalizeBatchView,
     Index,
     ItemListView,
@@ -58,7 +60,10 @@ urlpatterns = [
     re_path(r'saml2/', include('djangosaml2.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-htmx_urlpatterns = []
+htmx_urlpatterns = [
+    path('<int:batch_pk>/edit_batch/', edit_batch, name='edit_batch'),
+    path('<int:batch_pk>/edit_batch_submit/', edit_batch_submit, name='edit_batch_submit'),
+]
 
 urlpatterns += htmx_urlpatterns
 

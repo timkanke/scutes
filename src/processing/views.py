@@ -15,7 +15,7 @@ import pickle
 from base64 import b64encode, b64decode
 
 from .filters import BatchFilter, ItemFilter
-from .forms import ItemUpdateForm
+from .forms import BatchForm, ItemUpdateForm
 from .models import Batch, Item
 from processing.common.convert_and_export import convert_and_export
 
@@ -67,6 +67,31 @@ class BatchList(LoginRequiredMixin, UserPassesTestMixin, ListView):
             }
         )
         return context
+
+
+def edit_batch(request, batch_pk):
+    batch = Batch.objects.get(pk=batch_pk)
+    context = {}
+    context['batch'] = batch
+    context['form'] = BatchForm(
+        initial={
+            'assigned_to': batch.assigned_to,
+        }
+    )
+    return render(request, 'partials/edit_batch.html', context)
+
+
+def edit_batch_submit(request, batch_pk):
+    context = {}
+    batch = Batch.objects.get(pk=batch_pk)
+    context['batch'] = batch
+    if request.method == 'POST':
+        form = BatchForm(request.POST, instance=batch)
+        if form.is_valid():
+            form.save()
+        else:
+            return render(request, 'partials/edit_batch.html', context)
+    return render(request, 'partials/batch_list_results_row_assigned_to.html', context)
 
 
 class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
