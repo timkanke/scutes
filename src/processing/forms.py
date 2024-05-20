@@ -1,4 +1,4 @@
-from django.forms import ModelForm, RadioSelect, TextInput, Textarea
+from django.forms import ModelForm, RadioSelect, Select, TextInput, Textarea
 from crispy_forms.helper import FormHelper
 from django_ckeditor_5.widgets import CKEditor5Widget
 from .models import Batch, Item
@@ -11,6 +11,8 @@ class BatchForm(ModelForm):
     class Meta:
         model = Batch
         exclude = ['id', 'name', 'notes', 'datetime_added', 'last_export', 'export_zip']
+
+        widgets = {'assigned_to': Select(attrs={'style': 'height:40px'})}
 
 
 class ItemUpdateForm(ModelForm):

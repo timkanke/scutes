@@ -3,13 +3,13 @@
 {{ form.assigned_to.errors }}
 <a href="#" hx-post="{% url 'edit_batch_submit' batch.pk %}" hx-target="closest td" hx-swap="innerHTML"
     hx-include="closest td" class="text-secondary">
-    <svg class="bi-check" width="14" height="14">
+    <svg class="bi-check" width="16" height="16">
         <use xlink:href="#checkmark" />
     </svg>
 </a>
 <a href="#" hx-get="{% url 'edit_batch_submit' batch.pk %}" hx-target="closest td" hx-swap="innerHTML"
     class="text-secondary">
-    <svg class="bi-x" width="14" height="14">
-        <use xlink:href="#cancel" />
+    <svg class="bi-x" width="16" height="16">
+        <use xlink:href=" #cancel" />
     </svg>
 </a>
