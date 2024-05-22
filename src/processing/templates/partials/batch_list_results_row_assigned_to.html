@@ -1,0 +1,6 @@
+{{ batch.assigned_to|default_if_none:"-------" }}
+<button class='btn' hx-get="{% url 'edit_batch' batch.pk %}" hx-target="closest td" hx-swap="innerHTML">
+    <svg class="bi-pencil" width="16" height="16">
+        <use xlink:href="#pencil">
+    </svg>
+</button>

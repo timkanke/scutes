@@ -6,3 +6,7 @@
     position: sticky;
     top: 0;
 }
+
+table td {
+    vertical-align: middle !important;
+}
