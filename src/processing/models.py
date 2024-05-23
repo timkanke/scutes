@@ -9,6 +9,9 @@ class User(AbstractUser):
 
 
 class Batch(models.Model):
+    class Meta:
+        verbose_name_plural = 'Batches'
+
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     assigned_to = models.ForeignKey('user', on_delete=models.SET_NULL, blank=True, null=True)
