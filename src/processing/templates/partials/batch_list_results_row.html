@@ -10,7 +10,9 @@
         <svg class="bi-download" width="16" height="16">
             <use xlink:href="#download">
         </svg>
-        Download Batch</a>
+        Download Batch
+        <span class="badge bg-light text-dark">{{ batch.export_zip.size|filesizeformat }}</span>
+    </a>
     {% endif %}
 </td>
 
