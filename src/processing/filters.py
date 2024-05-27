@@ -6,6 +6,7 @@ from django_filters import (
     DateFilter,
     FilterSet,
     MultipleChoiceFilter,
+    OrderingFilter,
 )
 from django_filters.widgets import BooleanWidget
 from django.utils.translation import gettext as _
@@ -64,6 +65,14 @@ class ItemFilter(FilterSet):
 
 
 class BatchFilter(FilterSet):
+    o = OrderingFilter(
+        # tuple-mapping retains order
+        fields=(('name', 'name'),),
+        # labels do not need to retain order
+        field_labels={
+            'name': 'Batch Name',
+        },
+    )
     name = CharFilter(field_name='name', label='Batch Name Contains', lookup_expr='icontains')
     last_export = BooleanFilter(
         'last_export', label='Has Been Converted', lookup_expr='isnull', widget=CustomBooleanWidget
@@ -84,6 +93,7 @@ class BatchFilter(FilterSet):
     class Meta:
         model = Batch
         fields = (
+            'o',
             'name',
             'last_export',
             'start_date',
