@@ -6,7 +6,13 @@
 <td><a class="btn btn-info btn-sm" href="{% url 'finalizebatchview' batch.id %}">Convert for Export</a></td>
 <td>
     {% if batch.export_zip %}
-    <a class="btn btn-info btn-sm" href="{{ batch.export_zip.url }}">Download Batch</a>
+    <a class="btn btn-info btn-sm" href="{{ batch.export_zip.url }}">
+        <svg class="bi-download" width="16" height="16">
+            <use xlink:href="#download">
+        </svg>
+        Download Batch
+        <span class="badge bg-light text-dark">{{ batch.export_zip.size|filesizeformat }}</span>
+    </a>
     {% endif %}
 </td>
 

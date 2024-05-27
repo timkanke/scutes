@@ -66,19 +66,19 @@ class ItemFilter(FilterSet):
 class BatchFilter(FilterSet):
     name = CharFilter(field_name='name', label='Batch Name Contains', lookup_expr='icontains')
     last_export = BooleanFilter(
-        'last_export', label='Has Been Exported', lookup_expr='isnull', widget=CustomBooleanWidget
+        'last_export', label='Has Been Converted', lookup_expr='isnull', widget=CustomBooleanWidget
     )
     start_date = DateFilter(
         field_name='last_export',
         widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         lookup_expr='gt',
-        label='Last Export Date From',
+        label='Last Convert Date From',
     )
     end_date = DateFilter(
         field_name='last_export',
         widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         lookup_expr='lt',
-        label='Last Export Date To',
+        label='Last Convert Date To',
     )
 
     class Meta:
