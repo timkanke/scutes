@@ -1,0 +1,14 @@
+.venv
+.tmp
+.coverage
+static/*
+__pycache__
+*.sqlite3
+.pytest_cache
+
+tests/scutes/test_data/*
+
+data/db/*
+src/media/files
+src/media/export
+src/scutes.egg-info/*

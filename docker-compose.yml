@@ -1,25 +1,32 @@
-version: "3.7"
+version: "3.9"
+
 services:
   web:
-    build: Dockerfile.local
-    ports:
-      - "8000:8000"
-    command: python src/manage.py runserver 0.0.0.0:8000
-    read_only: true
+    build: .
+    stdin_open: true
+    tty: true
+    command: python src/manage.py wait_for_db && migrate && runserver # && tail -f /dev/null
     volumes:
-      - .:/src
-    environment:
-      - DEBUG=off
-      - SECRET_KEY='ILikeTurtles!' # There is nothing special about this. It could be 'ILikeTurtles!' but probably should be a randomly generated value.
-      # - DATABASE_URL=sqlite:///./db.sqlite3 # If using sqlite
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - DB_HOST=host.docker.internal
-      - ALLOWED_HOSTS=localhost,127.0.0.1,host.docker.internal
+      - ./src/:/usr/src/app/
+    ports:
+      - 15000:15000
+    env_file:
+      - .env
+    depends_on:
+      - db
   db:
     image: postgres:15
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
-      # - "POSTGRES_HOST_AUTH_METHOD=trust"
-      - DATABASE_URL=psql://postgres:password@host.docker.internal:5432/scutesdb
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=scutesdb
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_HOST=localhost
+      - DB_PORT=5432
+  
+volumes:
+  postgres_data:
+  static-data:

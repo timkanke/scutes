@@ -8,30 +8,9 @@ classifiers = [
     "Framework :: Django",
     "Programming Language :: Python :: 3",
 ]
-dependencies = [
-    "django",
-    "pathlib",
-    "django-bootstrap3",
-    "django-environ",
-    "django-filter",
-    "emoji",
-    "html-sanitizer",
-    "Pillow",
-    "psycopg2-binary",
-    "mailbox",
-]
+dependencies = {file = ["requirements.txt"]}
 [project.optional-dependencies]
-dev = [
-    "docutils",
-    "pycodestyle",
-    "pytest",
-    "pytest-datadir",
-    "pytest-django",
-    "pytest-selenium",
-    "pyyaml",
-    "selenium",
-    "logging",
-]
+dev = {file = ["requirements.dev.txt"] }
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = 'scutes.settings'
 python_files = ['tests.py', 'test_*.py']
