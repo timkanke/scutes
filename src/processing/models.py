@@ -24,9 +24,9 @@ class Batch(models.Model):
 class File(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, blank=True, null=True)
-    content_type = models.CharField(max_length=255, blank=True, null=True)
-    content_disposition = models.CharField(max_length=255, blank=True, null=True)
-    content_id = models.CharField(max_length=255, blank=True, null=True)
+    content_type = models.TextField(blank=True, null=True)
+    content_disposition = models.TextField(blank=True, null=True)
+    content_id = models.TextField(blank=True, null=True)
     disposition = models.CharField(max_length=255, blank=True, null=True)
     file = models.FileField(upload_to='files')
     item = models.ForeignKey('Item', on_delete=models.CASCADE)
