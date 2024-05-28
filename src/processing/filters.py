@@ -5,13 +5,14 @@ from django_filters import (
     ChoiceFilter,
     DateFilter,
     FilterSet,
+    ModelChoiceFilter,
     MultipleChoiceFilter,
     OrderingFilter,
 )
 from django_filters.widgets import BooleanWidget
 from django.utils.translation import gettext as _
 
-from .models import Batch, Item
+from .models import Batch, Item, User
 
 PUBLISH_CHOICES = (
     (0, 'False'),
@@ -74,6 +75,7 @@ class BatchFilter(FilterSet):
         },
     )
     name = CharFilter(field_name='name', label='Batch Name Contains', lookup_expr='icontains')
+    assigned_to = ModelChoiceFilter(queryset=User.objects.all())
     last_export = BooleanFilter(
         'last_export', label='Has Been Converted', lookup_expr='isnull', widget=CustomBooleanWidget
     )
@@ -95,6 +97,7 @@ class BatchFilter(FilterSet):
         fields = (
             'o',
             'name',
+            'assigned_to',
             'last_export',
             'start_date',
             'end_date',
