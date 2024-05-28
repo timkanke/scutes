@@ -48,5 +48,5 @@ class ItemUpdateForm(ModelForm):
             'review_status': RadioSelect(attrs={'id': 'value'}),
             'notes': Textarea(attrs={'class': 'form-control'}),
             'body_redact': CKEditor5Widget(attrs={'class': 'django_ckeditor_5'}, config_name='extends'),
-            'body_original': CKEditor5Widget(attrs={'class': 'django_ckeditor_5'}, config_name='extends'),
+            'body_original': CKEditor5Widget(attrs={'class': 'django_ckeditor_5'}, config_name='sparse'),
         }
