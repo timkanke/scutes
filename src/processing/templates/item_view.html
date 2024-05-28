@@ -13,20 +13,16 @@
                 {% if previous_object_id %}
                 <button type="button" class="btn btn-info btn-sm">
                     <a class="nav-link" href="{% url 'itemupdateview' previous_object_id %}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-chevron-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                        <svg class="bi-chevron-left" width="16" height="16">
+                            <use xlink:href="#chevron-left">
                         </svg>
                         Prev Item
                     </a>
                 </button>
                 {% else %}
                 <button type="button" class="btn btn-secondary btn-sm" disabled>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-chevron-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                    <svg class="bi-chevron-left" width="16" height="16">
+                        <use xlink:href="#chevron-left">
                     </svg>
                     Prev Item</button>
                 {% endif %}
@@ -34,20 +30,16 @@
                 <button type="button" class="btn btn-info btn-sm">
                     <a class="nav-link" href="{% url 'itemupdateview' next_object_id %}">
                         Next Item
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-chevron-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                        <svg class="bi-chevron-right" width="16" height="16">
+                            <use xlink:href="#chevron-right">
                         </svg>
                     </a>
                 </button>
                 {% else %}
                 <button type="button" class="btn btn-secondary btn-sm" disabled>
                     Next Item
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-chevron-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                    <svg class="bi-chevron-right" width="16" height="16">
+                        <use xlink:href="#chevron-right">
                     </svg>
                 </button>
                 {% endif %}
