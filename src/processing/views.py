@@ -270,6 +270,7 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 'start_review_progress': self.start_review_progress(),
                 'attachment_count': self.object.attachment_count,
                 'inline_count': self.object.inline_count,
+                'external_count': self.object.external_count,
                 'current_list_page': self.get_current_list_page(self.object.id),
             }
         )

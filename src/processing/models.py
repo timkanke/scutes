@@ -81,3 +81,7 @@ class Item(models.Model):
     @property
     def inline_count(self):
         return self.file_set.filter(disposition__contains='inline').count
+    
+    @property
+    def external_count(self):
+        return self.file_set.filter(disposition__contains='external').count
