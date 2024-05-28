@@ -1,0 +1,4 @@
+.ck-editor__editable_inline:not(.ck-comment__input *) {
+    height: 600px;
+    overflow-y: scroll;
+}
