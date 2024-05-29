@@ -55,22 +55,16 @@ This should download and install that version of Python.
    source .venv/bin/activate
    ```
 
-5. Install all dependencies and configure the `scutes` entrypoint:
+5. Install dependencies:
 
    ```zsh
-   pip install -r requirements.dev.txt -e .
+   pip install -e .
    ```
 
-6. Install web drivers in ```.venv/bin```:
-
-   ```zsh
-   python setup-webdrivers.py
-   ```
-
-7. For local development, the ```src/.env``` file is required.
+6. For local development, the ```src/.env``` file is required.
 Copy and rename ```src/.env-dev-example``` to ```src/.env```.
 
-8. Add key and crt files to src/scutes directory.
+7. Add key and crt files to src/scutes directory.
 
 ## Set up
 
@@ -120,31 +114,23 @@ Copy and rename ```src/.env-dev-example``` to ```src/.env```.
     lsof -t -i tcp:8000 | xargs kill -9
     ```
 
-## Running the tests
+### Tests
 
-```zsh
-pytest --driver Firefox
-# and/or
-pytest --driver Chrome
+To install test dependencies, install the `test` extra:
+
+```bash
+pip install -e .[test]
 ```
 
-To skip tests that require webdrivers:
+This project uses [pytest] in conjunction with the [pytest-django] plugin
+to run its tests. To run the test suite:
 
-```zsh
-pytest -m "not webdriver"
+```bash
+pytest
 ```
 
-**Note:** To restrict pytest test discovery to just the "tests" directory, run:
+To run with coverage information:
 
-```zsh
-pytest tests
-```
-
-## Code Style
-
-Application code style should generally conform to the guidelines in [PEP 8]. The
-"pycodestyle" tool checks for compliance with the guidelines. It can be ran using:
-
-```zsh
-pycodestyle .
+```bash
+pytest --cov src --cov-report term-missing
 ```
