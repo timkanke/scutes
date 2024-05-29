@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'processing',
-    'django_tables2',
     'django_filters',
     'django_bootstrap5',
     'django_ckeditor_5',

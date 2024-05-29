@@ -22,129 +22,86 @@ pyenv install 3.11
 
 This should download and install that version of Python.
 
-## Installation for development
+## Setup
 
-1. Clone the "scutes" Git repository:
+Clone Scutes from GitHub:
 
-    ```zsh
-    git clone git@github.com:timkanke/scutes.git
-    ```
+```bash
+git clone git@github.com:umd-lib/scutes
+cd scutes
+python -m venv --prompt "scutes-py$(cat .python-version)" .venv
+source .venv/bin/activate
+pip install -e .
+```
 
-2. Switch to the "scutes" directory:
+Install `libxmlsec1`. This is required for the SAML authentication using
+[djangosaml2].
 
-    ```zsh
-    cd scutes
-    ```
+On Mac, it is available via Homebrew:
 
-3. Verify that the Python version is correct:
+```bash
+brew install xmlsec1
+```
 
-    ```zsh
-    pyenv version
-    ```
+On Debian or Ubuntu Linux, it is available via `apt`:
 
-    If not correct version, set python version to local directory
+```bash
+sudo apt-get install xmlsec1
+```
 
-    ```zsh
-    pyenv local 3.11
-    ```
+Update the `/etc/hosts` file to add:
 
-4. Create and activate the virtual environment:
+```
+127.0.0.1   localhost scutes-local
+```
 
-   ```zsh
-   python -m venv .venv
-   source .venv/bin/activate
-   ```
+Add key and crt files to src/scutes directory.
 
-5. Install all dependencies and configure the `scutes` entrypoint:
+Setup env file.
+Copy/rename ```src/.env-dev-example``` to ```src/.env``` and make adjustments as necessary.
 
-   ```zsh
-   pip install -r requirements.dev.txt -e .
-   ```
+## Initalize the database
 
-6. Install web drivers in ```.venv/bin```:
+In src directory, run migrate command:
 
-   ```zsh
-   python setup-webdrivers.py
-   ```
+```zsh
+./manage.py migrate
+```
 
-7. For local development, the ```src/.env``` file is required.
-Copy and rename ```src/.env-dev-example``` to ```src/.env```.
-
-8. Add key and crt files to src/scutes directory.
-
-## Set up
-
-1. If not in src directory, then change into src directory:
-
-    ```zsh
-    cd src
-    ```
-
-2. Run migrate command:
-
-    ```zsh
-    ./manage.py migrate
-    ```
-
-3. Run createsuperuser command:
-
-    ```zsh
-    ./manage.py createsuperuser
-    ```
-
-4. Import Data
+Import Data
     Use either YAML test data or an .mbox file
     See Management Commands
 
-5. Edit your "/etc/hosts" file:
-
-    ```zsh
-    sudo vi /etc/hosts
-    ```
-
-    and add "scutes-local" aliases to the "127.0.0.1" entry:
-
-    ```
-    127.0.0.1       localhost scutes-local
-    ```
-
-6. To Start the dev server. Run manage command in src directory.
-
-    ```zsh
-    ./manage.py runserver
-    ```
-
-    Note: Use ctrl+c to stop server. If server command prompt is given back without stopping the server, you will need to kill the process in order to see logging. For example, you accidentally hit ctrl-z.
-
-    ```zsh
-    lsof -t -i tcp:8000 | xargs kill -9
-    ```
-
-## Running the tests
+## Start the dev server
 
 ```zsh
-pytest --driver Firefox
-# and/or
-pytest --driver Chrome
+./manage.py runserver
 ```
 
-To skip tests that require webdrivers:
+The application will be running at <http://scutes-local:15000/>
+Note: Use ctrl+c to stop the server. If the prompt is given back without stopping the server, you will need to kill the process.
 
 ```zsh
-pytest -m "not webdriver"
+lsof -t -i tcp:15000 | xargs kill -9
 ```
 
-**Note:** To restrict pytest test discovery to just the "tests" directory, run:
+### Tests
 
-```zsh
-pytest tests
+To install test dependencies, install the `test` extra:
+
+```bash
+pip install -e .[test]
 ```
 
-## Code Style
+This project uses [pytest] in conjunction with the [pytest-django] plugin
+to run its tests. To run the test suite:
 
-Application code style should generally conform to the guidelines in [PEP 8]. The
-"pycodestyle" tool checks for compliance with the guidelines. It can be ran using:
+```bash
+pytest
+```
 
-```zsh
-pycodestyle .
+To run with coverage information:
+
+```bash
+pytest --cov src --cov-report term-missing
 ```

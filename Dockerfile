@@ -10,13 +10,13 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /opt/scutes
 
 # Install dependencies
-COPY ./requirements.txt .
 RUN apt-get update && apt-get install -y xmlsec1 libssl-dev libsasl2-dev git
-RUN pip install -r requirements.txt
+COPY pyproject.toml .
+RUN pip install -e .
 
 # Copy project
 COPY src ./src
-COPY pyproject.toml .
 
+# Commands to run migration and start the server
 RUN python src/manage.py collectstatic
 CMD python src/manage.py migrate && runserver 0.0.0.0:15000
