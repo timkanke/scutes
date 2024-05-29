@@ -71,7 +71,7 @@ dependencies = [
     "whitenoise==6.6.0",
     "wsproto==1.2.0",
     "xmlschema==2.5.1",
-}
+]
 [project.optional-dependencies]
 test = [
     "docutils==0.20.1",
