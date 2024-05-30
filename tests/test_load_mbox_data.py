@@ -1,6 +1,6 @@
 import pytest
 
-from src.processing.management.commands.load_mbox_data import is_pool_report, process_reporter, scrub_title, scrub_body
+from src.processing.common.load_mbox_data import is_pool_report, process_reporter, scrub_title, scrub_body
 
 
 @pytest.mark.parametrize(

@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import pytest
 
-from src.processing.management.commands.finalize_redactions import redact_final
+from src.processing.common.convert_and_export import redact_final
 
 
 @pytest.mark.parametrize(
