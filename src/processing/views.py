@@ -126,6 +126,27 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def item_list_batch(self, **kwargs):
         item_list_batch = self.request.resolver_match.kwargs['batch']
         return item_list_batch
+    
+    def item_list_batch_name(self, **kwargs):
+        batch_id = self.request.resolver_match.kwargs['batch']
+        item_list_batch_name = Batch.objects.get(pk=batch_id).name
+        return item_list_batch_name
+
+    def total_item_count(self):
+        items_set = Item.objects.filter(batch=self.request.resolver_match.kwargs['batch']).count()
+        return items_set
+    
+    def not_started_item_count(self):
+        items_set = Item.objects.filter(batch=self.request.resolver_match.kwargs['batch'], review_status=0).count()
+        return items_set
+    
+    def in_progress_total_item_count(self):
+        items_set = Item.objects.filter(batch=self.request.resolver_match.kwargs['batch'], review_status=1).count()
+        return items_set
+    
+    def complete_total_item_count(self):
+        items_set = Item.objects.filter(batch=self.request.resolver_match.kwargs['batch'], review_status=2).count()
+        return items_set
 
     def get_context_data(self, **kwargs):
         context = super(ItemListView, self).get_context_data(**kwargs)
@@ -141,6 +162,12 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
                 'items': item_filter.qs,
                 'item_list_batch': self.item_list_batch,
                 'paginate_by': self.paginate_by,
+                'item_list_batch_name': self.item_list_batch_name,
+                'total_item_count': self.total_item_count,
+                'not_started_item_count': self.not_started_item_count,
+                'in_progress_total_item_count': self.in_progress_total_item_count,
+                'complete_total_item_count': self.complete_total_item_count,
+
             }
         )
         return context

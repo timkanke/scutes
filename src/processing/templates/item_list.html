@@ -37,6 +37,23 @@
                     <a href="{% clean_url %}"><button class="btn btn-warning btn-sm">Clear All Filters</button></a>
                 </div>
             </div>
+            <div class="card p-3 mt-1">
+                <h5>{{ item_list_batch_name }} Statistics</h5>
+                <table>
+                    <tr>
+                        <td>Not Started:</td>
+                        <td>{{ not_started_item_count }} out of {{ total_item_count }}</td>
+                    </tr>
+                    <tr>
+                        <td>In Progress:</td>
+                        <td>{{ in_progress_total_item_count }} out of {{ total_item_count }}</td>
+                    </tr>
+                    <tr>
+                        <td>Complete:</td>
+                        <td>{{ complete_total_item_count }} out of {{ total_item_count }}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <div class="col-md-10">
