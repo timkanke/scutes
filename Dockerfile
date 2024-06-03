@@ -11,11 +11,11 @@ WORKDIR /opt/scutes
 
 # Install dependencies
 RUN apt-get update && apt-get install -y xmlsec1 libssl-dev libsasl2-dev git
-COPY pyproject.toml .
+COPY ./pyproject.toml .
 RUN pip install -e .
 
 # Copy project
 COPY src ./src
 
 # Commands to run migration and start the server
-RUN python src/manage.py collectstatic
+RUN python src/manage.py collectstatic --noinput
