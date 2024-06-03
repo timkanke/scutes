@@ -18,4 +18,5 @@ RUN pip install -e .
 COPY src ./src
 
 # Commands to run migration and start the server
-RUN python src/manage.py collectstatic
+RUN python src/manage.py collectstatic --noinput
+CMD python src/manage.py migrate && runserver 0.0.0.0:15000
