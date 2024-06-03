@@ -1,3 +1,7 @@
+html {
+    font-size: 0.875em;
+}
+
 .nav {
     justify-content: flex-end;
 }
