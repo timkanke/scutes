@@ -19,4 +19,3 @@ COPY src ./src
 
 # Commands to run migration and start the server
 RUN python src/manage.py collectstatic
-CMD python src/manage.py migrate && runserver 0.0.0.0:15000
