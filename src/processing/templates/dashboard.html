@@ -4,6 +4,8 @@
 <div "container-fluid">
     <h1>Dashboard</h1>
 
+    {{ batch_chart|safe }}
+
     {% include "partials/release_notes.html" %}
 </div>
 
