@@ -20,6 +20,18 @@ class Batch(models.Model):
     last_export = models.DateTimeField(null=True)
     export_zip = models.FileField(upload_to='export', null=True)
 
+    @property
+    def not_started_item_count(self):
+        return self.item_set.filter(review_status__contains=0).count()
+   
+    @property
+    def in_progress_total_item_count(self):
+        return self.item_set.filter(review_status__contains=1).count()
+    
+    @property
+    def complete_total_item_count(self):
+        return self.item_set.filter(review_status__contains=2).count()
+
 
 class File(models.Model):
     id = models.AutoField(primary_key=True)
