@@ -10,6 +10,17 @@ from processing.models import Item
 logger = logging.getLogger(__name__)
 
 
+def content_after_closing_html(html):
+    if "</html>" in html:
+        if html.split("</html>", 1)[1] in html:
+            after_html = html.split("</html>", 1)[1]
+            soup = BeautifulSoup(html, "lxml")
+            new_div = soup.new_tag("div")
+            new_div.append(BeautifulSoup(after_html, "lxml"))
+            soup.html.body.append(new_div)
+            html = str(soup)
+    return html
+
 def remove_p_br_p(soup):
     matches = soup.find_all('p')
 
@@ -177,6 +188,7 @@ def clean(batch_selected):
     for item in items:
         logger.info(f'Cleaning: {item.id}, {item.title}')
         html = item.body_original
+        html = content_after_closing_html(html)
         soup = BeautifulSoup(html, 'lxml')
         soup = remove_p_br_p(soup)
         html = str(soup)
