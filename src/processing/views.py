@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import FileResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
+from django.db.models import Count
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
@@ -13,6 +14,8 @@ import logging
 import pickle
 
 from base64 import b64encode, b64decode
+import pandas as pd 
+import plotly.express as px
 
 from .filters import BatchFilter, ItemFilter
 from .forms import BatchForm, ItemUpdateForm
@@ -29,11 +32,38 @@ class Index(TemplateView):
     template_name = 'index.html'
 
 
-class Dashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'dashboard.html'
+    model = Batch
+    context_object_name = 'batch'
 
     def test_func(self):
         return self.request.user.is_staff
+    
+    def batch_chart(self):
+        entries = Batch.objects.all()
+        column_names = [field.name for field in Batch._meta.get_fields()]
+    
+        df = pd.DataFrame(columns = column_names)
+
+        for element in entries:       
+            new_entry = {"name":element.name, "not_started":element.not_started_item_count , "progress":element.in_progress_total_item_count, "complete":element.complete_total_item_count}
+            df = df._append(new_entry, ignore_index=True)
+        
+        fig = px.bar(df, x='name', y=["not_started", "progress", "complete"])
+
+        batch_chart = fig.to_html()
+        return batch_chart   
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update(
+            {
+                'batch_chart': self.batch_chart,
+            }
+        )
+        return context
 
 
 class BatchList(LoginRequiredMixin, UserPassesTestMixin, ListView):
