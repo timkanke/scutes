@@ -47,10 +47,11 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
         df = pd.DataFrame(columns = column_names)
 
         for element in entries:       
-            new_entry = {"name":element.name, "not_started":element.not_started_item_count , "progress":element.in_progress_total_item_count, "complete":element.complete_total_item_count}
+            new_entry = {"name":element.name, "Not Started":element.not_started_item_count , "In Progress":element.in_progress_total_item_count, "Complete":element.complete_total_item_count}
             df = df._append(new_entry, ignore_index=True)
         
-        fig = px.bar(df, x='name', y=["not_started", "progress", "complete"])
+        fig = px.bar(df, x='name', y=["Not Started", "In Progress", "Complete"], title='Review Status', text_auto=True, color_discrete_sequence=[ 'red','yellow','green'])
+        fig.update_layout(xaxis = {'type' : 'category'}, xaxis_title="Batch Name", yaxis_title="Number of Items", legend_title="Review Status",)
 
         batch_chart = fig.to_html()
         return batch_chart   
