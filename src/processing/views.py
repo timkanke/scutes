@@ -32,10 +32,8 @@ class Index(TemplateView):
     template_name = 'index.html'
 
 
-class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class Dashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     template_name = 'dashboard.html'
-    model = Batch
-    context_object_name = 'batch'
 
     def test_func(self):
         return self.request.user.is_staff
