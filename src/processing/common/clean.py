@@ -10,6 +10,17 @@ from processing.models import Item
 logger = logging.getLogger(__name__)
 
 
+def content_after_closing_html(html):
+    if "</html>" in html:
+        after_html = html.split("</html>", 1)[1]
+        if len(after_html) > 0:
+            soup = BeautifulSoup(html, "lxml")
+            new_div = soup.new_tag("div")
+            new_div.append(BeautifulSoup(after_html, "lxml"))
+            soup.html.body.append(new_div)
+            html = str(soup)
+    return html
+
 def remove_p_br_p(soup):
     matches = soup.find_all('p')
 
@@ -42,15 +53,10 @@ def ms_messages(soup):
     for tag in soup(['head', 'style', 'meta']):
         tag.extract()
 
-    empty_whitelist = ['a', 'img']
     while True:
         tag = soup.find('div', class_='WordSection1')
         if not tag:
             break
-        tag.name = 'p'
-        for x in soup.find_all():
-            if len(x.get_text(strip=False)) == 0 and (x.name not in empty_whitelist):
-                x.extract()
 
         for tag in soup(['p']):
             tag.append(soup.new_tag('br'))
@@ -177,6 +183,7 @@ def clean(batch_selected):
     for item in items:
         logger.info(f'Cleaning: {item.id}, {item.title}')
         html = item.body_original
+        html = content_after_closing_html(html)
         soup = BeautifulSoup(html, 'lxml')
         soup = remove_p_br_p(soup)
         html = str(soup)
