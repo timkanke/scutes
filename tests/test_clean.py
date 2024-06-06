@@ -1,8 +1,20 @@
 from bs4 import BeautifulSoup
 import pytest
 
-from src.processing.common.clean import cleaner, emoji_fixer, ltr_messages, \
+from src.processing.common.clean import cleaner, content_after_closing_html, emoji_fixer, ltr_messages, \
       ms_messages, remove_p_br_p, replace_pre_with_p, remove_mailto, remove_tel
+
+
+@pytest.mark.parametrize(
+    ('value', 'expected'),
+    [
+        ('<html><body><p><br></p></body></html><img src="https://www.example.com/cat_photo" height="49">',
+         '<p><br></p><img src="https://www.example.com/cat_photo" height="49">'),
+    ]
+)
+def test_content_after_closing_html(value, expected):
+    result = str(content_after_closing_html(value))
+    assert result == expected
 
 
 @pytest.mark.parametrize(
@@ -34,7 +46,7 @@ def test_replace_pre_with_p(value, expected):
     ('value', 'expected'),
     [
         ('<head><meta></head><body><style></style><div class="WordSection1"><p class="MsoNormal">Text</p></div></body>',
-         '<p>Text<br/><br/></p>'),
+         '<p>Text<br/></p>'),
     ]
 )
 def test_ms_messages(value, expected):
