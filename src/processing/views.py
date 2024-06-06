@@ -37,8 +37,8 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     def test_func(self):
         return self.request.user.is_staff
     
-    def batch_chart(self):
-        entries = Batch.objects.all()
+    def review_status_for_each_batch_chart(self):
+        entries = Batch.objects.all().order_by('name')
         column_names = [field.name for field in Batch._meta.get_fields()]
     
         df = pd.DataFrame(columns = column_names)
@@ -47,18 +47,18 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
             new_entry = {"name":element.name, "Not Started":element.not_started_item_count , "In Progress":element.in_progress_total_item_count, "Complete":element.complete_total_item_count}
             df = df._append(new_entry, ignore_index=True)
         
-        fig = px.bar(df, x='name', y=["Not Started", "In Progress", "Complete"], title='Review Status', text_auto=True, color_discrete_sequence=[ 'red','yellow','green'])
+        fig = px.bar(df, x='name', y=["Not Started", "In Progress", "Complete"], title='Review Status For Each Batch', text_auto=True, color_discrete_sequence=[ 'red','yellow','green'])
         fig.update_layout(xaxis = {'type' : 'category'}, xaxis_title="Batch Name", yaxis_title="Number of Items", legend_title="Review Status",)
 
-        batch_chart = fig.to_html()
-        return batch_chart   
+        review_status_for_each_batch_chart = fig.to_html()
+        return review_status_for_each_batch_chart   
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         context.update(
             {
-                'batch_chart': self.batch_chart,
+                'review_status_for_each_batch_chart': self.review_status_for_each_batch_chart,
             }
         )
         return context
