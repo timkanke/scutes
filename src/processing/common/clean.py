@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 def content_after_closing_html(html):
     if "</html>" in html:
-        if html.split("</html>", 1)[1] in html:
-            after_html = html.split("</html>", 1)[1]
+        after_html = html.split("</html>", 1)[1]
+        if len(after_html) > 0:
             soup = BeautifulSoup(html, "lxml")
             new_div = soup.new_tag("div")
             new_div.append(BeautifulSoup(after_html, "lxml"))

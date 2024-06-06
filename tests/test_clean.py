@@ -9,7 +9,11 @@ from src.processing.common.clean import cleaner, content_after_closing_html, emo
     ('value', 'expected'),
     [
         ('<html><body><p><br></p></body></html><img src="https://www.example.com/cat_photo" height="49">',
-         '<p><br></p><img src="https://www.example.com/cat_photo" height="49">'),
+         '<html><body><p><br/></p><div><html><body><img height="49" src="https://www.example.com/cat_photo"/></body></html></div></body></html>'),
+         ('<html><body><p><br></p></body></html>',
+         '<html><body><p><br></p></body></html>'),
+         ('<p><br></p>',
+         '<p><br></p>'),
     ]
 )
 def test_content_after_closing_html(value, expected):
