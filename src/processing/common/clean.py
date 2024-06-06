@@ -53,15 +53,10 @@ def ms_messages(soup):
     for tag in soup(['head', 'style', 'meta']):
         tag.extract()
 
-    empty_whitelist = ['a', 'img']
     while True:
         tag = soup.find('div', class_='WordSection1')
         if not tag:
             break
-        tag.name = 'p'
-        for x in soup.find_all():
-            if len(x.get_text(strip=False)) == 0 and (x.name not in empty_whitelist):
-                x.extract()
 
         for tag in soup(['p']):
             tag.append(soup.new_tag('br'))
