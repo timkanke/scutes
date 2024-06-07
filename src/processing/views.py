@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import FileResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
+from django.db.models import Sum
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
@@ -31,7 +32,9 @@ class Index(TemplateView):
     template_name = 'index.html'
 
 
-class Dashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Batch
+    context_object_name = 'batch_list'
     template_name = 'dashboard.html'
 
     def test_func(self):
@@ -52,6 +55,41 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
         review_status_for_each_batch_chart = fig.to_html()
         return review_status_for_each_batch_chart   
+    
+    def total_item_count(self):
+        total_item_count = Item.objects.all().count()
+        return total_item_count
+    
+    def total_not_started_item_count(self):
+        total_not_started_item_count = Item.objects.all().filter(review_status=0).count()
+        return total_not_started_item_count
+    
+    def total_in_progress_item_count(self):
+        total_in_progress_item_count = Item.objects.filter(review_status=1).count()
+        return total_in_progress_item_count
+    
+    def total_complete_item_count(self):
+        total_complete_item_count = Item.objects.filter(review_status=2).count()
+        return total_complete_item_count
+    
+    def total_batch_count(self):
+        total_batch_count = Batch.objects.all().count()
+        return total_batch_count
+    
+    def batch_not_started(self):
+        # if all items in batch are not_started then count as not_started
+        # return total number of batches with this status
+        pass
+
+    def batch_in_progress(self):
+        # if any items in batch are in_progress then count as in_progress
+        # return total number of batches with this status
+        pass
+
+    def batch_complete(self):
+        # if all items in batch are complete then count as complete
+        # return total number of batches with this status
+        pass
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -59,6 +97,14 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         context.update(
             {
                 'review_status_for_each_batch_chart': self.review_status_for_each_batch_chart,
+                'total_item_count': self.total_item_count,
+                'total_not_started_item_count': self.total_not_started_item_count,
+                'total_in_progress_item_count': self.total_in_progress_item_count,
+                'total_complete_item_count': self.total_complete_item_count,
+                'total_batch_count': self.total_batch_count,
+                'batch_not_started': self.batch_not_started,
+                'batch_in_progress': self.batch_in_progress,
+                'batch_complete': self.batch_complete,
             }
         )
         return context

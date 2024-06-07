@@ -1,10 +1,53 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block content %}
 
 <div "container-fluid">
     <h1>Dashboard</h1>
 
     {{ review_status_for_each_batch_chart|safe }}
+
+    <h2>Review status all items</h2>
+    <table>
+        <tr>
+            <td>Not Started</td>
+            <td align="right">{{ total_not_started_item_count|intcomma }}</td>
+        </tr>
+        <tr>
+            <td>In Progress</td>
+            <td align="right">{{ total_in_progress_item_count|intcomma }}</td>
+        </tr>
+        <tr>
+            <td>Complete</td>
+            <td align="right">{{ total_complete_item_count|intcomma }}</td>
+        </tr>
+        <tr>
+            <td>Total Items</td>
+            <td align="right">{{ total_item_count|intcomma }}</td>
+        </tr>
+    </table>
+
+    <br>
+
+    <h2>Review Status Batch Completeness</h2>
+    <table>
+        <tr>
+            <td>Not Started</td>
+            <td align="right"></td>
+        </tr>
+        <tr>
+            <td>In Progress</td>
+            <td align="right"></td>
+        </tr>
+        <tr>
+            <td>Complete</td>
+            <td align="right"></td>
+        </tr>
+        <tr>
+            <td>Total Batches</td>
+            <td align="right">{{ total_batch_count|intcomma }}</td>
+        </tr>
+    </table>
 
     {% include "partials/release_notes.html" %}
 </div>
