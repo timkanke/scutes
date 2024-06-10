@@ -77,19 +77,44 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return total_batch_count
     
     def batch_not_started(self):
-        # if all items in batch are not_started then count as not_started
-        # return total number of batches with this status
-        pass
+        batch = Batch.objects.all()
+
+        batch_not_started = []
+        for batch in Batch.objects.prefetch_related("item_set").all():
+            if batch.item_set.filter(review_status__contains=0).count() == batch.item_set.count():
+                batch_not_started.append(batch)
+
+        batch_not_started = len(batch_not_started)
+        return batch_not_started
 
     def batch_in_progress(self):
-        # if any items in batch are in_progress then count as in_progress
-        # return total number of batches with this status
-        pass
+        batch = Batch.objects.all()
+
+        batch_in_progress = []
+        for batch in Batch.objects.prefetch_related("item_set").all():
+            if batch.item_set.filter(review_status__contains=2).count() != batch.item_set.count():
+                batch_in_progress.append(batch)
+            elif batch.item_set.filter(review_status__contains=1).exists():
+                batch_in_progress.append(batch)
+
+        batch_not_started = []
+        for batch in Batch.objects.prefetch_related("item_set").all():
+            if batch.item_set.filter(review_status__contains=0).count() == batch.item_set.count():
+                batch_not_started.append(batch)
+            
+        batch_in_progress = len(batch_in_progress) - len(batch_not_started)
+        return batch_in_progress
 
     def batch_complete(self):
-        # if all items in batch are complete then count as complete
-        # return total number of batches with this status
-        pass
+        batches = Batch.objects.all()
+        
+        batch_complete = []
+        for batch in batches:
+            if batch.item_set.filter(review_status__contains=2).count() == batch.item_set.count():
+                batch_complete.append(batch)
+
+        batch_complete = len(batch_complete)
+        return batch_complete
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

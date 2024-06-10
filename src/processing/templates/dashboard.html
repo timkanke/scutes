@@ -29,22 +29,22 @@
 
     <br>
 
-    <h2>Review Status Batch Completeness</h2>
+    <h2>Batch Review Completeness</h2>
     <table>
         <tr>
-            <td>Not Started</td>
-            <td align="right"></td>
+            <td>Number of Batches with No Items Started</td>
+            <td align="right">{{ batch_not_started|intcomma }}</td>
         </tr>
         <tr>
-            <td>In Progress</td>
-            <td align="right"></td>
+            <td>Number of Batches where Progress has Started</td>
+            <td align="right">{{ batch_in_progress|intcomma }}</td>
         </tr>
         <tr>
-            <td>Complete</td>
-            <td align="right"></td>
+            <td>Number of Batches with All Items Completed</td>
+            <td align="right">{{ batch_complete|intcomma }}</td>
         </tr>
         <tr>
-            <td>Total Batches</td>
+            <td>Total Number of Batches</td>
             <td align="right">{{ total_batch_count|intcomma }}</td>
         </tr>
     </table>
