@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import FileResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
+from django.db.models import Sum
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
@@ -31,14 +32,24 @@ class Index(TemplateView):
     template_name = 'index.html'
 
 
-class Dashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Batch
+    context_object_name = 'batch_list'
     template_name = 'dashboard.html'
 
     def test_func(self):
         return self.request.user.is_staff
     
-    def batch_chart(self):
-        entries = Batch.objects.all()
+    def user_name(self):
+        user_name = self.request.user.username
+        return user_name
+    
+    def get_queryset(self):
+        queryset = Batch.objects.all().order_by('name').filter(assigned_to=self.request.user.id)
+        return queryset
+    
+    def review_status_for_each_batch_chart(self):
+        entries = Batch.objects.all().order_by('name')
         column_names = [field.name for field in Batch._meta.get_fields()]
     
         df = pd.DataFrame(columns = column_names)
@@ -47,18 +58,87 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
             new_entry = {"name":element.name, "Not Started":element.not_started_item_count , "In Progress":element.in_progress_total_item_count, "Complete":element.complete_total_item_count}
             df = df._append(new_entry, ignore_index=True)
         
-        fig = px.bar(df, x='name', y=["Not Started", "In Progress", "Complete"], title='Review Status', text_auto=True, color_discrete_sequence=[ 'red','yellow','green'])
+        fig = px.bar(df, x='name', y=["Not Started", "In Progress", "Complete"], title='Review Status For Each Batch', text_auto=True, color_discrete_sequence=[ 'red','yellow','green'])
         fig.update_layout(xaxis = {'type' : 'category'}, xaxis_title="Batch Name", yaxis_title="Number of Items", legend_title="Review Status",)
 
-        batch_chart = fig.to_html()
-        return batch_chart   
+        review_status_for_each_batch_chart = fig.to_html()
+        return review_status_for_each_batch_chart   
+    
+    def total_item_count(self):
+        total_item_count = Item.objects.all().count()
+        return total_item_count
+    
+    def total_not_started_item_count(self):
+        total_not_started_item_count = Item.objects.all().filter(review_status=0).count()
+        return total_not_started_item_count
+    
+    def total_in_progress_item_count(self):
+        total_in_progress_item_count = Item.objects.filter(review_status=1).count()
+        return total_in_progress_item_count
+    
+    def total_complete_item_count(self):
+        total_complete_item_count = Item.objects.filter(review_status=2).count()
+        return total_complete_item_count
+    
+    def total_batch_count(self):
+        total_batch_count = Batch.objects.all().count()
+        return total_batch_count
+    
+    def batch_not_started(self):
+        batch = Batch.objects.all()
+
+        batch_not_started = []
+        for batch in Batch.objects.prefetch_related("item_set").all():
+            if batch.item_set.filter(review_status__contains=0).count() == batch.item_set.count():
+                batch_not_started.append(batch)
+
+        batch_not_started = len(batch_not_started)
+        return batch_not_started
+
+    def batch_in_progress(self):
+        batch = Batch.objects.all()
+
+        batch_in_progress = []
+        for batch in Batch.objects.prefetch_related("item_set").all():
+            if batch.item_set.filter(review_status__contains=2).count() != batch.item_set.count():
+                batch_in_progress.append(batch)
+            elif batch.item_set.filter(review_status__contains=1).exists():
+                batch_in_progress.append(batch)
+
+        batch_not_started = []
+        for batch in Batch.objects.prefetch_related("item_set").all():
+            if batch.item_set.filter(review_status__contains=0).count() == batch.item_set.count():
+                batch_not_started.append(batch)
+            
+        batch_in_progress = len(batch_in_progress) - len(batch_not_started)
+        return batch_in_progress
+
+    def batch_complete(self):
+        batches = Batch.objects.all()
+
+        batch_complete = []
+        for batch in batches:
+            if batch.item_set.filter(review_status__contains=2).count() == batch.item_set.count():
+                batch_complete.append(batch)
+
+        batch_complete = len(batch_complete)
+        return batch_complete
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         context.update(
             {
-                'batch_chart': self.batch_chart,
+                'user_name': self.user_name,
+                'review_status_for_each_batch_chart': self.review_status_for_each_batch_chart,
+                'total_item_count': self.total_item_count,
+                'total_not_started_item_count': self.total_not_started_item_count,
+                'total_in_progress_item_count': self.total_in_progress_item_count,
+                'total_complete_item_count': self.total_complete_item_count,
+                'total_batch_count': self.total_batch_count,
+                'batch_not_started': self.batch_not_started,
+                'batch_in_progress': self.batch_in_progress,
+                'batch_complete': self.batch_complete,
             }
         )
         return context
