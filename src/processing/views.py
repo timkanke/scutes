@@ -40,6 +40,14 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def test_func(self):
         return self.request.user.is_staff
     
+    def user_name(self):
+        user_name = self.request.user.username
+        return user_name
+    
+    def get_queryset(self):
+        queryset = Batch.objects.all().order_by('name').filter(assigned_to=self.request.user.id)
+        return queryset
+    
     def review_status_for_each_batch_chart(self):
         entries = Batch.objects.all().order_by('name')
         column_names = [field.name for field in Batch._meta.get_fields()]
@@ -107,7 +115,7 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def batch_complete(self):
         batches = Batch.objects.all()
-        
+
         batch_complete = []
         for batch in batches:
             if batch.item_set.filter(review_status__contains=2).count() == batch.item_set.count():
@@ -121,6 +129,7 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
         context.update(
             {
+                'user_name': self.user_name,
                 'review_status_for_each_batch_chart': self.review_status_for_each_batch_chart,
                 'total_item_count': self.total_item_count,
                 'total_not_started_item_count': self.total_not_started_item_count,

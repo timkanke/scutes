@@ -5,51 +5,96 @@
 <div "container-fluid">
     <h1>Dashboard</h1>
 
-    {{ review_status_for_each_batch_chart|safe }}
+    <div class="card">
+        <div class="row">
+            {{ review_status_for_each_batch_chart|safe }}
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <div class="p-3">
+                    <div class="card p-3">
 
-    <h2>Review status all items</h2>
-    <table>
-        <tr>
-            <td>Not Started</td>
-            <td align="right">{{ total_not_started_item_count|intcomma }}</td>
-        </tr>
-        <tr>
-            <td>In Progress</td>
-            <td align="right">{{ total_in_progress_item_count|intcomma }}</td>
-        </tr>
-        <tr>
-            <td>Complete</td>
-            <td align="right">{{ total_complete_item_count|intcomma }}</td>
-        </tr>
-        <tr>
-            <td>Total Items</td>
-            <td align="right">{{ total_item_count|intcomma }}</td>
-        </tr>
-    </table>
+                        <h2>All Items<br>Review Status</h2>
+                        <table>
+                            <tr>
+                                <td>Not Started</td>
+                                <td align="right">{{ total_not_started_item_count|intcomma }}</td>
+                            </tr>
+                            <tr>
+                                <td>In Progress</td>
+                                <td align="right">{{ total_in_progress_item_count|intcomma }}</td>
+                            </tr>
+                            <tr>
+                                <td>Complete</td>
+                                <td align="right">{{ total_complete_item_count|intcomma }}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Items</td>
+                                <td align="right">{{ total_item_count|intcomma }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-    <br>
+            <div class="col-3">
+                <div class="p-3">
+                    <div class="card p-3">
+                        <h2>Batch Review Completeness</h2>
+                        <table>
+                            <tr>
+                                <td>Number of Batches with No Items Started</td>
+                                <td align="right">{{ batch_not_started|intcomma }}</td>
+                            </tr>
+                            <tr>
+                                <td>Number of Batches where Progress has Started</td>
+                                <td align="right">{{ batch_in_progress|intcomma }}</td>
+                            </tr>
+                            <tr>
+                                <td>Number of Batches with All Items Completed</td>
+                                <td align="right">{{ batch_complete|intcomma }}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Number of Batches</td>
+                                <td align="right">{{ total_batch_count|intcomma }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-    <h2>Batch Review Completeness</h2>
-    <table>
-        <tr>
-            <td>Number of Batches with No Items Started</td>
-            <td align="right">{{ batch_not_started|intcomma }}</td>
-        </tr>
-        <tr>
-            <td>Number of Batches where Progress has Started</td>
-            <td align="right">{{ batch_in_progress|intcomma }}</td>
-        </tr>
-        <tr>
-            <td>Number of Batches with All Items Completed</td>
-            <td align="right">{{ batch_complete|intcomma }}</td>
-        </tr>
-        <tr>
-            <td>Total Number of Batches</td>
-            <td align="right">{{ total_batch_count|intcomma }}</td>
-        </tr>
-    </table>
+            <div class="col-md-7">
+                <div class="p-3">
+                    <div class="card p-3 mt-1">
+                        <h2>Assigned to {{ user_name }}</h2>
+                        <div class=" overflow-scroll">
+                            {% csrf_token %}
+                            <table class="table table-sm">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th class="theader" scope="col">ID</th>
+                                        <th class="theader" scope="col">Batch Name</th>
+                                        <th class="theader" scope="col">Assigned to</th>
+                                        <th class="theader" scope="col">Last Convert Date</th>
+                                        <th class="theader" scope="col"></th>
+                                        <th class="theader" scope="col"></th>
+                                        <th class="theader" scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="batch_results" hx-indicator=".htmx-indicator">
+                                    {% include 'partials/batch_list_results.html' %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
     {% include "partials/release_notes.html" %}
-</div>
 
-{% endblock %}
+    {% endblock %}
