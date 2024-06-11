@@ -1,4 +1,6 @@
-# CKEditor Notes
+# CKEditor
+
+This document explains how CKEditor was built and integrated into Scutes
 
 ## Basic Install via git
 

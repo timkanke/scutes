@@ -2,8 +2,7 @@
 
 ## Introduction
 
-This page describes how to set up a development environment, and other
-information useful for developers to be aware of.
+This document provides guidance on setting up a Scutes development environment on a local workstation.
 
 ## Prerequisites
 
@@ -104,4 +103,10 @@ To run with coverage information:
 
 ```bash
 pytest --cov src --cov-report term-missing
+```
+
+To load YAML test data
+
+```zsh
+./manage.py loaddata test_data
 ```
