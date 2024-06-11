@@ -23,6 +23,7 @@ from django.views.generic.base import TemplateView
 
 
 from processing.views import (
+    About,
     BatchList,
     batch_convert_and_export,
     Dashboard,
@@ -48,6 +49,7 @@ urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
+    path('about/', About.as_view(), name='about'),
     path('batchlist/', BatchList.as_view(), name='batchlist'),
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
     path('', Index.as_view(), name='index'),
@@ -73,6 +75,7 @@ def get_navigation_links(request: HttpRequest):
         authenticated_links = {
             'dashboard': 'Dashboard',
             'batchlist': 'Batch List',
+            'about': 'About',
             '': f'Logged in as {request.user.username}',
             'saml2_logout': 'Log Out',
         }

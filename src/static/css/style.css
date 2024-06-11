@@ -1,3 +1,7 @@
+html {
+    font-size: 0.875em;
+}
+
 .nav {
     justify-content: flex-end;
 }
@@ -9,4 +13,16 @@
 
 table td {
     vertical-align: middle !important;
+}
+
+::-webkit-scrollbar {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    width: 7px;
+    height: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #adb5bd;
+    border-radius: 10px;
 }
