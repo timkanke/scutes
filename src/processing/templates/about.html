@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div "container-fluid">
+    <h1>About</h1>
+
+    <div class="card">
+        <div class="row mt-5 mb-5 justify-content-center">
+            <div class="col-md-6">
+                <div class="p-3">
+
+                    <p>
+                        Scutes is an open source email processing and personal identification information redacting web
+                        application
+                        for the preservation of White House Correspondents’ Association’s Pool Reports Collection.
+                    </p>
+
+
+                    <h2>What are Scutes?</h2>
+                    <p>
+                        Scutes are the keratinous plates on a turtle shell. They are similar to scales.
+                    </p>
+
+                    <h2>General reasons for choosing this name:</h2>
+                    <ul>
+                        <li>This name is in line with other software projects at UMD that use names related to turtles.
+                        </li>
+                        <li>It is short and easy to say.</li>
+                        <li>As far as we know, it is not used by another software developer or institution.</li>
+                        <li>Although it has conceptual links to the project, it does not pigeon hole it to a limited set
+                            of
+                            features.</li>
+                    </ul>
+
+                    <h2>Some conceptual reasons for choosing this name:</h2>
+                    <ul>
+                        <li>Scutes are a protective layer; the app will act as protection for reporters by redacting
+                            personal
+                            information.</li>
+                        <li>Scutes can help in the identification of turtles; the app will identify which email messages
+                            should
+                            be
+                            published.</li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div>
+                    <img src=" {% static 'images/testudo_sunrise.jpg' %}" class="rounded"
+                        alt="Testudo watching the sunrise" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            {% include "partials/release_notes.html" %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

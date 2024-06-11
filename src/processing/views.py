@@ -28,6 +28,13 @@ logger = logging.getLogger(__name__)
 LIST_PAGINATE_BY = 20
 
 
+class About(TemplateView):
+    template_name = 'about.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
 class Index(TemplateView):
     template_name = 'index.html'
 
