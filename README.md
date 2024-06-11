@@ -1,93 +1,32 @@
 # scutes
 
-Item Processing Application for WHCA Pool Reports Collection
+Scutes is a [Django]-based web application for processing and redaction of personal identification information the WHCA Pool Reports Collection
 
 ## Development Environment
 
-See [docs/DevelopmentEnvironment.md](docs/DevelopmentEnvironment.md).
+For guidance on setting up a Scutes development environment on a local workstation see the following:
+
+[docs/DevelopmentEnvironment.md](docs/DevelopmentEnvironment.md).
 
 ## CKEditor
 
-See [docs/CKEditor.md](docs/CKEditor.md).
+Scutes uses [CKEditor], a WYSIWYG editor, for manual making of redactions and light editing of item message bodies. A [custom redaction plugin](https://github.com/timkanke/ckeditor5-redact-plugin) allows curators to mark text to be redacted or remove redacted text that the automated redaction script has previously marked.
 
-## Database Schema
+See [docs/CKEditor.md](docs/CKEditor.md) for directions on how CKEditor was built and integrated into Scutes.
 
-![Database Schema](docs/images/db_schema.svg)
+## CLI Commands
 
-## Commands
+Guidance on running CLI commands for this application can be found in the following:
 
-All commands are ran in the src directory.
+* [Starting the Webserver](docs/StartingTheWebserver.md)
+* [Importing and Processing Commands](docs/DatabaseSchema.md)
 
-### Production Webserver
+## Additional Documentation
 
-To start waitress.
+Additional documentation for this application is in the "docs/" subdirectory, including:
 
-```zsh
-python server.py
-```
+* [Architecture Decision Records](docs/ArchitectureDecisionRecords.md)
+* [Database Schema](docs/DatabaseSchema.md)
 
-### Built-in Management Commands
-
-Load YAML test data
-
-```zsh
-./manage.py loaddata test_data
-```
-
-To start the dev server. Run manage command in src directory.
-
-```zsh
-./manage.py runserver
-```
-
-### Custom Management Commands
-
-Import batches
-
-```zsh
-# Imports mbox file(s), cleans HTML, and marks redactions from a directory
-./manage.py import_process path/to/dir 
-```
-
-Load mbox file
-
-```zsh
-# load mbox
-./manage.py load_mbox_data path/to/file.mbox 
-
-# Load test mbox file
-./manage.py load_mbox_data ../tests/processing/data/test.mbox 
-```
-
-Clean HTML
-
-```zsh
-./manage.py clean <batch_number>
-```
-
-Redact HTML
-
-```zsh
-./manage.py mark_redaction <batch_number>
-```
-
-Finalize Redactions
-
-```zsh
-./manage.py finalize_redactions <batch_number>
-```
-
-Export
-
-```zsh
-./manage.py export <batch_number> <output_directory>
-```
-
-## Architecture Decision Documents
-
-The architecture decision documents are:
-
-* [ADR Template](docs/decisions/adr-template.md)
-* [0001-record-architecture-decisions](docs/decisions/0001-record-architecture-decisions.md)
-* [0002-database](docs/decisions/0002-database.md)
-* [0003-CKEditor-installation](docs/decisions/0003-CKEditor-installation.md)
+[Django]: https://www.djangoproject.com/
+[CKEditor]: https://ckeditor.com/
