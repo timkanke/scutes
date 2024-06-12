@@ -68,10 +68,14 @@ class ItemFilter(FilterSet):
 class BatchFilter(FilterSet):
     o = OrderingFilter(
         # tuple-mapping retains order
-        fields=(('name', 'name'),),
+        fields=(
+            ('name', 'name'),
+            ('id', 'id'),
+            ),
         # labels do not need to retain order
         field_labels={
             'name': 'Batch Name',
+            'id': 'ID',
         },
     )
     name = CharFilter(field_name='name', label='Batch Name Contains', lookup_expr='icontains')

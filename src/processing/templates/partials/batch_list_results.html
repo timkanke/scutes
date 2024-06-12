@@ -1,8 +1,8 @@
 {% for batch in batch_list %}
 
 {% if page_obj.has_next and forloop.last %}
-<tr hx-get="{% url 'batchlist' %}?&page={{ page_obj.next_page_number }}" hx-trigger="intersect once" hx-swap="afterend"
-    hx-push-url="true">
+<tr hx-get="{% url 'batchlist' %}?{{ query_params }}&page={{ page_obj.next_page_number }}" hx-trigger="intersect once"
+    hx-swap="afterend" hx-push-url="true">
     {% else %}
 <tr>
     {% endif %}
