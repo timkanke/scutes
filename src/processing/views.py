@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import FileResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
-from django.db.models import Sum
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
@@ -157,8 +156,6 @@ class BatchList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'batch_list.html'
     paginate_by = LIST_PAGINATE_BY
 
-    queryset = Batch.objects.all().order_by('id')
-
     def get_template_names(self, *args, **kwargs):
         if self.request.htmx:
             return 'partials/batch_list_results.html'
@@ -174,9 +171,13 @@ class BatchList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(BatchList, self).get_context_data(**kwargs)
+        query_params = self.request.GET.copy()
+        if 'page' in query_params:
+            del query_params['page']
 
         context.update(
             {
+                'query_params': query_params.urlencode(),
                 'form': self.filterset.form,
                 'paginate_by': self.paginate_by,
             }
