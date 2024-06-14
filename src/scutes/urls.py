@@ -75,13 +75,28 @@ def get_navigation_links(request: HttpRequest):
         authenticated_links = {
             'dashboard': 'Dashboard',
             'batchlist': 'Batch List',
-            'about': 'About',
             '': f'Logged in as {request.user.username}',
             'saml2_logout': 'Log Out',
         }
         if request.user.is_superuser:
             superuser_links = {
                 'admin:index': 'Admin',
+            }
+        else:
+            superuser_links = {}
+        links = {**superuser_links, **authenticated_links}
+        return links
+    else:
+        return {'saml2_login': 'Log In'}
+    
+
+def get_footer_links(request: HttpRequest):
+    if request.user.is_authenticated:
+        authenticated_links = {
+            'about': 'About',
+        }
+        if request.user.is_superuser:
+            superuser_links = {
             }
         else:
             superuser_links = {}
