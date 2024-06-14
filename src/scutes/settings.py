@@ -328,6 +328,7 @@ MEDIA_ROOT = env('MEDIA_ROOT')
 PROJECT_PACKAGE_NAME = 'scutes'
 APPLICATION_NAME = 'Scutes'
 NAVIGATION_LINKS = 'scutes.urls.get_navigation_links'
+FOOTER_LINKS = 'scutes.urls.get_footer_links'
 ENVIRONMENT = env.str('ENVIRONMENT', 'development')
 
 # Logging
