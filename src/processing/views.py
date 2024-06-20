@@ -1,7 +1,8 @@
-import subprocess
+from itertools import count
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Count, Q
 from django.http import FileResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.http.response import StreamingHttpResponse
 from django.shortcuts import redirect, render
@@ -11,11 +12,11 @@ from django.views.generic import ListView, DetailView, UpdateView
 from django.views.generic.base import TemplateView
 
 import logging
+import pandas as pd 
 import pickle
+import plotly.express as px
 
 from base64 import b64encode, b64decode
-import pandas as pd 
-import plotly.express as px
 
 from .filters import BatchFilter, ItemFilter
 from .forms import BatchDetailForm, BatchForm, ItemUpdateForm
@@ -131,6 +132,18 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
         batch_complete = len(batch_complete)
         return batch_complete
+    
+    def reporter_list(self):
+        reporter_list = Item.objects.values('reporter').annotate(items=Count('reporter')).annotate(publish=Count('publish', filter=Q(publish=1)))
+        return reporter_list
+    
+    def reporter_count(self):
+        reporter_count = Item.objects.values('reporter').distinct().count()
+        return reporter_count
+    
+    def publish_total(self):
+        publish_total = Item.objects.values('publish').filter(publish=1).count()
+        return publish_total
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -147,6 +160,9 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
                 'batch_not_started': self.batch_not_started,
                 'batch_in_progress': self.batch_in_progress,
                 'batch_complete': self.batch_complete,
+                'reporter_list': self.reporter_list,
+                'reporter_count': self.reporter_count,
+                'publish_total': self.publish_total,
             }
         )
         return context
@@ -285,7 +301,6 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
                 'not_started_item_count': self.not_started_item_count,
                 'in_progress_total_item_count': self.in_progress_total_item_count,
                 'complete_total_item_count': self.complete_total_item_count,
-
             }
         )
         return context

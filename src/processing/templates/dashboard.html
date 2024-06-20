@@ -5,43 +5,80 @@
 <div "container-fluid">
     <h1>Dashboard</h1>
 
-    <div class="card">
-        <div class="row">
-            {{ review_status_for_each_batch_chart|safe }}
-        </div>
-        <div class="row">
-            <div class="col-2">
-                <div class="p-3">
-                    <div class="card p-3">
 
-                        <h2>All Items<br>Review Status</h2>
-                        <table>
-                            <tr>
-                                <td>Not Started</td>
-                                <td align="right">{{ total_not_started_item_count|intcomma }}</td>
-                            </tr>
-                            <tr>
-                                <td>In Progress</td>
-                                <td align="right">{{ total_in_progress_item_count|intcomma }}</td>
-                            </tr>
-                            <tr>
-                                <td>Complete</td>
-                                <td align="right">{{ total_complete_item_count|intcomma }}</td>
-                            </tr>
-                            <tr class="table-group-divider">
-                                <td>Total Items</td>
-                                <td align="right">{{ total_item_count|intcomma }}</td>
-                            </tr>
+    <div class="row">
+        <h2>Batches Assigned to {{ user_name }}</h2>
+        <div class="col-md-7">
+            <div class="p-3">
+                <div class="card p-3 mt-1">
+                    <div class=" overflow-scroll">
+                        {% csrf_token %}
+                        <table class="table table-sm">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th class="theader" scope="col">ID</th>
+                                    <th class="theader" scope="col">Batch Name</th>
+                                    <th class="theader" scope="col">Assigned to</th>
+                                    <th class="theader" scope="col">Last Convert Date</th>
+                                    <th class="theader" scope="col"></th>
+                                    <th class="theader" scope="col"></th>
+                                    <th class="theader" scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="batch_results" hx-indicator=".htmx-indicator">
+                                {% include 'partials/batch_list_results.html' %}
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+        </div>
+        <hr>
+    </div>
 
-            <div class="col-3">
-                <div class="p-3">
-                    <div class="card p-3">
-                        <h2>Batch Review Completeness</h2>
-                        <table>
+    <div class="row">
+        <h2>Review Status</h2>
+        {{ review_status_for_each_batch_chart|safe }}
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <div class="p-3">
+                <div class="card p-3">
+
+
+                    <table class="table caption-top">
+                        <caption>
+                            <h5>All Items Review Status</h5>
+                        </caption>
+                        <tr>
+                            <td>Not Started</td>
+                            <td align="right">{{ total_not_started_item_count|intcomma }}</td>
+                        </tr>
+                        <tr>
+                            <td>In Progress</td>
+                            <td align="right">{{ total_in_progress_item_count|intcomma }}</td>
+                        </tr>
+                        <tr>
+                            <td>Complete</td>
+                            <td align="right">{{ total_complete_item_count|intcomma }}</td>
+                        </tr>
+                        <tr class="table-group-divider">
+                            <td>Total Items</td>
+                            <td align="right">{{ total_item_count|intcomma }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="p-3">
+                <div class="card p-3">
+                    <table>
+                        <table class="table caption-top">
+                            <caption>
+                                <h5>Batch Review Completeness</h5>
+                            </caption>
                             <tr>
                                 <td>Number of Batches with No Items Started</td>
                                 <td align="right">{{ batch_not_started|intcomma }}</td>
@@ -59,37 +96,57 @@
                                 <td align="right">{{ total_batch_count|intcomma }}</td>
                             </tr>
                         </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-7">
-                <div class="p-3">
-                    <div class="card p-3 mt-1">
-                        <h2>Assigned to {{ user_name }}</h2>
-                        <div class=" overflow-scroll">
-                            {% csrf_token %}
-                            <table class="table table-sm">
-                                <thead class="table-primary">
-                                    <tr>
-                                        <th class="theader" scope="col">ID</th>
-                                        <th class="theader" scope="col">Batch Name</th>
-                                        <th class="theader" scope="col">Assigned to</th>
-                                        <th class="theader" scope="col">Last Convert Date</th>
-                                        <th class="theader" scope="col"></th>
-                                        <th class="theader" scope="col"></th>
-                                        <th class="theader" scope="col"></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="batch_results" hx-indicator=".htmx-indicator">
-                                    {% include 'partials/batch_list_results.html' %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
+        <hr>
     </div>
-</div>
-{% endblock %}
+
+
+    <div class="row">
+        <h2>Reporter and Item Statistics</h2>
+        <div class="col-md-6">
+            <div class="card p-3 mt-1">
+                <table class="table caption-top">
+                    <caption>
+                        <h5>Item totals and Items Publish by Reporter</h5>
+                    </caption>
+                    <thead class="table-primary">
+                        <td>Reporter Name</td>
+                        <td>Total Number of Items</td>
+                        <td>Number of Items Published</td>
+                    </thead>
+
+                    {% for reporter in reporter_list %}
+                    <tr>
+                        <td>{{ reporter.reporter }}</td>
+                        <td>{{ reporter.items }}</td>
+                        <td>{{ reporter.publish }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3 mt-1">
+                <table class="table caption-top">
+                    <caption>
+                        <h5>Total Number of Reporters, Items, and Items Published</h5>
+                    </caption>
+                    <thead class="table-primary">
+                        <td>Total Number of Reporters</td>
+                        <td>Total Number of Items</td>
+                        <td>Total Number of Items Published</td>
+                    </thead>
+                    <tr>
+                        <td>{{ reporter_count|intcomma }}</td>
+                        <td>{{ total_item_count|intcomma }}</td>
+                        <td>{{ publish_total|intcomma }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}
