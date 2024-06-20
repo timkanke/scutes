@@ -3,6 +3,7 @@
 <td>{% include 'partials/batch_list_results_row_assigned_to.html' %}</td>
 <td>{{ batch.last_export|date:"M d, Y H:i e" }}</td>
 <td><a class="btn btn-info btn-sm" href="{% url 'itemlistview' batch.id %}">Open</a></td>
+<td><a class="btn btn-info btn-sm" href="{% url 'batchdetailsview' batch.id %}">Details</a></td>
 <td><a class="btn btn-info btn-sm" href="{% url 'finalizebatchview' batch.id %}">Convert for Export</a></td>
 <td>
     {% if batch.export_zip %}
@@ -15,7 +16,6 @@
     </a>
     {% endif %}
 </td>
-<td><a class="btn btn-info btn-sm" href="{% url 'batchdetailsview' batch.id %}">Details</a></td>
 
 <script>
     htmx.on("htmx:load", function (evt) {
