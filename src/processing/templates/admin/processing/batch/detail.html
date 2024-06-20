@@ -1,0 +1,41 @@
+{% extends 'admin/base_site.html' %}
+{% load i18n admin_urls %}
+
+<!-- HTMX -->
+<script src="https://unpkg.com/htmx.org@1.9.9"
+    integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
+    crossorigin="anonymous"></script>
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+    &rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+    &rsaquo; {{ object }}
+</div>
+{% endblock %}
+
+{% block content %}
+
+<h1>Batch ID: {{ object.id }}</h1>
+
+<table>
+    <tr>
+        <td>Name:</td>
+        <td>{{ object.name }}</td>
+    </tr>
+    <tr>
+        <td>Items Not Started:</td>
+        <td>{{ object.not_started_item_count }}</td>
+    </tr>
+    <tr>
+        <td>Items in Progress:</td>
+        <td>{{ object.in_progress_total_item_count }}</td>
+    </tr>
+    <tr>
+        <td>Items Completed:</td>
+        <td>{{ object.complete_total_item_count }}</td>
+    </tr>
+</table>
+
+{% endblock %}
