@@ -1,4 +1,4 @@
-from django.contrib import admin, messages
+from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse
@@ -7,7 +7,6 @@ from django.urls import path, reverse
 from django.views.generic.detail import DetailView
 
 import csv
-from typing import Any
 
 from .models import Batch, File, Item, User
 from processing.common.clean import clean
@@ -34,17 +33,6 @@ def export_to_csv(self, request, queryset):
     return response
 
 
-@admin.action(description="Example")
-def example(modeladmin, request: Any, queryset:Any):
-    selected = queryset.values_list("pk", flat=True)
-    batches = []
-    for pk in selected:
-
-        batches.append(pk)
-    message = f'Batch(es) {batches}'
-    messages.info(request, message)
-
-
 class BatchDetailView(PermissionRequiredMixin, DetailView):
     permission_required = "processing.view_batch"
     template_name = "admin/processing/batch/detail.html"
@@ -64,7 +52,7 @@ class BatchAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'datetime_added', 'last_export', 'detail']
     list_filter = ['datetime_added', 'last_export']
     search_fields = ['name']
-    actions = [example, export_to_csv]
+    actions = [export_to_csv]
 
     def get_urls(self):
         return [
@@ -81,6 +69,7 @@ class BatchAdmin(admin.ModelAdmin):
 class FileAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'content_type', 'content_disposition', 'disposition', 'content_id', 'item']
     list_filter = ['disposition']
+    actions = [export_to_csv]
 
 
 @admin.register(Item)
@@ -88,4 +77,5 @@ class ItemAdmin(admin.ModelAdmin):
     list_display = ['id', 'date', 'reporter', 'title', 'publish']
     list_filter = ['publish']
     search_fields = ['reporter', 'title']
+    actions = [export_to_csv]
     
