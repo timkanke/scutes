@@ -80,8 +80,12 @@ class BatchAdmin(admin.ModelAdmin):
 @admin.register(File)
 class FileAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'content_type', 'content_disposition', 'disposition', 'content_id', 'item']
+    list_filter = ['disposition']
 
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ['id', 'date', 'reporter', 'title']
+    list_display = ['id', 'date', 'reporter', 'title', 'publish']
+    list_filter = ['publish']
+    search_fields = ['reporter', 'title']
+    
