@@ -1,3 +1,4 @@
+import subprocess
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -17,10 +18,11 @@ import pandas as pd
 import plotly.express as px
 
 from .filters import BatchFilter, ItemFilter
-from .forms import BatchForm, ItemUpdateForm
+from .forms import BatchDetailForm, BatchForm, ItemUpdateForm
 from .models import Batch, Item
 from processing.common.convert_and_export import convert_and_export
-
+from processing.common.clean import rerun_clean
+from processing.common.mark_redaction import rerun_mark_redaction
 
 logger = logging.getLogger(__name__)
 
@@ -460,9 +462,91 @@ class FinalizeBatchView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return context
 
 
+class BatchDetailsView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    template_name = 'batch_details.html'
+    queryset = Batch.objects.all()
+    form_class = BatchDetailForm
+
+    def test_func(self):
+        return self.request.user.is_staff
+    
+    # Form
+    def get_success_url(self):
+        return reverse('batchdetailsview', kwargs={'pk': self.object.pk})
+    
+    # Form
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden()
+        self.object = self.get_object()
+        form = self.get_form()
+
+        if request.method == 'POST':
+            if form.is_valid():
+                if self.request.POST:
+                    return self.form_valid(form)
+            else:
+                return self.form_invalid(form)
+
+    # Form
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    # Add info to the form
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super().get_form_kwargs(*args, **kwargs)
+        return kwargs
+
+    def item_review_not_complete(self, **kwargs):
+        batch_id = self.object.id
+        qs = Item.objects.filter(batch=batch_id, review_status=1) | Item.objects.filter(batch=batch_id, review_status=0)
+        if qs:
+            return qs.count
+        else:
+            return None
+
+    def item_publish(self):
+        batch_id = self.object.id
+        qs = Item.objects.filter(batch=batch_id, publish=1)
+        return qs.count
+    
+    def item_not_publish(self):
+        batch_id = self.object.id
+        qs = Item.objects.filter(batch=batch_id, publish=0)
+        return qs.count
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                'batch_id': self.object.id,
+                'item_review_not_complete': self.item_review_not_complete(),
+                'item_publish': self.item_publish(),
+                'item_not_publish': self.item_not_publish(),
+            }
+        )
+        return context
+
+
 def batch_convert_and_export(request):
     batch_selected = request.POST['id']
     stream = convert_and_export(batch_selected)
+    response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    return response
+
+
+def batch_clean(request):
+    batch_selected = request.POST['id']
+    stream = rerun_clean(batch_selected)
+    response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    return response
+
+
+def batch_mark_redaction(request):
+    batch_selected = request.POST['id']
+    stream = rerun_mark_redaction(batch_selected)
     response = StreamingHttpResponse(stream, status=200, content_type='text/event-stream')
     response['Cache-Control'] = 'no-cache'
     return response

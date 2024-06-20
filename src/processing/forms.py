@@ -15,6 +15,19 @@ class BatchForm(ModelForm):
         widgets = {'assigned_to': Select(attrs={'style': 'height:40px'})}
 
 
+class BatchDetailForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].disabled = True
+
+    class Meta:
+        model = Batch
+        fields = ['id', 'name', 'notes']
+        exclude = ['datetime_added', 'last_export', 'export_zip']
+
+        widgets = {'assigned_to': Select(attrs={'style': 'height:40px'})}
+
+
 class ItemUpdateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

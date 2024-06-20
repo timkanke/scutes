@@ -24,8 +24,11 @@ from django.views.generic.base import TemplateView
 
 from processing.views import (
     About,
+    BatchDetailsView,
     BatchList,
+    batch_clean,
     batch_convert_and_export,
+    batch_mark_redaction,
     Dashboard,
     edit_batch,
     edit_batch_submit,
@@ -56,6 +59,7 @@ urlpatterns = [
     path('itemlist/<int:batch>/', ItemListView.as_view(), name='itemlistview'),
     path('finalizebatch/<int:pk>/', FinalizeBatchView.as_view(), name='finalizebatchview'),
     path('batch_convert_and_export/', batch_convert_and_export, name='batch_convert_and_export'),
+    path('batchdetails/<int:pk>/', BatchDetailsView.as_view(), name='batchdetailsview'),
     path('itemview/<int:pk>/', ItemUpdateView.as_view(), name='itemupdateview'),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('media/<str:directory>/<str:filename>', protected_media),
@@ -65,6 +69,8 @@ urlpatterns = [
 htmx_urlpatterns = [
     path('<int:batch_pk>/edit_batch/', edit_batch, name='edit_batch'),
     path('<int:batch_pk>/edit_batch_submit/', edit_batch_submit, name='edit_batch_submit'),
+    path('batch_clean/', batch_clean, name='batch_clean'),
+    path('batch_mark_redaction/', batch_mark_redaction, name='batch_mark_redaction'),
 ]
 
 urlpatterns += htmx_urlpatterns

@@ -46,3 +46,16 @@ def mark_redaction(batch_selected):
         html = redact_phonenumbers(html)
         item.body_redact = html
         item.save(update_fields=['body_redact'])
+
+
+def rerun_mark_redaction(batch_selected):
+    items = Item.objects.filter(batch=batch_selected)
+    item = Item.objects.all()
+    for item in items:
+        logger.info(f'Marking: {item.id}, {item.title}')
+        yield f'Marking: {item.id}, {item.title}<br>'
+        html = item.body_clean
+        html = redact_using_pattern(html)
+        html = redact_phonenumbers(html)
+        item.body_redact = html
+        item.save(update_fields=['body_redact'])

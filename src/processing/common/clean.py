@@ -198,3 +198,27 @@ def clean(batch_selected):
         html = cleaner(html)
         item.body_clean = html
         item.save(update_fields=['body_clean'])
+
+
+def rerun_clean(batch_selected):
+    items = Item.objects.filter(batch=batch_selected)
+    item = Item.objects.all()
+    for item in items:
+        logger.info(f'Cleaning: {item.id}, {item.title}')
+        yield f'Cleaning: {item.id}, {item.title}<br>'
+        html = item.body_original
+        html = content_after_closing_html(html)
+        soup = BeautifulSoup(html, 'lxml')
+        soup = remove_p_br_p(soup)
+        html = str(soup)
+        html = replace_pre_with_p(html)
+        soup = BeautifulSoup(html, 'lxml')
+        soup = ms_messages(soup)
+        soup = ltr_messages(soup)
+        soup = remove_mailto(soup)
+        soup = remove_tel(soup)
+        html = str(soup)
+        html = emoji_fixer(html, replace=xml_escape)
+        html = cleaner(html)
+        item.body_clean = html
+        item.save(update_fields=['body_clean'])
