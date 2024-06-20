@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <div class="row p-1">
+        <h1>Batch Details</h1>
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- form -->
+                    <form method="post" enctype="multipart/form-data" class="card p-3">
+                        {% csrf_token %}
+                        {{ form.media}}
+                        <div class="row">
+                            <div class="col-md-10 mb-0">
+                                <h3>ID: {{ object.pk }}</h3>
+                                {{ form.name|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            {{ form.notes|as_crispy_field }}
+                        </div>
+                        <div class="row-md-4">
+                            <input type="submit" name="save_add" class="btn btn-success btn-sm me-1" value="Save" />
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-2">
+                    <div class="card p-3">
+                        <table class="table caption-top">
+                            <caption>Item Marked Publish Status</caption>
+                            <tbody>
+                                <tr>
+                                    <td>Marked to Be Published</td>
+                                    <td align="right">{{ item_publish }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Marked Not To Be Published</td>
+                                    <td align="right">{{ item_not_publish }}</td>
+                                </tr>
+                                <tr class="table-group-divider">
+                                    <td>Total Items</td>
+                                    <td align="right">{{ object.item_set.count }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card p-3">
+                        <table class="table caption-top">
+                            <caption>Item Review Status</caption>
+                            <tbody>
+                                <tr>
+                                    <td>Not Started</td>
+                                    <td align="right">{{ object.not_started_item_count|intcomma }}</td>
+                                </tr>
+                                <tr>
+                                    <td>In Progress</td>
+                                    <td align="right">{{ object.in_progress_item_count|intcomma }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Complete</td>
+                                    <td align="right">{{ object.complete_item_count|intcomma }}</td>
+                                </tr>
+                                <tr class="table-group-divider">
+                                    <td>Total Items</td>
+                                    <td align="right">{{ object.item_count|intcomma }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {% if item_review_not_complete %}
+                    <div class="card p-3 mt-1">
+                        <p><b>Item Review is not finished.</b></p>
+                        <p>
+                            {{ item_review_not_complete }} out of {{ object.item_set.count }}
+                            items have not been completely reviewed.
+                        </p>
+                        <button type="button" class="btn btn-warning btn-md">
+                            <a class="nav-link"
+                                href="{% url 'itemlistview' batch.id %}?review_status=0&review_status=1">
+                                Go to Item Review Not Completed List
+                            </a>
+                        </button>
+                    </div>
+                    {%endif%}
+                </div>
+            </div>
+            {% if user.is_superuser %}
+            <br>
+            <div class="row p-1">
+                <div class="col">
+                    <h2>Commands</h2>
+                    <p>&#9888; &#65039; Warning: Running commands will make permanent changes to the batch items
+                        removing
+                        any previous work.</p>
+                </div>
+                <div class="row p-1">
+                    <div class="col">
+                        <div class="d-grid gap-2 d-md-block">
+                            <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                hx-post="/batch_clean/" hx-target="#DataLocation" hx-include="[name='id']"
+                                hx-swap="innerHTML show:bottom" value="{{ object.pk }}" name="id"
+                                hx-confirm="&#9888; &#65039; Warning: Running commands will make permanent changes. Are you sure?">
+                                Rerun Clean
+                            </button>
+                        </div>
+                        <div class="col">
+                            <div class="card p-3 mt-1" style="height:600px;">
+                                <p class="card-text">
+                                <div class="overflow-auto">
+                                    <div id="DataLocation"></div>
+                                </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="d-grid gap-2 d-md-block">
+                            <button class="btn btn-primary" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                hx-post="/batch_mark_redaction/" hx-target="#MarkRedactionDataLocation"
+                                hx-include="[name='id']" hx-swap="innerHTML show:bottom" value="{{ object.pk }}"
+                                name="id"
+                                hx-confirm="&#9888; &#65039; Warning: Running commands will make permanent changes. Are you sure?">
+                                Rerun Mark Redactions
+                            </button>
+                        </div>
+                        <div class="col">
+                            <div class="card p-3 mt-1" style="height:600px;">
+                                <p class="card-text">
+                                <div class="overflow-auto">
+                                    <div id="MarkRedactionDataLocation"></div>
+                                </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        var incompleteReviewModal = new bootstrap.Modal(document.getElementById('incompleteReviewModal'), {})
+        incompleteReviewModal.toggle()
+    </script>
+
+    {% endblock %}
