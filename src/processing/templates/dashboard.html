@@ -114,7 +114,7 @@
                     <thead class="table-primary">
                         <td>Reporter Name</td>
                         <td>Total Number of Items</td>
-                        <td>Number of Items Published</td>
+                        <td>Number of Items Marked Published</td>
                     </thead>
 
                     {% for reporter in reporter_list %}
@@ -131,12 +131,12 @@
             <div class="card p-3 mt-1">
                 <table class="table caption-top">
                     <caption>
-                        <h5>Total Number of Reporters, Items, and Items Published</h5>
+                        <h5>Total Number of Reporters, Items, and Items Marked Published</h5>
                     </caption>
                     <thead class="table-primary">
                         <td>Total Number of Reporters</td>
                         <td>Total Number of Items</td>
-                        <td>Total Number of Items Published</td>
+                        <td>Total Number of Items Marked Published</td>
                     </thead>
                     <tr>
                         <td>{{ reporter_count|intcomma }}</td>
