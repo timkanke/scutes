@@ -88,25 +88,19 @@ lsof -t -i tcp:15000 | xargs kill -9
 
 To install test dependencies, install the `test` extra:
 
-```bash
-pip install -e .[test]
+```zsh
+pip install -e '.[test]'
 ```
 
 This project uses [pytest] in conjunction with the [pytest-django] plugin
 to run its tests. To run the test suite:
 
-```bash
+```zsh
 pytest
 ```
 
 To run with coverage information:
 
-```bash
-pytest --cov src --cov-report term-missing
-```
-
-To load YAML test data
-
 ```zsh
-./manage.py loaddata test_data
+pytest --cov src --cov-report term-missing
 ```
