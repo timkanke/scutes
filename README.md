@@ -1,6 +1,6 @@
 # scutes
 
-Scutes is a [Django]-based web application for processing and redaction of personal identification information the WHCA Pool Reports Collection
+Scutes is a [Django]-based web application for processing and redaction of personal identification information for the WHCA Pool Reports Collection
 
 ## Development Environment
 
@@ -10,7 +10,7 @@ For guidance on setting up a Scutes development environment on a local workstati
 
 ## CKEditor
 
-Scutes uses [CKEditor], a WYSIWYG editor, for manual making of redactions and light editing of item message bodies. A [custom redaction plugin](https://github.com/timkanke/ckeditor5-redact-plugin) allows curators to mark text to be redacted or remove redacted text that the automated redaction script has previously marked.
+Scutes uses [CKEditor], a WYSIWYG editor, for manual marking redactions and light editing of item message bodies. A [custom redaction plugin](https://github.com/timkanke/ckeditor5-redact-plugin) allows curators to mark text to be redacted or remove redacted text that was marked by the automated redaction script.
 
 See [docs/CKEditor.md](docs/CKEditor.md) for directions on how CKEditor was built and integrated into Scutes.
 
