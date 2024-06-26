@@ -101,6 +101,7 @@ pipeline {
     stage('build') {
       steps {
         sh '''
+          cp src/.env-dev-example src/.env
           pip install -e .[test]
         '''
       }
