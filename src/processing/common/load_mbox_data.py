@@ -89,13 +89,13 @@ def scrub_title(value: str) -> str:
 # Body Processing
 body_scrub = [
     (
-        r'-- \nTo unsubscribe from this group and stop receiving emails from it, send an email to all\+unsubscribe@.*\.com\.',
+        r'-- \nTo unsubscribe from this group and stop receiving emails from it, send an email to all\+unsubscribe@.*\.com\.',  # noqa
         '',
-    ),  # noqa
+    ),
     (
-        r'-- \<br /\>\nTo unsubscribe from this group and stop receiving emails from it, send an email to \<a href\="mailto\:all\+unsubscribe@.*\.com"\>all\+unsubscribe@.*\.com\</a\>\.\<br /\>',
+        r'-- \<br /\>\nTo unsubscribe from this group and stop receiving emails from it, send an email to \<a href\="mailto\:all\+unsubscribe@.*\.com"\>all\+unsubscribe@.*\.com\</a\>\.\<br /\>',  # noqa
         '',
-    ),  # noqa
+    ),
 ]
 
 p_charset = re.compile(r'charset=[a-zA-Z0-9-]+')

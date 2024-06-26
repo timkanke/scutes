@@ -13,9 +13,8 @@ def django_db_setup(django_db_setup, django_db_blocker):
 @pytest.mark.parametrize(
     ('value', 'expected'),
     [
-        ('<p>eggs@spam.com</p>',
-         '<p><del class="redacted" style="color:red;">eggs@spam.com</del></p>'),
-    ]
+        ('<p>eggs@spam.com</p>', '<p><del class="redacted" style="color:red;">eggs@spam.com</del></p>'),
+    ],
 )
 def test_redacted_using_patterns(value, expected):
     result = redact_using_pattern(value)
@@ -25,13 +24,10 @@ def test_redacted_using_patterns(value, expected):
 @pytest.mark.parametrize(
     ('value', 'expected'),
     [
-        ('<p>515-555-5515</p>',
-         '<p><del class="redacted" style="color:red;">515-555-5515</del></p>'),
-        ('<p>(515)555-5515</p>',
-         '<p><del class="redacted" style="color:red;">(515)555-5515</del></p>'),
-         ('<p>(515) 555-5515</p>',
-         '<p><del class="redacted" style="color:red;">(515) 555-5515</del></p>'),
-    ]
+        ('<p>515-555-5515</p>', '<p><del class="redacted" style="color:red;">515-555-5515</del></p>'),
+        ('<p>(515)555-5515</p>', '<p><del class="redacted" style="color:red;">(515)555-5515</del></p>'),
+        ('<p>(515) 555-5515</p>', '<p><del class="redacted" style="color:red;">(515) 555-5515</del></p>'),
+    ],
 )
 def test_redacted_phonenumbers(value, expected):
     result = redact_phonenumbers(value)

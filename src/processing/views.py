@@ -12,7 +12,7 @@ from django.views.generic import ListView, DetailView, UpdateView
 from django.views.generic.base import TemplateView
 
 import logging
-import pandas as pd 
+import pandas as pd
 import pickle
 import plotly.express as px
 
@@ -48,56 +48,73 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def test_func(self):
         return self.request.user.is_staff
-    
+
     def user_name(self):
         user_name = self.request.user.username
         return user_name
-    
+
     def get_queryset(self):
         queryset = Batch.objects.all().order_by('name').filter(assigned_to=self.request.user.id)
         return queryset
-    
+
     def review_status_for_each_batch_chart(self):
         entries = Batch.objects.all().order_by('name')
         column_names = [field.name for field in Batch._meta.get_fields()]
-    
-        df = pd.DataFrame(columns = column_names)
 
-        for element in entries:       
-            new_entry = {"name":element.name, "Not Started":element.not_started_item_count , "In Progress":element.in_progress_total_item_count, "Complete":element.complete_total_item_count}
+        df = pd.DataFrame(columns=column_names)
+
+        for element in entries:
+            new_entry = {
+                'name': element.name,
+                'Not Started': element.not_started_item_count,
+                'In Progress': element.in_progress_total_item_count,
+                'Complete': element.complete_total_item_count,
+            }
             df = df._append(new_entry, ignore_index=True)
-        
-        fig = px.bar(df, x='name', y=["Not Started", "In Progress", "Complete"], title='Review Status For Each Batch', text_auto=True, color_discrete_sequence=[ 'red','yellow','green'])
-        fig.update_layout(xaxis = {'type' : 'category'}, xaxis_title="Batch Name", yaxis_title="Number of Items", legend_title="Review Status",)
+
+        fig = px.bar(
+            df,
+            x='name',
+            y=['Not Started', 'In Progress', 'Complete'],
+            title='Review Status For Each Batch',
+            text_auto=True,
+            color_discrete_sequence=['red', 'yellow', 'green'],
+        )
+        fig.update_layout(
+            xaxis={'type': 'category'},
+            xaxis_title='Batch Name',
+            yaxis_title='Number of Items',
+            legend_title='Review Status',
+        )
 
         review_status_for_each_batch_chart = fig.to_html()
-        return review_status_for_each_batch_chart   
-    
+        return review_status_for_each_batch_chart
+
     def total_item_count(self):
         total_item_count = Item.objects.all().count()
         return total_item_count
-    
+
     def total_not_started_item_count(self):
         total_not_started_item_count = Item.objects.all().filter(review_status=0).count()
         return total_not_started_item_count
-    
+
     def total_in_progress_item_count(self):
         total_in_progress_item_count = Item.objects.filter(review_status=1).count()
         return total_in_progress_item_count
-    
+
     def total_complete_item_count(self):
         total_complete_item_count = Item.objects.filter(review_status=2).count()
         return total_complete_item_count
-    
+
     def total_batch_count(self):
         total_batch_count = Batch.objects.all().count()
         return total_batch_count
-    
+
     def batch_not_started(self):
         batch = Batch.objects.all()
 
         batch_not_started = []
-        for batch in Batch.objects.prefetch_related("item_set").all():
+        for batch in Batch.objects.prefetch_related('item_set').all():
             if batch.item_set.filter(review_status__contains=0).count() == batch.item_set.count():
                 batch_not_started.append(batch)
 
@@ -108,17 +125,17 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
         batch = Batch.objects.all()
 
         batch_in_progress = []
-        for batch in Batch.objects.prefetch_related("item_set").all():
+        for batch in Batch.objects.prefetch_related('item_set').all():
             if batch.item_set.filter(review_status__contains=2).count() != batch.item_set.count():
                 batch_in_progress.append(batch)
             elif batch.item_set.filter(review_status__contains=1).exists():
                 batch_in_progress.append(batch)
 
         batch_not_started = []
-        for batch in Batch.objects.prefetch_related("item_set").all():
+        for batch in Batch.objects.prefetch_related('item_set').all():
             if batch.item_set.filter(review_status__contains=0).count() == batch.item_set.count():
                 batch_not_started.append(batch)
-            
+
         batch_in_progress = len(batch_in_progress) - len(batch_not_started)
         return batch_in_progress
 
@@ -132,15 +149,19 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
         batch_complete = len(batch_complete)
         return batch_complete
-    
+
     def reporter_list(self):
-        reporter_list = Item.objects.values('reporter').annotate(items=Count('reporter')).annotate(publish=Count('publish', filter=Q(publish=1)))
+        reporter_list = (
+            Item.objects.values('reporter')
+            .annotate(items=Count('reporter'))
+            .annotate(publish=Count('publish', filter=Q(publish=1)))
+        )
         return reporter_list
-    
+
     def reporter_count(self):
         reporter_count = Item.objects.values('reporter').distinct().count()
         return reporter_count
-    
+
     def publish_total(self):
         publish_total = Item.objects.values('publish').filter(publish=1).count()
         return publish_total
@@ -260,7 +281,7 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def item_list_batch(self, **kwargs):
         item_list_batch = self.request.resolver_match.kwargs['batch']
         return item_list_batch
-    
+
     def item_list_batch_name(self, **kwargs):
         batch_id = self.request.resolver_match.kwargs['batch']
         item_list_batch_name = Batch.objects.get(pk=batch_id).name
@@ -269,15 +290,15 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def total_item_count(self):
         items_set = Item.objects.filter(batch=self.request.resolver_match.kwargs['batch']).count()
         return items_set
-    
+
     def not_started_item_count(self):
         items_set = Item.objects.filter(batch=self.request.resolver_match.kwargs['batch'], review_status=0).count()
         return items_set
-    
+
     def in_progress_total_item_count(self):
         items_set = Item.objects.filter(batch=self.request.resolver_match.kwargs['batch'], review_status=1).count()
         return items_set
-    
+
     def complete_total_item_count(self):
         items_set = Item.objects.filter(batch=self.request.resolver_match.kwargs['batch'], review_status=2).count()
         return items_set
@@ -484,11 +505,11 @@ class BatchDetailsView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         return self.request.user.is_staff
-    
+
     # Form
     def get_success_url(self):
         return reverse('batchdetailsview', kwargs={'pk': self.object.pk})
-    
+
     # Form
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -524,7 +545,7 @@ class BatchDetailsView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         batch_id = self.object.id
         qs = Item.objects.filter(batch=batch_id, publish=1)
         return qs.count
-    
+
     def item_not_publish(self):
         batch_id = self.object.id
         qs = Item.objects.filter(batch=batch_id, publish=0)

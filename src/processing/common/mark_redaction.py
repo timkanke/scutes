@@ -27,7 +27,7 @@ def redact_using_pattern(html):
 
 
 def redact_phonenumbers(html):
-    numbers = phonenumbers.PhoneNumberMatcher(html, "US")
+    numbers = phonenumbers.PhoneNumberMatcher(html, 'US')
     for number in numbers:
         logger.debug(number)
         string = number.raw_string
