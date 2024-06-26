@@ -23,7 +23,7 @@ See [docs/CKEditor.md](docs/CKEditor.md) for directions on how CKEditor was buil
 Guidance on running CLI commands for this application can be found in the following:
 
 * [Starting the Webserver](docs/StartingTheWebserver.md)
-* [Importing and Processing Commands](docs/DatabaseSchema.md)
+* [Importing and Processing Commands](docs/ImportingAndProcessingCommands.md)
 
 ## Additional Documentation
 
