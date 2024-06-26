@@ -78,11 +78,18 @@ Import Data
 ```
 
 The application will be running at <http://scutes-local:15000/>
-Note: Use ctrl+c to stop the server. If the prompt is given back without stopping the server, you will need to kill the process.
+
+### Note: Use ctrl+c to stop the server
+
+If the prompt is given back without stopping the server, you will need to kill the process
 
 ```zsh
 lsof -t -i tcp:15000 | xargs kill -9
 ```
+
+### Note: Scutes uses SSO
+
+Scutes uses UMD SSO. You will need to be added to the appropriate Grouper group in order to use the web interface.
 
 ### Tests
 
