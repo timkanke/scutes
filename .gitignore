@@ -10,6 +10,7 @@ __pycache__
 build/
 tests/scutes/test_data/*
 
+build/*
 data/db/*
 src/media/files
 src/media/export
