@@ -106,6 +106,7 @@ omit = [
 "manage.py" = "scutes:django_manage"
 
 [tool.ruff]
+extend-exclude = ["src/processing/migrations/*"]
 line-length = 120
 
 [tool.ruff.format]

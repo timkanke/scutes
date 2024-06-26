@@ -23,11 +23,11 @@ class Batch(models.Model):
     @property
     def not_started_item_count(self):
         return self.item_set.filter(review_status__contains=0).count()
-   
+
     @property
     def in_progress_total_item_count(self):
         return self.item_set.filter(review_status__contains=1).count()
-    
+
     @property
     def complete_total_item_count(self):
         return self.item_set.filter(review_status__contains=2).count()
@@ -93,7 +93,7 @@ class Item(models.Model):
     @property
     def inline_count(self):
         return self.file_set.filter(disposition__contains='inline').count
-    
+
     @property
     def external_count(self):
         return self.file_set.filter(disposition__contains='external').count

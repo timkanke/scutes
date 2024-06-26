@@ -17,6 +17,7 @@ admin.site.register(User, UserAdmin)
 admin.site.site_header = 'Scutes Admin'
 admin.site.site_title = 'Scutes Admin'
 
+
 @admin.action
 def export_to_csv(self, request, queryset):
     # Create the HttpResponse object with the appropriate CSV header.
@@ -34,16 +35,15 @@ def export_to_csv(self, request, queryset):
 
 
 class BatchDetailView(PermissionRequiredMixin, DetailView):
-    permission_required = "processing.view_batch"
-    template_name = "admin/processing/batch/detail.html"
+    permission_required = 'processing.view_batch'
+    template_name = 'admin/processing/batch/detail.html'
     model = Batch
 
     def get_context_data(self, **kwargs):
-        
         return {
             **super().get_context_data(**kwargs),
             **admin.site.each_context(self.request),
-            "opts": self.model._meta,
+            'opts': self.model._meta,
         }
 
 
@@ -56,12 +56,16 @@ class BatchAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         return [
-            path("<pk>/detail", self.admin_site.admin_view(BatchDetailView.as_view()), name=f"processing_batch_detail",),
-            *super().get_urls(), 
+            path(
+                '<pk>/detail',
+                self.admin_site.admin_view(BatchDetailView.as_view()),
+                name=f'processing_batch_detail',
+            ),
+            *super().get_urls(),
         ]
 
     def detail(self, obj: Batch) -> str:
-        url = reverse("admin:processing_batch_detail", args=[obj.pk])
+        url = reverse('admin:processing_batch_detail', args=[obj.pk])
         return format_html(f'<a href="{url}">Open</a>')
 
 
@@ -78,4 +82,3 @@ class ItemAdmin(admin.ModelAdmin):
     list_filter = ['publish']
     search_fields = ['reporter', 'title']
     actions = [export_to_csv]
-    

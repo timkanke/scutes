@@ -11,15 +11,16 @@ logger = logging.getLogger(__name__)
 
 
 def content_after_closing_html(html):
-    if "</html>" in html:
-        after_html = html.split("</html>", 1)[1]
+    if '</html>' in html:
+        after_html = html.split('</html>', 1)[1]
         if len(after_html) > 0:
-            soup = BeautifulSoup(html, "lxml")
-            new_div = soup.new_tag("div")
-            new_div.append(BeautifulSoup(after_html, "lxml"))
+            soup = BeautifulSoup(html, 'lxml')
+            new_div = soup.new_tag('div')
+            new_div.append(BeautifulSoup(after_html, 'lxml'))
             soup.html.body.append(new_div)
             html = str(soup)
     return html
+
 
 def remove_p_br_p(soup):
     matches = soup.find_all('p')

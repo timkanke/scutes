@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -94,7 +95,7 @@ def get_navigation_links(request: HttpRequest):
         return links
     else:
         return {'saml2_login': 'Log In'}
-    
+
 
 def get_footer_links(request: HttpRequest):
     if request.user.is_authenticated:
@@ -102,8 +103,7 @@ def get_footer_links(request: HttpRequest):
             'about': 'About',
         }
         if request.user.is_superuser:
-            superuser_links = {
-            }
+            superuser_links = {}
         else:
             superuser_links = {}
         links = {**superuser_links, **authenticated_links}

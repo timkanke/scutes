@@ -169,4 +169,5 @@ def convert_and_export(batch_selected):
         logger.info('Not all items in this batch have been reviewed.')
         logger.info(f'Number of items not reviewed: {not_reviewed_count} out of {total_items_count}')
         yield '<div class="text-bg-danger p-3">Warning! Not all items in this batch have been reviewed.</div>'
-        yield f'<div class="text-bg-warning p-3">Number of items not reviewed: {not_reviewed_count} out of {total_items_count} items.<br></div>'
+        yield f"""<div class="text-bg-warning p-3">Number of items not reviewed: {not_reviewed_count}
+          out of {total_items_count} items.<br></div>"""
